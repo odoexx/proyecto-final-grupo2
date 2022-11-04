@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom";
 import React from "react";
 import "./barraNav.css";
@@ -15,9 +15,32 @@ const BarraNav = () => {
               <Link className="link" to="/">
                 Inicio
               </Link>
-              <Link className="link" to="/juego">
+              {/* <Link className="link" to="/juego">
                 Jugar
-              </Link>
+              </Link> */}
+
+              <NavDropdown title="Juegos" className="navDrop" id="basic-nav-dropdown">
+                <Link className="dropDown" to="#">
+                  PPT
+                </Link>
+                <NavDropdown.Divider />
+                <Link className="dropDown" to="#">
+                  ahorcadito
+                </Link>
+                <NavDropdown.Divider />
+                <Link className="dropDown" to="/juego">
+                  arkanoid
+                </Link>
+                <NavDropdown.Divider />
+                <Link className="dropDown" to="#">
+                  memotest
+                </Link>
+                <NavDropdown.Divider />
+                <Link className="dropDown" to="#">
+                  geometry dash
+                </Link>
+              </NavDropdown>
+
               <Link className="link" to="/integrantes">
                 Integrantes
               </Link>
@@ -28,7 +51,7 @@ const BarraNav = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div id='game'>
+      <div id="game">
         <Outlet></Outlet>
       </div>
     </>

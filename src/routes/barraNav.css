@@ -8,10 +8,29 @@ body {
 }
 
 .link {
-  margin-left: 10%;
+  margin-left: 5%;
   text-decoration: none;
   color: bisque;
   font-size: x-large;
+  width: 20vw;
+  padding: 0vw 1vw;
+}
+
+.navDrop{
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+  padding: 0vw 1vw;
+  width: 20vw;
+  margin-left: 5%;
+}
+
+.dropDown{
+  font-size: medium;
+  padding: 0vw 1vw;
+  width: 20vw;
+  margin-left: 5%;
+  color: black;
 }
 
 #game {
