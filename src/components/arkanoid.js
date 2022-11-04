@@ -1,4 +1,4 @@
-import "./juego.css";
+import "./arkanoid.css";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Phaser from 'phaser';
