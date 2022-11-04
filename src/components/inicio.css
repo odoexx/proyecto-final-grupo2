@@ -1,0 +1,54 @@
+body{
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 80vh;
+    /* background-image: url("/public/assets/images/pizarra.png"); */
+    background-size: cover;
+}
+
+.parrafoinicio{
+    width: auto;
+    height: 20vh;
+    text-align: center;
+    text-shadow: 6px 8px 2px black;
+}
+
+#inicio-titulo{
+    font-size: 50px;
+}
+
+#inicio-texto1{
+    font-size: 30px;
+}
+
+.contenedor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: 60vh;
+    padding-top: 5vh;
+}
+
+.inicio-img img{
+    height: auto;
+    width: 100%;
+}
+
+#inicio-texto2{
+    font-size: 20px;
+    padding-top: 5vh;
+}
+
+.boton-inicio{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
+    background-image: url("/public/assets/images/ImagenInicio.png");
+    background-size: cover;
+}
+
+.boton-inicio:hover{
+    box-shadow: 20px 30px 40px blue;
+}

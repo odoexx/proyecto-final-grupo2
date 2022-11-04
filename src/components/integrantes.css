@@ -1,0 +1,24 @@
+.integrantes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 0.5%;
+}
+
+.card-full{
+  margin: 0.5%;
+  text-align: center;
+  height: 85vh;
+  width: 27vw;
+}
+
+.card-img{
+  object-fit: contain;
+  margin-top: 2.5%;
+  height: 45vh;
+}
+
+.linea-central-tarjeta{
+  margin-left: 10%;
+  margin-right: 10%;
+}

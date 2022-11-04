@@ -1,0 +1,46 @@
+body{
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 80vh;
+}
+
+.Parrafo{
+    text-align: center;
+    text-shadow: 6px 8px 2px black;
+}
+
+.Despedida{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Despedida img{
+    max-width: 40%;
+    max-height: auto;
+}
+
+#despedida-titulo{
+    font-size: 50px;
+}
+
+#despedida-texto1{
+    font-size: 30px;
+}
+
+#despedida-texto2{
+    font-size: 30px;
+}
+
+#despedida-texto3{
+    font-size: 20px;
+    padding-top: 5vh;
+}
+
+.boton-despedida{
+    font-size: 30px;
+    width: 50vh;
+    height: 10vh;
+}
