@@ -19,25 +19,29 @@ const BarraNav = () => {
                 Jugar
               </Link> */}
 
-              <NavDropdown title="Juegos" className="navDrop" id="basic-nav-dropdown">
+              <NavDropdown
+                title="Juegos"
+                className="navDrop"
+                id="basic-nav-dropdown"
+              >
                 <Link className="dropDown" to="#">
                   PPT
                 </Link>
                 <NavDropdown.Divider />
                 <Link className="dropDown" to="#">
-                  ahorcadito
+                  Ahorcadito
                 </Link>
                 <NavDropdown.Divider />
-                <Link className="dropDown" to="/juego">
-                  arkanoid
-                </Link>
-                <NavDropdown.Divider />
-                <Link className="dropDown" to="#">
-                  memotest
+                <Link className="dropDown" to="/arkanoid">
+                  Arkanoid
                 </Link>
                 <NavDropdown.Divider />
                 <Link className="dropDown" to="#">
-                  geometry dash
+                  Memotest
+                </Link>
+                <NavDropdown.Divider />
+                <Link className="dropDown" to="#">
+                  Geometry Dash
                 </Link>
               </NavDropdown>
 
