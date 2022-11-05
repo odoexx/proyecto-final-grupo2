@@ -1,7 +1,26 @@
 import "./memotest.css";
 import Button from "react-bootstrap/Button";
+import {useState, useEffect} from "react";
 
 const Memotest = () => {
+
+  const [nivel, setNivel] = useState(0);
+  const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
+
+  /* Tiene que elegir nivel para repartir la mano */
+  const elegirNivel = (nivel) => {
+    setNivel(nivel);
+    setComenzarHabilitado(true);
+  }
+
+  const iniciarJugada = () => {
+    switch (nivel){
+      case 1:
+        
+        break;
+    }
+  }
+
   return (
     <>
       {/* Barra vida y score */}
@@ -21,23 +40,25 @@ const Memotest = () => {
         <Button
           className="button-nivel"
           variant="primary"
-          /* onClick={() => iniciarJugada()} */
+          onClick={() => elegirNivel(1)}
         >
           Nivel 1
         </Button>
         <Button
           className="button-nivel"
           variant="primary"
-          /* onClick={() => iniciarJugada()} */
+          onClick={() => elegirNivel(2)}
         >
           Nivel 2
         </Button>
         <Button
-          className="button-iniciar"
-          variant="secondary"
-          /* onClick={() => iniciarJugada()} */
+          className= "button-iniciar"
+          variant= "secondary"
+          id= "btnIniciar"
+          disabled= {!comenzarHabilitado}
+          onClick={() => iniciarJugada()}
         >
-          Comenzar
+          Repartir
         </Button>
       </footer>
     </>
