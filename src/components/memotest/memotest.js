@@ -1,11 +1,16 @@
 import "./memotest.css";
 import Button from "react-bootstrap/Button";
 import {useState, useEffect} from "react";
+import Vidas from "../../json/memotest/otros.json";
 
 const Memotest = () => {
 
   const [nivel, setNivel] = useState(0);
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
+  const [vida, setVida] = useState(Vidas[0].img);
+  const [contVida, setContVida] = useState(2);
+  const [ocultar, setOcultar] = useState();
+  const [score, setScore] = useState(0);
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
@@ -25,8 +30,8 @@ const Memotest = () => {
     <>
       {/* Barra vida y score */}
       <header className="game-status">
-        <div className="game-status lives">vidas</div>
-        <div className="game-status score">score: 000</div>
+        <div className="game-status lives"><img src={vida} alt='vidas'/><img src={vida} alt='vidas'/></div>
+        <div className="game-status score">score: {score}</div>
       </header>
 
       {/* Área de juego */}
