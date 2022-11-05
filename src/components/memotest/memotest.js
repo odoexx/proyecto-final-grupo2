@@ -1,25 +1,36 @@
 import "./memotest.css";
 import Button from "react-bootstrap/Button";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+import Cartas from "../../json/memotest/parejas.json";
 
 const Memotest = () => {
-
   const [nivel, setNivel] = useState(0);
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
+  const [habilitarCartas, setHabilitarCartas] = useState(false);
+  let arrayCartas = [];
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
     setNivel(nivel);
     setComenzarHabilitado(true);
+  };
+
+  const repartirCartas= () =>{
+      for (let x = 0; x < 10; x++) {
+        <Button
+          id={Cartas[x].id}
+          key={Cartas[x].id}
+          disable= {!habilitarCartas}
+          /* onClick={() => elegirCarta(Cartas[x].id)} */
+        >
+          {Cartas[x].id}
+        </Button>;
+      }
   }
 
   const iniciarJugada = () => {
-    switch (nivel){
-      case 1:
-        
-        break;
-    }
-  }
+    setHabilitarCartas(true);
+  };
 
   return (
     <>
@@ -31,7 +42,7 @@ const Memotest = () => {
 
       {/* Área de juego */}
       <section className="game-area">
-        <div className="game-area play">cartas</div>
+        <div className="game-area play">{repartirCartas()}</div>
         <div className="game-area hints">pistas</div>
       </section>
 
@@ -52,10 +63,10 @@ const Memotest = () => {
           Nivel 2
         </Button>
         <Button
-          className= "button-iniciar"
-          variant= "secondary"
-          id= "btnIniciar"
-          disabled= {!comenzarHabilitado}
+          className="button-iniciar"
+          variant="secondary"
+          id="btnIniciar"
+          disabled={!comenzarHabilitado}
           onClick={() => iniciarJugada()}
         >
           Repartir
