@@ -13,9 +13,10 @@ body {
   margin: 0 5vw;
 }
 
+
 .lives {
-  align-items: center;
   justify-content: left;
+  scale: 0.5;
 }
 
 .score {
