@@ -21,16 +21,18 @@ const Memotest = () => {
   };
 
   const repartirCartas= () =>{
-      for (let x = 0; x < 10; x++) {
+    /* No crea el botón */
+     /*  for (let x = 0; x < 10; x++) {
         <Button
-          id={Cartas[x].id}
-          key={Cartas[x].id}
+          id={Cartas[0].id}
+          key={Cartas[0].id}
           disable= {!habilitarCartas}
-          /* onClick={() => elegirCarta(Cartas[x].id)} */
+          variant="primary"
+          onClick={() => elegirCarta(Cartas[x].id)}
         >
-          {Cartas[x].id}
+          {Cartas[0].id}
         </Button>;
-      }
+       } */
   }
 
   const iniciarJugada = () => {
