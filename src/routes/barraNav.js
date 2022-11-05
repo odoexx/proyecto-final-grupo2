@@ -36,7 +36,7 @@ const BarraNav = () => {
                   Arkanoid
                 </Link>
                 <NavDropdown.Divider />
-                <Link className="dropDown" to="#">
+                <Link className="dropDown" to="/memotest">
                   Memotest
                 </Link>
                 <NavDropdown.Divider />

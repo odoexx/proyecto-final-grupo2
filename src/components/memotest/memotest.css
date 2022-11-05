@@ -1,0 +1,71 @@
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 80vh;
+}
+/* Barra vida y score */
+.game-status {
+  display: flex;
+  flex-direction: row;
+  width: 90vw;
+  height: 10vh;
+  margin: 0 5vw;
+}
+
+.lives {
+  align-items: center;
+  justify-content: left;
+}
+
+.score {
+  align-items: center;
+  justify-content: right;
+}
+
+/* Área de juego */
+.game-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  width: 90vw;
+  margin: 0 5vw;
+}
+
+.play {
+  width: 60vw;
+  margin: 0;
+  padding: 0 5vw;
+}
+
+.hints {
+  width: 40vw;
+  margin: 0;
+  padding: 0 5vw;
+}
+
+/* Área de controles */
+.game-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 10vh;
+}
+
+.button-nivel{
+    width: 15vw;
+    min-width: 10vw;
+    height: 8vh;
+    margin: 0 2vw;
+}
+
+.button-iniciar {
+  width: 25vw;
+  min-width: 20vw;
+  height: 8vh;
+  margin-left: 15vw;
+}
