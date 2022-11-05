@@ -5,6 +5,7 @@ body {
 
 .navBg {
   background-color: #7952b3;
+  height: 10vh;
 }
 
 .link {
@@ -34,7 +35,7 @@ body {
 }
 
 #game {
-  padding-top: 5vh;
+  /* padding-top: 5vh; */
   color: #fff;
   height: 70vh;
 }
