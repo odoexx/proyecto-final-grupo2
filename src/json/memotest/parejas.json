@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "img": "/assets/images/memotest/carta01.png",
+    "type": "pareja"
+  },
+  {
+    "id": "2",
+    "img": "/assets/images/memotest/carta02.png",
+    "type": "pareja"
+  },
+  {
+    "id": "3",
+    "img": "/assets/images/memotest/carta03.png",
+    "type": "pareja"
+  },
+  {
+    "id": "4",
+    "img": "/assets/images/memotest/carta04.png",
+    "type": "pareja"
+  },
+  {
+    "id": "5",
+    "img": "/assets/images/memotest/carta05.png",
+    "type": "pareja"
+  },
+  {
+    "id": "6",
+    "img": "/assets/images/memotest/carta06.png",
+    "type": "pareja"
+  },
+  {
+    "id": "7",
+    "img": "/assets/images/memotest/carta07.png",
+    "type": "pareja"
+  },
+  {
+    "id": "8",
+    "img": "/assets/images/memotest/carta08.png",
+    "type": "pareja"
+  },
+  {
+    "id": "9",
+    "img": "/assets/images/memotest/carta09.png",
+    "type": "pareja"
+  },
+  {
+    "id": "10",
+    "img": "/assets/images/memotest/carta10.png",
+    "type": "pareja"
+  }
+]
