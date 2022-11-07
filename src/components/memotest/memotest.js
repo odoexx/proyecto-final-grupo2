@@ -10,7 +10,7 @@ const Memotest = () => {
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
   const [habilitarCartas, setHabilitarCartas] = useState(false);
   const [vida, setVida] = useState(Vidas[0].img);
-  const [contVida, setContVida] = useState(2);
+  const [contVida, setContVida] = useState(1);
   const [ocultar, setOcultar] = useState();
   const [score, setScore] = useState(0);
   const [ponerCartas, setPonerCartas] = useState(false);
@@ -29,6 +29,16 @@ const Memotest = () => {
 
   /* Dar vuelta carta elegida */
   const elegirCarta = (cartaElegida, i) => {
+    let contadorVida = contVida;
+    /* detecto si clickeo una carta trampa */
+    if(cartaElegida.type=="trampa"){
+      /* console.log("pierde vida"); */
+      contadorVida--;
+      setContVida(contadorVida);
+      console.log(contVida);
+    }else{
+      /* console.log("espera a que clickie otra carta para ver si encuetra el par"); */
+    }
     return (document.getElementById("img" + i).src = cartaElegida.img);
   };
 
