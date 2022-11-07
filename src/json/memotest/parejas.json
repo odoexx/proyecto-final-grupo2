@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "img": "/assets/images/memotest/Red.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "2",
+    "img": "/assets/images/memotest/Blue.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "3",
+    "img": "/assets/images/memotest/Lime.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "4",
+    "img": "/assets/images/memotest/Yellow.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "5",
+    "img": "/assets/images/memotest/Orange.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "6",
+    "img": "/assets/images/memotest/Purple.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "7",
+    "img": "/assets/images/memotest/Rose.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "8",
+    "img": "/assets/images/memotest/White.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "9",
+    "img": "/assets/images/memotest/Black.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  },
+  {
+    "id": "10",
+    "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
+    "type": "pareja"
+  }
+]

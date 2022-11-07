@@ -8,7 +8,7 @@ import Play from './phaser/play';
 import GameOver from './phaser/gameOver';
 import Congratulations from './phaser/congratulations';
 
-function Juego() {
+function Arkanoid() {
   const [listo, setListo] = useState(false);
 
   useEffect(() => {
@@ -53,4 +53,4 @@ function Juego() {
   }, [listo]);
 }
 
-export default Juego;
+export default Arkanoid;
