@@ -9,10 +9,12 @@ const Memotest = () => {
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
   const [habilitarCartas, setHabilitarCartas] = useState(false);
   let arrayCartas = [];
+  let num= 0;
   const [vida, setVida] = useState(Vidas[0].img);
   const [contVida, setContVida] = useState(2);
   const [ocultar, setOcultar] = useState();
   const [score, setScore] = useState(0);
+
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
@@ -21,20 +23,40 @@ const Memotest = () => {
   };
 
   const repartirCartas= () =>{
-      for (let x = 0; x < 10; x++) {
+    return arrayCartas.map((numero) => {
+      return(
+        <Button
+          id={numero}
+          key={numero}
+          disable= {!habilitarCartas}
+          /* onClick={() => elegirCarta(numero)} */
+        >
+          {numero}
+        </Button>
+      );
+    });
+      /* for (let x = 0; x < 10; x++) {
         <Button
           id={Cartas[x].id}
           key={Cartas[x].id}
           disable= {!habilitarCartas}
-          /* onClick={() => elegirCarta(Cartas[x].id)} */
+          onClick={() => elegirCarta(Cartas[x].id)}
         >
           {Cartas[x].id}
         </Button>;
-      }
+      } */
   }
 
   const iniciarJugada = () => {
     setHabilitarCartas(true);
+    for (let x = 0 ; x<14; x++){
+      num++
+      arrayCartas[x]=num;
+      if(num>=7){
+        num = 0;
+      }
+    }
+    console.log(arrayCartas)
   };
 
   return (
