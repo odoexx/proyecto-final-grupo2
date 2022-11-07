@@ -37,18 +37,34 @@ body {
 
 .play {
   width: 60vw;
-  margin: 0;
+  margin: 0 auto;
   padding: 0 5vw;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button-carta{
+  padding: 0;
+  margin: 1vh 1vw;
+  width: 8vw;
+  height: 12vh;
+  min-width: 3vw;
+  border-color: whitesmoke;
+}
+
+.button-carta img{
+  width: 6vw;
+  height: 8vh;
 }
 
 .hints {
   width: 40vw;
   margin: 0;
   padding: 0 5vw;
+  flex-direction: column;
 }
 
 /* Área de controles */
