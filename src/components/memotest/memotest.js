@@ -20,6 +20,7 @@ const Memotest = () => {
   const parejasMazoNivel2 = 8;
   const trampasPorNivel = 2;
 
+
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
     setNivel(nivel);
