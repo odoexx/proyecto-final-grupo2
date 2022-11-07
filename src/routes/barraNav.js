@@ -25,7 +25,7 @@ const BarraNav = () => {
                 id="basic-nav-dropdown"
               >
                 <Link className="dropDown" to="/PPT">
-                  PPT
+                  PiedraPapelTijeras
                 </Link>
                 <NavDropdown.Divider />
                 <Link className="dropDown" to="/ahorcadito">

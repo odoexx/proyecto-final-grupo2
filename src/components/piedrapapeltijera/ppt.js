@@ -3,10 +3,10 @@ import "./ppt.css";
 import { useEffect, useState } from "react";
 
 const Juego=()=> {
-  const [jugador, setJugador] = useState("/assets/logo2.png");
-  const [jugada, setJugada] = useState("/assets/SignoPregunta.png");
-  const [jugadorCPU, setJugadorCPU] = useState("/assets/logo2.png");
-  const [jugadaCPU, setJugadaCPU] = useState("/assets/SignoPregunta.png");
+  const [jugador, setJugador] = useState("/assets/piedrapapeltijeras/logo2.png");
+  const [jugada, setJugada] = useState("/assets/piedrapapeltijeras/SignoPregunta.png");
+  const [jugadorCPU, setJugadorCPU] = useState("/assets/piedrapapeltijeras/logo2.png");
+  const [jugadaCPU, setJugadaCPU] = useState("/assets/piedrapapeltijeras/SignoPregunta.png");
   const [puntaje, setPuntaje] = useState(0);
   const [puntajeCPU, setPuntajeCPU] = useState(0);
   const [resultado, setResultado] = useState("Haz una jugada...");
@@ -21,28 +21,28 @@ const Juego=()=> {
 
     switch (enemigo) {
       case 0:
-        setJugadorCPU("/assets/Charizard.png");
-        setJugadaCPU("/assets/FireType.png");
+        setJugadorCPU("/assets/piedrapapeltijeras/Charizard.png");
+        setJugadaCPU("/assets/piedrapapeltijeras/FireType.png");
         ataque = 0;
         break;
       case 1:
-        setJugadorCPU("/assets/Feraligatr.png");
-        setJugadaCPU("/assets/WaterType.png");
+        setJugadorCPU("/assets/piedrapapeltijeras/Feraligatr.png");
+        setJugadaCPU("/assets/piedrapapeltijeras/WaterType.png");
         ataque = 1;
         break;
       case 2:
-        setJugadorCPU("/assets/Sceptile.png");
-        setJugadaCPU("/assets/GrassType.png");
+        setJugadorCPU("/assets/piedrapapeltijeras/Sceptile.png");
+        setJugadaCPU("/assets/piedrapapeltijeras/GrassType.png");
         ataque = 2;
         break;
       case 3:
-        setJugadorCPU("/assets/Mew.png");
+        setJugadorCPU("/assets/piedrapapeltijeras/Mew.png");
         if (ataque === 0) {
-          setJugadaCPU("/assets/FireType.png");
+          setJugadaCPU("/assets/piedrapapeltijeras/FireType.png");
         } else if (ataque === 1) {
-          setJugadaCPU("/assets/WaterType.png");
+          setJugadaCPU("/assets/piedrapapeltijeras/WaterType.png");
         } else {
-          setJugadaCPU("/assets/GrassType.png");
+          setJugadaCPU("/assets/piedrapapeltijeras/GrassType.png");
         }
         break;
     }
@@ -101,39 +101,39 @@ const Juego=()=> {
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/CharizardBack.png",
-                "/assets/FireType.png",
+                "/assets/piedrapapeltijeras/CharizardBack.png",
+                "/assets/piedrapapeltijeras/FireType.png",
                 0
               )
             }
           >
-            <img src="/assets/FireType.png" alt="fuego"></img>
+            <img src="/assets/piedrapapeltijeras/FireType.png" alt="fuego"></img>
           </Button>
           <Button
             className="type-button"
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/FeraligatrBack.png",
-                "/assets/WaterType.png",
+                "/assets/piedrapapeltijeras/FeraligatrBack.png",
+                "/assets/piedrapapeltijeras/WaterType.png",
                 1
               )
             }
           >
-            <img src="/assets/WaterType.png" alt="agua"></img>
+            <img src="/assets/piedrapapeltijeras/WaterType.png" alt="agua"></img>
           </Button>
           <Button
             className="type-button"
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/SceptileBack.png",
-                "/assets/GrassType.png",
+                "/assets/piedrapapeltijeras/SceptileBack.png",
+                "/assets/piedrapapeltijeras/GrassType.png",
                 2
               )
             }
           >
-            <img src="/assets/GrassType.png" alt="hoja"></img>
+            <img src="/assets/piedrapapeltijeras/GrassType.png" alt="hoja"></img>
           </Button>
         </footer>
       </section>
