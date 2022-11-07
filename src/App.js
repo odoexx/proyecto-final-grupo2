@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Inicio from './components/inicio';
 import Integrantes from "./components/integrantes";
-import Juego from './components/arkanoid';
+import Juego from './components/arkanoid/arkanoid';
 import Despedida from "./components/despedida";
 import BarraNav from './routes/barraNav';
 import Error from './components/error';
