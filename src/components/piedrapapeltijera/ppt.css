@@ -1,0 +1,94 @@
+/* Área superior */
+.gameContent{
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    width: 100vw;
+    background-image: url(/public/assets/piedrapapeltijeras/FondoPelea.png);
+    background-size: cover;
+    background-position-y: -30vh;
+    color:blueviolet;
+    text-shadow: 6px 2px 2px black;
+}
+.full-gameArea{
+    height: 57.55vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.area{
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Área izquierda */
+.img-jugada-cpu{
+    padding-left: 0vw;
+}
+.img-jugada-cpu img{
+    height: 25vh;
+    width: 20vw;
+}
+
+.img-jugador{
+    text-align: left;
+    padding-left: 20vw;
+    width: 50vw;
+}
+.img-jugador img{
+    height: 40vh;
+}
+
+/* Área derecha */
+.img-cpu{
+    text-align: right;
+    padding-right: 20vw;
+    width: 50vw;
+}
+.img-cpu img{
+    height: 35vh;
+    width: 20vw;
+}
+
+.img-jugada-jugador{
+    text-align: right;
+    padding-right: 19vw;
+}
+.img-jugada-jugador img{
+    height: 25vh;
+    width: 20vw;
+}
+
+.resultado-area{
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    offset-position: 30vh;
+}
+
+.choosing-area{
+    height: 25vh;
+    width: 100%;
+    background-image: url(/public/assets/piedrapapeltijeras/TextoPelea.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-top: 4%;
+    padding-bottom: 1%;
+}
+
+.choosing-area img{
+    height: 25vh;
+}
+
+.choosing-area button{
+    width: 20vw;
+    height: 15vh;
+}
+
+.type-button img{
+    width: auto;
+    height: 100%;
+}
