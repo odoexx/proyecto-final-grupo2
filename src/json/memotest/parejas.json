@@ -2,51 +2,61 @@
   {
     "id": "1",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "2",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "3",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "4",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "5",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "6",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "7",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "8",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "9",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   },
   {
     "id": "10",
     "img": "/assets/images/memotest/like.png",
+    "reverso":"/assets/images/memotest/corazon.png",
     "type": "pareja"
   }
 ]
