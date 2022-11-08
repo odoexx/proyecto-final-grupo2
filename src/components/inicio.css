@@ -45,7 +45,7 @@ body{
     font-size: 30px;
     width: 90vh;
     height: 50vh;
-    background-image: url("/public/assets/images/ImagenInicio.png");
+    background-image: url("/public/assets/arkanoid/images/ImagenInicio.png");
     background-size: cover;
 }
 
