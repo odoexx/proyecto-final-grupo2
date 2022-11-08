@@ -15,6 +15,7 @@ const Memotest = () => {
   const [score, setScore] = useState(0);
   const [ponerCartas, setPonerCartas] = useState(false);
   const [arrayCartas, setArrayCartas] = useState([...Cartas]);
+  const [arrayCartasActivas, setArrayCartasActivas] = useState([0, 0]);
 
   const parejasMazoNivel1 = 9;
   const parejasMazoNivel2 = 8;
@@ -28,12 +29,18 @@ const Memotest = () => {
 
   /* Dar vuelta carta elegida */
   const elegirCarta = (cartaElegida, i) => {
-    return (document.getElementById("img" + i).src = cartaElegida.img);
+    return (
+      <>
+        document.getElementById("img" + i).src = cartaElegida.img
+        arrayCartas[i].selected= true;
+      </>
+    );
   };
 
   /* Volteamos todas las cartas para la nueva partida */
   const voltearCartas = () => {
     return arrayCartas.map((carta, i) => {
+      /* A través del id identificamos las cartas en la mesa y mostramos su reverso */
       return (document.getElementById("img" + i).src = carta.reverso);
     });
   };
@@ -42,6 +49,7 @@ const Memotest = () => {
   const repartirCartas = () => {
     return arrayCartas.map((carta, i) => {
       return (
+        /* Creamos el botón con las propiedades necesarias */
         <Button
           className="button-carta"
           id={i}
@@ -50,6 +58,7 @@ const Memotest = () => {
           variant="secundary"
           onClick={() => elegirCarta(carta, i)}
         >
+          {/* Mostramos la carta ocultando la figura, o sea, mostramos el reverso  y creamos un id para referenciarlo cuando la demos vuelta*/}
           <img src={carta.reverso} id={"img" + i}></img>
         </Button>
       );
@@ -63,20 +72,22 @@ const Memotest = () => {
 
   /* Armamos el mazo según el nivel */
   const iniciarJugada = () => {
-    setHabilitarCartas(true);
     let arrayCartasAux = [];
     switch (nivel) {
+      /* Nivel 1 */
       case 1:
-        /* Cargamos las parejas de cartas */
+        /* Cargamos las cartas */
         for (let x = 0; x < parejasMazoNivel1; x++) {
           arrayCartasAux[x] = Cartas[x];
         }
+        /* Duplicamos las cartas para tener las parejas */
         arrayCartasAux = [...arrayCartasAux, ...arrayCartasAux];
         /* Cargamos las cartas trampa */
         for (let x = 0; x < trampasPorNivel * nivel; x++) {
           arrayCartasAux[parejasMazoNivel1 * 2 + x] = Trampas[x];
         }
         break;
+      /* Nivel 2 */
       case 2:
         /* Cargamos las cartas */
         for (let x = 0; x < parejasMazoNivel2; x++) {
@@ -92,7 +103,7 @@ const Memotest = () => {
       default:
         break;
     }
-    /* Mezclar mazo */
+    /* Mezclar mazo aleatoriamente */
     for (let i = arrayCartasAux.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arrayCartasAux[i], arrayCartasAux[j]] = [
@@ -100,7 +111,11 @@ const Memotest = () => {
         arrayCartasAux[i],
       ];
     }
+    /* Actualizamos el array de cartas para que renderice */
     setArrayCartas(arrayCartasAux);
+    /* Habilitamos las cartas para poder clickearlas */
+    setHabilitarCartas(true);
+    /* Ponemos las cartas en el área de juego */
     setPonerCartas(!ponerCartas);
   };
 

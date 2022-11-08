@@ -3,60 +3,70 @@
     "id": "1",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "2",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "3",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "4",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "5",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "6",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "7",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "8",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "9",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   },
   {
     "id": "10",
     "img": "/assets/images/memotest/like.png",
     "reverso":"/assets/images/memotest/corazon.png",
-    "type": "pareja"
+    "type": "pareja",
+    "selected": "false"
   }
 ]
