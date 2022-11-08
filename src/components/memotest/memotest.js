@@ -19,26 +19,41 @@ const Memotest = () => {
   const [cartasActivas, setCartasActivas] = useState(0);
   const [cartaElegida, setCartaElegida] = useState(false);
   const [mostrandoCarta, setMostrandoCarta] = useState(false);
+  const [juegoTerminado, setJuegoTerminado] = useState(false);
 
   const parejasMazoNivel1 = 9;
   const parejasMazoNivel2 = 8;
   const trampasPorNivel = 2;
+  const [gameOver, setGameOver] = useState("Jugando");
 
-  useEffect(() => {
+  /* Se dispara cuando distribuimos las cartas para empezar a jugar luego de elegir nivel */
+  /* Distribuimos las cartas según el nivel y las ponemos boca abajo */
+  useEffect( () => {
     repartirCartas();
     voltearCartas();
   }, [ponerCartas]);
 
-  useEffect(() => {
+  /* Se dispara cuando elegimos/hacemos click en una carta */
+  /* Cargamos hasta 2 cartas en un vector para poder comparar sus valores */
+  useEffect( () => {
     let contCartasActivas = cartasActivas;
 
     contCartasActivas++;
     if (contCartasActivas > 2) {
-      setArrayCartasActivas([]);
+      setArrayCartasActivas( [] );
       contCartasActivas = 1;
     }
     setCartasActivas(contCartasActivas);
   }, [cartaElegida]);
+
+  /* Se dispara cada vez que cambia el contador de vidas */
+  /* Si no nos quedan vidas, termina el juego */
+  useEffect( () => {
+    if (contVida < 0){
+      setJuegoTerminado(true);
+      setGameOver("Juego Terminado");
+    }
+  }, [contVida]);
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
@@ -51,39 +66,39 @@ const Memotest = () => {
     let contadorVida = contVida;
     let arrayCartasActivasAux = arrayCartasActivas;
 
-    if (!mostrandoCarta){
-
+    /* Si no estamos mostrando/animando otra carta, podemos clickear en una nueva */
+    if (!mostrandoCarta) {
       /* detecto si clickeo una carta trampa */
       if (carta.type == "trampa") {
         /* console.log("pierde vida"); */
-        contadorVida--;
-        setContVida(contadorVida);
+        contadorVida-= 1;
+        setContVida(contVida-1);
+
         console.log(contVida);
       } else {
         /* console.log("espera a que clickie otra carta para ver si encuetra el par"); */
         setCartaElegida(!cartaElegida);
-        arrayCartasActivasAux.push(carta);
+        arrayCartasActivasAux.push({ carta, i });
         setArrayCartasActivas(arrayCartasActivasAux);
       }
 
       document.getElementById("img" + i).src = carta.img;
-      
-      if (arrayCartasActivas.length == 2){
-        if(arrayCartasActivas[0].id == arrayCartasActivas[1].id){
+
+      if (arrayCartasActivas.length == 2) {
+        if (arrayCartasActivas[0].carta.id == arrayCartasActivas[1].carta.id) {
           setScore(score + 10);
-        }
-        else{
+        } else {
           setMostrandoCarta(true);
-          setTimeout( () => {
-            document.getElementById("img" + i).src = carta.reverso;
+          setTimeout(() => {
+            document.getElementById("img" + arrayCartasActivas[0].i).src =
+              carta.reverso;
+            document.getElementById("img" + arrayCartasActivas[1].i).src =
+              carta.reverso;
             setMostrandoCarta(false);
-          }, 1500);
+          }, 1000);
         }
       }
     }
-    /* return (
-        document.getElementById("img" + i).src = carta.img
-    ); */
   };
 
   /* Volteamos todas las cartas para la nueva partida */
@@ -116,7 +131,13 @@ const Memotest = () => {
 
   /* Armamos el mazo según el nivel */
   const iniciarJugada = () => {
+    /* Inicializamos los estados de una mano nueva */
     let arrayCartasAux = [];
+    setContVida(1);
+    setArrayCartas(arrayCartasAux);
+    setJuegoTerminado(false);
+    setGameOver("Jugando");
+
     switch (nivel) {
       /* Nivel 1 */
       case 1:
@@ -181,6 +202,8 @@ const Memotest = () => {
           <h1>Seleccionaste el nivel: {nivel} </h1>
           <br></br>
           <h2>Click en "REPARTIR" para comenzar</h2>
+          <br></br>
+          <h1>{gameOver}</h1>
         </aside>
       </section>
 
