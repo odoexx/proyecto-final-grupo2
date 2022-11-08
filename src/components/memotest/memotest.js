@@ -15,12 +15,30 @@ const Memotest = () => {
   const [score, setScore] = useState(0);
   const [ponerCartas, setPonerCartas] = useState(false);
   const [arrayCartas, setArrayCartas] = useState([...Cartas]);
-  const [arrayCartasActivas, setArrayCartasActivas] = useState([0, 0]);
+  const [arrayCartasActivas, setArrayCartasActivas] = useState([]);
+  const [cartasActivas, setCartasActivas] = useState(0);
+  const [cartaElegida, setCartaElegida] = useState(false);
+  const [mostrandoCarta, setMostrandoCarta] = useState(false);
 
   const parejasMazoNivel1 = 9;
   const parejasMazoNivel2 = 8;
   const trampasPorNivel = 2;
 
+  useEffect(() => {
+    repartirCartas();
+    voltearCartas();
+  }, [ponerCartas]);
+
+  useEffect(() => {
+    let contCartasActivas = cartasActivas;
+
+    contCartasActivas++;
+    if (contCartasActivas > 2) {
+      setArrayCartasActivas([]);
+      contCartasActivas = 1;
+    }
+    setCartasActivas(contCartasActivas);
+  }, [cartaElegida]);
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
@@ -29,23 +47,43 @@ const Memotest = () => {
   };
 
   /* Dar vuelta carta elegida */
-  const elegirCarta = (cartaElegida, i) => {
+  const elegirCarta = (carta, i) => {
     let contadorVida = contVida;
-    /* detecto si clickeo una carta trampa */
-    if(cartaElegida.type=="trampa"){
-      /* console.log("pierde vida"); */
-      contadorVida--;
-      setContVida(contadorVida);
-      console.log(contVida);
-    }else{
-      /* console.log("espera a que clickie otra carta para ver si encuetra el par"); */
+    let arrayCartasActivasAux = arrayCartasActivas;
+
+    if (!mostrandoCarta){
+
+      /* detecto si clickeo una carta trampa */
+      if (carta.type == "trampa") {
+        /* console.log("pierde vida"); */
+        contadorVida--;
+        setContVida(contadorVida);
+        console.log(contVida);
+      } else {
+        /* console.log("espera a que clickie otra carta para ver si encuetra el par"); */
+        setCartaElegida(!cartaElegida);
+        arrayCartasActivasAux.push(carta);
+        setArrayCartasActivas(arrayCartasActivasAux);
+      }
+
+      document.getElementById("img" + i).src = carta.img;
+      
+      if (arrayCartasActivas.length == 2){
+        if(arrayCartasActivas[0].id == arrayCartasActivas[1].id){
+          setScore(score + 10);
+        }
+        else{
+          setMostrandoCarta(true);
+          setTimeout( () => {
+            document.getElementById("img" + i).src = carta.reverso;
+            setMostrandoCarta(false);
+          }, 1500);
+        }
+      }
     }
-    return (
-      <>
-        document.getElementById("img" + i).src = cartaElegida.img
-        arrayCartas[i].selected= true;
-      </>
-    );
+    /* return (
+        document.getElementById("img" + i).src = carta.img
+    ); */
   };
 
   /* Volteamos todas las cartas para la nueva partida */
@@ -75,11 +113,6 @@ const Memotest = () => {
       );
     });
   };
-
-  useEffect(() => {
-    repartirCartas();
-    voltearCartas();
-  }, [ponerCartas]);
 
   /* Armamos el mazo según el nivel */
   const iniciarJugada = () => {
