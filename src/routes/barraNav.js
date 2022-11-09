@@ -15,9 +15,6 @@ const BarraNav = () => {
               <Link className="link" to="/">
                 Inicio
               </Link>
-              {/* <Link className="link" to="/juego">
-                Jugar
-              </Link> */}
 
               <NavDropdown
                 title="Juegos"
@@ -55,6 +52,8 @@ const BarraNav = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      {/* Usamos el mismo id al cual hicimos referencia en la propiedad "parent" en phaser para redirigir la ventana de phaser a este punto*/}
       <div id="game">
         <Outlet></Outlet>
       </div>
