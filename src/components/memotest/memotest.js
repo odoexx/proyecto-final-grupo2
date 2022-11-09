@@ -3,15 +3,13 @@ import Button from "react-bootstrap/Button";
 import { useState, useEffect } from "react";
 import Cartas from "../../json/memotest/parejas.json";
 import Trampas from "../../json/memotest/trampas.json";
-import Vidas from "../../json/memotest/otros.json";
+import Otros from "../../json/memotest/otros.json";
 
 const Memotest = () => {
   const [nivel, setNivel] = useState(0);
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
   const [habilitarCartas, setHabilitarCartas] = useState(false);
-  const [vida, setVida] = useState(Vidas[0].img);
-  const [contVida, setContVida] = useState(1);
-  const [ocultar, setOcultar] = useState();
+  const [contVidas, setContVidas] = useState(0);
   const [score, setScore] = useState(0);
   const [ponerCartas, setPonerCartas] = useState(false);
   const [arrayCartas, setArrayCartas] = useState([...Cartas]);
@@ -20,40 +18,52 @@ const Memotest = () => {
   const [cartaElegida, setCartaElegida] = useState(false);
   const [mostrandoCarta, setMostrandoCarta] = useState(false);
   const [juegoTerminado, setJuegoTerminado] = useState(false);
+  const [estadoJuego, setEstadoJuego] = useState("Jugando");
+  const [contParejas, setContParejas] = useState(0);
 
   const parejasMazoNivel1 = 9;
   const parejasMazoNivel2 = 8;
   const trampasPorNivel = 2;
-  const [gameOver, setGameOver] = useState("Jugando");
+  const imgVida = Otros[0].img;
+
+  /* Se dispara cuando juegoTerminado cambia de valor */
+  /* Ponemos todas las cartas boca arriba y las desactivamos */
+  useEffect(() => {
+    arrayCartas.map((carta, i) => {
+      /* A través del id identificamos las cartas en la mesa y las deshabilitamos */
+      document.getElementById("img" + i).src = carta.img;
+      document.getElementById(i).disabled = juegoTerminado;
+    });
+  }, [juegoTerminado]);
 
   /* Se dispara cuando distribuimos las cartas para empezar a jugar luego de elegir nivel */
   /* Distribuimos las cartas según el nivel y las ponemos boca abajo */
-  useEffect( () => {
+  useEffect(() => {
     repartirCartas();
     voltearCartas();
   }, [ponerCartas]);
 
   /* Se dispara cuando elegimos/hacemos click en una carta */
   /* Cargamos hasta 2 cartas en un vector para poder comparar sus valores */
-  useEffect( () => {
+  useEffect(() => {
     let contCartasActivas = cartasActivas;
 
     contCartasActivas++;
     if (contCartasActivas > 2) {
-      setArrayCartasActivas( [] );
+      setArrayCartasActivas([]);
       contCartasActivas = 1;
     }
     setCartasActivas(contCartasActivas);
   }, [cartaElegida]);
 
-  /* Se dispara cada vez que cambia el contador de vidas */
-  /* Si no nos quedan vidas, termina el juego */
-  useEffect( () => {
-    if (contVida < 0){
+  /* Se dispara cada vez que cambia el contador de vidas y la cantidad de parejas */
+  /* Si no nos quedan vidas o terminamos las parejas, termina el juego */
+  useEffect(() => {
+    if (contVidas <= 0 || contParejas <= 0) {
       setJuegoTerminado(true);
-      setGameOver("Juego Terminado");
+      setEstadoJuego("Juego Terminado");
     }
-  }, [contVida]);
+  }, [contVidas, contParejas]);
 
   /* Tiene que elegir nivel para repartir la mano */
   const elegirNivel = (nivel) => {
@@ -61,33 +71,55 @@ const Memotest = () => {
     setComenzarHabilitado(true);
   };
 
+  /* Mostramos la cantidad de vidas restantes */
+  const mostrarVidas = (vidas) => {
+    let arrayVidas = [];
+
+    /* Cargamos en el vector las imágenes para representar las vidas */
+    for (let x = 0; x < vidas; x++) {
+      arrayVidas.push(
+        <img
+          src={imgVida}
+          id={"imgVida" + x}
+          key={"imgVida" + x}
+          alt={"vida " + x}
+        />
+      );
+    }
+    /* Regresamos el vector cargado, de modo que tendremos tantas vidas como imágenes hayamos cargado */
+    /* Importante envolver la respuesta en <></> porque tendremos varios elementos regresados */
+    return <>{arrayVidas}</>;
+  };
+
   /* Dar vuelta carta elegida */
   const elegirCarta = (carta, i) => {
-    let contadorVida = contVida;
     let arrayCartasActivasAux = arrayCartasActivas;
 
     /* Si no estamos mostrando/animando otra carta, podemos clickear en una nueva */
     if (!mostrandoCarta) {
+      /* muestro la carta elegida */
+      document.getElementById("img" + i).src = carta.img;
       /* detecto si clickeo una carta trampa */
       if (carta.type == "trampa") {
-        /* console.log("pierde vida"); */
-        contadorVida-= 1;
-        setContVida(contVida-1);
-
-        console.log(contVida);
+        /* Si es carta trampa resto vida y la desactivo */
+        setContVidas(contVidas - 1);
+        document.getElementById(i).disabled = true;
       } else {
-        /* console.log("espera a que clickie otra carta para ver si encuetra el par"); */
+        /* Si no es carta trampa pongo la carta en el array de cartas activas para compararla cuando tenga 2 */
         setCartaElegida(!cartaElegida);
         arrayCartasActivasAux.push({ carta, i });
         setArrayCartasActivas(arrayCartasActivasAux);
       }
-
-      document.getElementById("img" + i).src = carta.img;
-
+      /* Si tengo 2 cartas activas, las comparo para saber si son pareja */
       if (arrayCartasActivas.length == 2) {
+        /* Si las cartas son iguales aumento el score y desactivo la pareja de cartas */
         if (arrayCartasActivas[0].carta.id == arrayCartasActivas[1].carta.id) {
           setScore(score + 10);
+          setContParejas(contParejas - 1);
+          document.getElementById(arrayCartasActivas[0].i).disabled = true;
+          document.getElementById(arrayCartasActivas[1].i).disabled = true;
         } else {
+          /* Si no son iguales espero un tiempo y pongo boca abajo ambas cartas */
           setMostrandoCarta(true);
           setTimeout(() => {
             document.getElementById("img" + arrayCartasActivas[0].i).src =
@@ -111,6 +143,7 @@ const Memotest = () => {
 
   /* Repartimos las cartas */
   const repartirCartas = () => {
+    
     return arrayCartas.map((carta, i) => {
       return (
         /* Creamos el botón con las propiedades necesarias */
@@ -118,7 +151,7 @@ const Memotest = () => {
           className="button-carta"
           id={i}
           key={i}
-          disabled={!habilitarCartas}
+          disabled={juegoTerminado}
           variant="secundary"
           onClick={() => elegirCarta(carta, i)}
         >
@@ -133,10 +166,10 @@ const Memotest = () => {
   const iniciarJugada = () => {
     /* Inicializamos los estados de una mano nueva */
     let arrayCartasAux = [];
-    setContVida(1);
+    setContVidas(2);
     setArrayCartas(arrayCartasAux);
     setJuegoTerminado(false);
-    setGameOver("Jugando");
+    setEstadoJuego("Jugando");
 
     switch (nivel) {
       /* Nivel 1 */
@@ -151,6 +184,8 @@ const Memotest = () => {
         for (let x = 0; x < trampasPorNivel * nivel; x++) {
           arrayCartasAux[parejasMazoNivel1 * 2 + x] = Trampas[x];
         }
+        /* Establecemos la cantidad de parejas para ganar en nivel 1 */
+        setContParejas(parejasMazoNivel1);
         break;
       /* Nivel 2 */
       case 2:
@@ -164,6 +199,8 @@ const Memotest = () => {
         for (let x = 0; x < trampasPorNivel * nivel; x++) {
           arrayCartasAux[parejasMazoNivel2 * 2 + x] = Trampas[x];
         }
+        /* Establecemos la cantidad de parejas para ganar en nivel 2 */
+        setContParejas(parejasMazoNivel2);
         break;
       default:
         break;
@@ -188,10 +225,7 @@ const Memotest = () => {
     <>
       {/* Barra vida y score */}
       <header className="game-status">
-        <div className="game-status lives">
-          <img src={vida} alt="vidas" />
-          <img src={vida} alt="vidas" />
-        </div>
+        <div className="game-status lives">{mostrarVidas(contVidas)}</div>
         <div className="game-status score">score: {score}</div>
       </header>
 
@@ -203,7 +237,7 @@ const Memotest = () => {
           <br></br>
           <h2>Click en "REPARTIR" para comenzar</h2>
           <br></br>
-          <h1>{gameOver}</h1>
+          <h1>{estadoJuego}</h1>
         </aside>
       </section>
 
