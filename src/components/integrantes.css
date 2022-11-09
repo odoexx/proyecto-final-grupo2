@@ -9,13 +9,13 @@
   margin: 0.5%;
   text-align: center;
   height: 85vh;
-  width: 27vw;
+  width: 18vw;
 }
 
 .card-img{
   object-fit: contain;
   margin-top: 2.5%;
-  height: 45vh;
+  height: 35vh;
 }
 
 .linea-central-tarjeta{

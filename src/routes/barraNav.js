@@ -40,7 +40,7 @@ const BarraNav = () => {
                   Memotest
                 </Link>
                 <NavDropdown.Divider />
-                <Link className="dropDown" to="#">
+                <Link className="dropDown" to="/geometrydash">
                   Geometry Dash
                 </Link>
               </NavDropdown>
