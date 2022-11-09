@@ -11,14 +11,13 @@ function Integrantes() {
         <Card className="card-full" bg="dark" key={lista.id}>
           <Card.Img className="card-img" variant="top" src={lista.img} />
           <Card.Body>
-            <Card.Title>{lista.nombre}</Card.Title>
+            <Card.Title>{lista.nombre}<br/>{lista.apellido}</Card.Title>
             <Card.Text>
               <Button variant="outline-light" border="success" onClick={()=>sonidoClic.play()} href={lista.github}>
                 {lista.usuario}
               </Button>
               <hr className="linea-central-tarjeta" />
-              Edad: {lista.edad} años<br></br>
-              Intereses: {lista.intereses}
+              Edad: {lista.edad} años<br/><br/>Intereses:<br/>{lista.intereses}
             </Card.Text>
           </Card.Body>
         </Card>
