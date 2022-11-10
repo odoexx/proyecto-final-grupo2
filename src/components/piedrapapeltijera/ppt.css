@@ -4,7 +4,7 @@
     flex-direction: column;
     height: 85vh;
     width: 100vw;
-    background-image: url(/public/assets/piedrapapeltijeras/FondoPelea.png);
+    background-image: url(/public/assets/images/piedrapapeltijeras/FondoPelea.png);
     background-size: cover;
     background-position-y: -30vh;
     color:blueviolet;
@@ -69,7 +69,7 @@
 .choosing-area{
     height: 25vh;
     width: 100%;
-    background-image: url(/public/assets/piedrapapeltijeras/TextoPelea.png);
+    background-image: url(/public/assets/images/piedrapapeltijeras/TextoPelea.png);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
