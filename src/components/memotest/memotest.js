@@ -8,7 +8,6 @@ import Otros from "../../json/memotest/otros.json";
 const Memotest = () => {
   const [nivel, setNivel] = useState(0);
   const [comenzarHabilitado, setComenzarHabilitado] = useState(false);
-  const [habilitarCartas, setHabilitarCartas] = useState(false);
   const [contVidas, setContVidas] = useState(0);
   const [score, setScore] = useState(0);
   const [ponerCartas, setPonerCartas] = useState(false);
@@ -59,9 +58,13 @@ const Memotest = () => {
   /* Se dispara cada vez que cambia el contador de vidas y la cantidad de parejas */
   /* Si no nos quedan vidas o terminamos las parejas, termina el juego */
   useEffect(() => {
-    if (contVidas <= 0 || contParejas <= 0) {
+    if (contVidas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado");
+      setEstadoJuego("Juego Terminado: PERDISTE");
+    }
+    if (contParejas <= 0) {
+      setJuegoTerminado(true);
+      setEstadoJuego("Juego Terminado: GANASTE");
     }
   }, [contVidas, contParejas]);
 
@@ -105,10 +108,21 @@ const Memotest = () => {
         setContVidas(contVidas - 1);
         document.getElementById(i).disabled = true;
       } else {
-        /* Si no es carta trampa pongo la carta en el array de cartas activas para compararla cuando tenga 2 */
-        setCartaElegida(!cartaElegida);
-        arrayCartasActivasAux.push({ carta, i });
-        setArrayCartasActivas(arrayCartasActivasAux);
+        /* Controlamos si ya hay alguna carta activa */
+        if (arrayCartasActivas.length > 0) {
+          /* Evitamos el doble click en la misma carta */
+          if (arrayCartasActivas[0].i != i) {
+            /* Si no es carta trampa pongo la carta en el array de cartas activas para compararla cuando tenga 2 */
+            setCartaElegida(!cartaElegida);
+            arrayCartasActivasAux.push({ carta, i });
+            setArrayCartasActivas(arrayCartasActivasAux);
+          }
+        } else {
+          /* Si no es carta trampa y no hay cartas activas pongo la carta en el array de cartas activas para compararla cuando tenga 2 */
+          setCartaElegida(!cartaElegida);
+          arrayCartasActivasAux.push({ carta, i });
+          setArrayCartasActivas(arrayCartasActivasAux);
+        }
       }
       /* Si tengo 2 cartas activas, las comparo para saber si son pareja */
       if (arrayCartasActivas.length == 2) {
@@ -143,7 +157,6 @@ const Memotest = () => {
 
   /* Repartimos las cartas */
   const repartirCartas = () => {
-    
     return arrayCartas.map((carta, i) => {
       return (
         /* Creamos el botón con las propiedades necesarias */
@@ -215,8 +228,6 @@ const Memotest = () => {
     }
     /* Actualizamos el array de cartas para que renderice */
     setArrayCartas(arrayCartasAux);
-    /* Habilitamos las cartas para poder clickearlas */
-    setHabilitarCartas(true);
     /* Ponemos las cartas en el área de juego */
     setPonerCartas(!ponerCartas);
   };
