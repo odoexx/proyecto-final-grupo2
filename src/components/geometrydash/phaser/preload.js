@@ -6,18 +6,29 @@ class Preload extends Phaser.Scene {
   }
 
   preload() {
-    //acá van las imágenes y spritesheets
-    this.load.image("fondo", "/assets/arkanoid/images/arkanoid/background.png");
-    this.load.spritesheet('nave', '/assets/arkanoid/images/arkanoid/nave.png', { frameWidth: 97, frameHeight: 26 });
-    this.load.image("bola", "/assets/arkanoid/images/arkanoid/ball.png");
-    this.load.spritesheet("bloque1", "/assets/arkanoid/images/arkanoid/bloque1.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque2", "/assets/arkanoid/images/arkanoid/bloque2.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque3", "/assets/arkanoid/images/arkanoid/bloque3.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque4", "/assets/arkanoid/images/arkanoid/bloque4.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque5", "/assets/arkanoid/images/arkanoid/bloque5.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque6", "/assets/arkanoid/images/arkanoid/bloque6.png", {frameWidth:56, frameHeight:35});
-    this.load.spritesheet("bloque7", "/assets/arkanoid/images/arkanoid/bloque7.png", {frameWidth:56, frameHeight:35});
-    //acá van todos los audios
+    //Imágenes y spritesheets
+    //Nivel 1
+    this.load.image("fondoNivel1", "/assets/images/geometrydash/scenes/nivel1/background.png");
+    this.load.image("terrenoInferiorNivel1","/assets/images/geometrydash/scenes/nivel1/groundBottom.png");
+    this.load.image("terrenoSuperiorNivel1","/assets/images/geometrydash/scenes/nivel1/groundTop.png");
+    //Nivel 2
+    this.load.image("fondoNivel2", "/assets/images/geometrydash/scenes/nivel2/background.png");
+    this.load.image("terrenoInferiorNivel2","/assets/images/geometrydash/scenes/nivel2/groundBottom.png");
+    this.load.image("terrenoSuperiorNivel2","/assets/images/geometrydash/scenes/nivel2/groundTop.png");
+    //Nivel 3
+    this.load.image("fondoNivel3", "/assets/images/geometrydash/scenes/nivel3/background.png");
+    this.load.image("terrenoInferiorNivel3","/assets/images/geometrydash/scenes/nivel3/groundBottom.png");
+    this.load.image("terrenoSuperiorNivel3","/assets/images/geometrydash/scenes/nivel3/groundTop.png");
+    //Comunes a varios o todos los niveles
+    this.load.image("jugador","/assets/images/geometrydash/characters/box.png");
+    this.load.image("nave", "/assets/images/geometrydash/characters/rocket.png");
+    /* this.load.spritesheet("jugador", "/assets/images/geometrydash/characters/box.png", { frameWidth: 97, frameHeight: 26 }); */
+    this.load.image("portalSalida", "/assets/images/geometrydash/scenes/nivel1/portal.png");
+    this.load.image("portalVuelo","/assets/images/geometrydash/scenes/nivel1/portalFlap.png");
+    this.load.image("portalGravedad","/assets/images/geometrydash/scenes/nivel1/portalFlap.png");
+    this.load.image("portalVelocidad","/assets/images/geometrydash/scenes/nivel1/portalVelocity.png");
+
+    //BGM y SFX
     this.load.audio("musica", "/assets/arkanoid/sounds/BGM-Echelon.mp3");
     this.load.audio('impactoNaveSample', '/assets/arkanoid/sounds/click.wav');
     this.load.audio('choqueBarra', '/assets/arkanoid/sounds/choque_barra.mp3');
