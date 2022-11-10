@@ -1,9 +1,9 @@
 import "./ahorcadito.css";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Alfabeto from "../../json/alfabeto.json";
-import Diccionario from "../../json/diccionario.json";
-import Vidas from "../../json/vidas.json";
+import Alfabeto from "../../json/ahorcadito/alfabeto.json";
+import Diccionario from "../../json/ahorcadito/diccionario.json";
+import Vidas from "../../json/ahorcadito/vidas.json";
 
 const Juego = () => {
   const [palabraElegida, setPalabraElegida] = useState("");
@@ -15,10 +15,10 @@ const Juego = () => {
   const [contadorErrores, setContadorErrores] = useState(0);
   const [vidasRestantes, setVidasRestantes] = useState(Vidas[0].img);
   const [finJuego, setFinJuego] = useState(false);
-  const sonidoCorrecto=new Audio("/assets/ahorcadito/sounds/correcto.wav");
-  const sonidoError=new Audio("/assets/ahorcadito/sounds/error.wav");
-  const sonidoVictoria=new Audio("/assets/ahorcadito/sounds/victoria.wav");
-  const sonidoClic=new Audio("/assets/ahorcadito/sounds/click.wav");
+  const sonidoCorrecto=new Audio("/assets/sounds/ahorcadito/correcto.wav");
+  const sonidoError=new Audio("/assets/sounds/ahorcadito/error.wav");
+  const sonidoVictoria=new Audio("/assets/sounds/ahorcadito/victoria.wav");
+  const sonidoClic=new Audio("/assets/sounds/ahorcadito/click.wav");
   /* Habilitar / Deshabilitar botones dependiendo si es fin de juego */
   useEffect(() => {
     Alfabeto.map((letra) => {
@@ -92,7 +92,7 @@ const Juego = () => {
         setVidasRestantes(Vidas[contErrores].img);
       } else {
         /* Si no tiene vidas, pierde */
-        setVidasRestantes("/assets/ahorcadito/images/game-over-1.png");
+        setVidasRestantes("/assets/images/ahorcadito/game-over-1.png");
         setFinJuego(true);
       }
     }
@@ -104,7 +104,7 @@ const Juego = () => {
       )
     ) {
       //sonido de victoria
-      setVidasRestantes("/assets/ahorcadito/images/you win.png");
+      setVidasRestantes("/assets/images/ahorcadito/you win.png");
       setFinJuego(true);
       sonidoVictoria.play();//sonido ganar
     }

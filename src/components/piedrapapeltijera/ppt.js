@@ -3,10 +3,10 @@ import "./ppt.css";
 import { useEffect, useState } from "react";
 
 const Juego=()=> {
-  const [jugador, setJugador] = useState("/assets/piedrapapeltijeras/logo2.png");
-  const [jugada, setJugada] = useState("/assets/piedrapapeltijeras/SignoPregunta.png");
-  const [jugadorCPU, setJugadorCPU] = useState("/assets/piedrapapeltijeras/logo2.png");
-  const [jugadaCPU, setJugadaCPU] = useState("/assets/piedrapapeltijeras/SignoPregunta.png");
+  const [jugador, setJugador] = useState("/assets/images/piedrapapeltijeras/logo2.png");
+  const [jugada, setJugada] = useState("/assets/images/piedrapapeltijeras/SignoPregunta.png");
+  const [jugadorCPU, setJugadorCPU] = useState("/assets/images/piedrapapeltijeras/logo2.png");
+  const [jugadaCPU, setJugadaCPU] = useState("/assets/images/piedrapapeltijeras/SignoPregunta.png");
   const [puntaje, setPuntaje] = useState(0);
   const [puntajeCPU, setPuntajeCPU] = useState(0);
   const [resultado, setResultado] = useState("Haz una jugada...");
@@ -21,28 +21,28 @@ const Juego=()=> {
 
     switch (enemigo) {
       case 0:
-        setJugadorCPU("/assets/piedrapapeltijeras/Charizard.png");
-        setJugadaCPU("/assets/piedrapapeltijeras/FireType.png");
+        setJugadorCPU("/assets/images/piedrapapeltijeras/Charizard.png");
+        setJugadaCPU("/assets/images/piedrapapeltijeras/FireType.png");
         ataque = 0;
         break;
       case 1:
-        setJugadorCPU("/assets/piedrapapeltijeras/Feraligatr.png");
-        setJugadaCPU("/assets/piedrapapeltijeras/WaterType.png");
+        setJugadorCPU("/assets/images/piedrapapeltijeras/Feraligatr.png");
+        setJugadaCPU("/assets/images/piedrapapeltijeras/WaterType.png");
         ataque = 1;
         break;
       case 2:
-        setJugadorCPU("/assets/piedrapapeltijeras/Sceptile.png");
-        setJugadaCPU("/assets/piedrapapeltijeras/GrassType.png");
+        setJugadorCPU("/assets/images/piedrapapeltijeras/Sceptile.png");
+        setJugadaCPU("/assets/images/piedrapapeltijeras/GrassType.png");
         ataque = 2;
         break;
       case 3:
-        setJugadorCPU("/assets/piedrapapeltijeras/Mew.png");
+        setJugadorCPU("/assets/images/piedrapapeltijeras/Mew.png");
         if (ataque === 0) {
-          setJugadaCPU("/assets/piedrapapeltijeras/FireType.png");
+          setJugadaCPU("/assets/images/piedrapapeltijeras/FireType.png");
         } else if (ataque === 1) {
-          setJugadaCPU("/assets/piedrapapeltijeras/WaterType.png");
+          setJugadaCPU("/assets/images/piedrapapeltijeras/WaterType.png");
         } else {
-          setJugadaCPU("/assets/piedrapapeltijeras/GrassType.png");
+          setJugadaCPU("/assets/images/piedrapapeltijeras/GrassType.png");
         }
         break;
     }
@@ -101,39 +101,39 @@ const Juego=()=> {
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/piedrapapeltijeras/CharizardBack.png",
-                "/assets/piedrapapeltijeras/FireType.png",
+                "/assets/images/piedrapapeltijeras/CharizardBack.png",
+                "/assets/images/piedrapapeltijeras/FireType.png",
                 0
               )
             }
           >
-            <img src="/assets/piedrapapeltijeras/FireType.png" alt="fuego"></img>
+            <img src="/assets/images/piedrapapeltijeras/FireType.png" alt="fuego"></img>
           </Button>
           <Button
             className="type-button"
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/piedrapapeltijeras/FeraligatrBack.png",
-                "/assets/piedrapapeltijeras/WaterType.png",
+                "/assets/images/piedrapapeltijeras/FeraligatrBack.png",
+                "/assets/images/piedrapapeltijeras/WaterType.png",
                 1
               )
             }
           >
-            <img src="/assets/piedrapapeltijeras/WaterType.png" alt="agua"></img>
+            <img src="/assets/images/piedrapapeltijeras/WaterType.png" alt="agua"></img>
           </Button>
           <Button
             className="type-button"
             variant="primary"
             onClick={() =>
               hacerJugada(
-                "/assets/piedrapapeltijeras/SceptileBack.png",
-                "/assets/piedrapapeltijeras/GrassType.png",
+                "/assets/images/piedrapapeltijeras/SceptileBack.png",
+                "/assets/images/piedrapapeltijeras/GrassType.png",
                 2
               )
             }
           >
-            <img src="/assets/piedrapapeltijeras/GrassType.png" alt="hoja"></img>
+            <img src="/assets/images/piedrapapeltijeras/GrassType.png" alt="hoja"></img>
           </Button>
         </footer>
       </section>

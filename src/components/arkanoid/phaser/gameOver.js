@@ -9,7 +9,7 @@ class GameOver extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('gameover', '/assets/arkanoid/images/arkanoid/gameover.png');
+        this.load.image('gameover', '/assets/images/arkanoid/gameover.png');
         this.restartButton.preload();
     }
     

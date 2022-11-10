@@ -7,8 +7,8 @@ export class LevelButtons {
   }
 
   preload() {
-    this.relatedScene.load.image('button1', '/assets/arkanoid/images/arkanoid/level1Btn.png');
-    this.relatedScene.load.image('button2', '/assets/arkanoid/images/arkanoid/level2Btn.png');
+    this.relatedScene.load.image('button1', '/assets/images/arkanoid/level1Btn.png');
+    this.relatedScene.load.image('button2', '/assets/images/arkanoid/level2Btn.png');
   }
 
   create() {
