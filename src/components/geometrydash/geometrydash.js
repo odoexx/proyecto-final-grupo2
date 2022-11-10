@@ -15,12 +15,13 @@ function GeometryDash() {
     const CONFIGURACION = {
         scale: {
             autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
-            width: 800,
-            height: 500
+            width: 1000,
+            height: 600,
+            backgroundColor: "#03e3fc"
         },
-        posicionInicialNave: { x: 400, y: 460 },
+        /* posicionInicialNave: { x: 400, y: 460 },
         posicionInicialBola:{ x: 385, y: 430 },
-        velocidadInicial: 0,
+        velocidadInicial: 0, */
     };
 
     const Escenas = [Preload, Menu, Play, GameOver, Congratulations];
@@ -39,7 +40,6 @@ function GeometryDash() {
         },
       },
       scene: iniciarEscena(),
-      //scene: [Nivel1, GameOver, Wining]
     };
 
     var game = new Phaser.Game(config);

@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
-import {LevelCreator} from "./levelCreator";
+import { LevelCreator } from "./levelCreator";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -15,13 +15,13 @@ class Play extends Phaser.Scene {
     this.score = 0;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
-    this.levelCreator=new LevelCreator(this);
+    this.levelCreator= new LevelCreator(this);
     this.bloque=null;
   }
 
   create(nivel) {
     //condiciones iniciales
-    this.physics.world.setBoundsCollision(true, true, true, true);
+    this.physics.world.setBoundsCollision(true, false);
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //creando el fondo
