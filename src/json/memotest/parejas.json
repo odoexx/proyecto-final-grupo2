@@ -2,70 +2,70 @@
   {
     "id": "1",
     "img": "/assets/images/memotest/Red.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "2",
     "img": "/assets/images/memotest/Blue.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "3",
     "img": "/assets/images/memotest/Lime.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "4",
     "img": "/assets/images/memotest/Yellow.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "5",
     "img": "/assets/images/memotest/Orange.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "6",
     "img": "/assets/images/memotest/Purple.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "7",
     "img": "/assets/images/memotest/Rose.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "8",
     "img": "/assets/images/memotest/White.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "9",
     "img": "/assets/images/memotest/Black.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   },
   {
     "id": "10",
     "img": "/assets/images/memotest/Brown.png",
-    "reverso":"/assets/images/memotest/corazon.png",
+    "reverso":"/assets/images/memotest/reverso.png",
     "type": "pareja",
     "selected": "false"
   }
