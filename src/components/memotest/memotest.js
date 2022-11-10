@@ -183,6 +183,8 @@ const Memotest = () => {
     setArrayCartas(arrayCartasAux);
     setJuegoTerminado(false);
     setEstadoJuego("Jugando");
+    setScore(0);
+    /* avilitar todos los botones de nuevo*/
 
     switch (nivel) {
       /* Nivel 1 */
