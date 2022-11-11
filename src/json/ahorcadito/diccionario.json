@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "pista": "Lenguaje de marcado de hipertexto, basico en la programacion web, sirve para definir la estructura en la pagina web.",
+        "palabra": "HTML"
+    },
+    {
+        "id": 2,
+        "pista": "Framework front-end de codigo abierto, ofrece estructuras en CSS y HTML",
+        "palabra": "BOOTSTRAP"
+    },
+    {
+        "id": 3,
+        "pista": "Lenguaje de programacion orientado a objetos, con una de las comunidades mas grandes del mundo",
+        "palabra": "JAVA"
+    },
+    {
+        "id": 4,
+        "pista": "Es una biblioteca de Java, es de codigo abierto, su objetivo es renderizan componentes",
+        "palabra": "REACT"
+    },
+    {
+        "id": 5,
+        "pista": "Es una plantilla para la creación de objetos.",
+        "palabra": "CLASS"
+    },
+    {
+        "id": 6,
+        "pista": "Protocolo de la capa de aplicacion en el modelo OSI.",
+        "palabra": "HTTP"
+    },
+    {
+        "id": 7,
+        "pista": "Generalmente genera lenguaje ensamblador primero y luego traduce el lenguaje ensamblador al lenguaje maquina",
+        "palabra": "COMPILADOR"
+    },
+    {
+        "id": 8,
+        "pista": "Es un conjunto de normas o reglas y pasos establecidos de manera clara sobre el flujo de informacion en una red estructurada.",
+        "palabra": "PROTOCOLO"
+    },
+    {
+        "id": 9,
+        "pista": "Se refire al valor del atributo que se va a modificar, se encuentra en el CSS",
+        "palabra": "PROPIEDAD"
+    },
+    {
+        "id": 10,
+        "pista": "Es una plataforma de desarollo colaborativo para colocar los proyectos, tambien conocido como la red social de los programadores",
+        "palabra": "GITHUB"
+    },
+    {
+        "id": 11,
+        "pista": "Es el perfil profesional de entrada para trabajar en una empresa que se dedique al desarrollo de software.",
+        "palabra": "JUNIOR"
+    },
+    {
+        "id": 12,
+        "pista": "Es el lugar en el que se almacena y se puede realizar la distribución del código de una aplicación o un programa.",
+        "palabra": "REPOSITORIO"
+    },
+    {
+        "id": 13,
+        "pista": "Es una representación de cualquier item que puede ser utilizado en su juego o proyecto.",
+        "palabra": "ASSET"
+    },
+    {
+        "id": 14,
+        "pista": "Es el conjunto de instrucciones que un desarrollador ordena ejecutar a la computadora.",
+        "palabra": "CODIGO"
+    }
+]

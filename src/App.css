@@ -1,0 +1,24 @@
+body{
+  background-color: #202020;
+  height: 85vh;
+  color: white;
+}
+
+.App{
+  width: 100vw;
+}
+
+/* @font-face {
+  font-family: pokemonTTF;
+  src: url("../public/assets/Pokemon\ Solid.ttf");
+}
+
+.App {
+  text-align: center;
+  background-image: url(../public/assets/Fondo2.jpg);
+  background-size: 100%;
+  width: 100vw;
+  font-family: pokemonTTF;
+  text-shadow: 2px 8px 2px black;
+}
+ */

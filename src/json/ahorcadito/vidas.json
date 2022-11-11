@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "img":"/assets/images/ahorcadito/vida0.png"
+    },
+    {
+        "id": 1,
+        "img":"/assets/images/ahorcadito/vida1.png"
+    },
+    {
+        "id": 2,
+        "img":"/assets/images/ahorcadito/vida2.png"
+    },
+    {
+        "id": 3,
+        "img":"/assets/images/ahorcadito/vida3.png"
+    },
+    {
+        "id": 4,
+        "img":"/assets/images/ahorcadito/vida4.png"
+    },
+    {
+        "id": 5,
+        "img":"/assets/images/ahorcadito/vida5.png"
+    }
+]

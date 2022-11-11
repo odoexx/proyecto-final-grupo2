@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "img":"/assets/images/integrantes/SosaCorrea.jpeg",
+        "nombre":"Agustín Cesar",
+        "apellido":"Sosa Correa",
+        "edad":"19",
+        "intereses":"Voleyball, Videojuegos, Escuchar Musica, Programar",
+        "usuario":"Gryuker",
+        "github":"https://github.com/Gryuker"
+    },
+    {
+        "id": 2,
+        "img":"/assets/images/integrantes/Velazquez.jpeg",
+        "nombre":"Conrado Abel Dario",
+        "apellido":"Velazquez",
+        "edad":"39",
+        "intereses":"\nprogramación, videojuegos, tecnología",
+        "usuario":"con-ra",
+        "github":"https://github.com/con-ra"
+    },
+    {
+        "id": 3,
+        "img":"/assets/images/integrantes/Planckensteiner.jpg",
+        "nombre":"German Matias",
+        "apellido":"Planckensteiner",
+        "edad":"21",
+        "intereses":"Videojuegos, Programacion, Dibujo",
+        "usuario":"odoexx",
+        "github":"https://github.com/odoexx"
+    },
+    {
+        "id": 4,
+        "img":"/assets/images/integrantes/LópezPolo.jpg",
+        "nombre":"Lucas Santiago",
+        "apellido":"López Polo",
+        "edad":"19",
+        "intereses":"Videojuegos, Dibujo, Escritura, Programación",
+        "usuario":"EruLuka",
+        "github":"https://github.com/EruLuka"
+    },
+    {
+        "id": 5,
+        "img":"/assets/images/integrantes/MendivilCabrera.jpeg",
+        "nombre":"Nicole Estefania",
+        "apellido":"Mendivil Cabrera",
+        "edad":"24",
+        "intereses":"andar en bici, ver series",
+        "usuario":"nicolee567",
+        "github":"https://github.com/nicolee567"
+    }
+]

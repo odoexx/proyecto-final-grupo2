@@ -1,0 +1,37 @@
+[
+    {
+        "id": "1",
+        "img": "/assets/images/memotest/Calavera.png",
+        "reverso":"/assets/images/memotest/reverso.png",
+        "type": "trampa",
+        "selected": "false"
+    },
+    {
+        "id": "2",
+        "img": "/assets/images/memotest/Calavera.png",
+        "reverso":"/assets/images/memotest/reverso.png",
+        "type": "trampa",
+        "selected": "false"
+    },
+    {
+        "id": "3",
+        "img": "/assets/images/memotest/Calavera.png",
+        "reverso":"/assets/images/memotest/reverso.png",
+        "type": "trampa",
+        "selected": "false"
+    },
+    {
+        "id": "4",
+        "img": "/assets/images/memotest/Calavera.png",
+        "reverso":"/assets/images/memotest/reverso.png",
+        "type": "trampa",
+        "selected": "false"
+    },
+    {
+        "id": "5",
+        "img": "/assets/images/memotest/Calavera.png",
+        "reverso":"/assets/images/memotest/reverso.png",
+        "type": "trampa",
+        "selected": "false"
+    }
+]
