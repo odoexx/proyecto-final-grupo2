@@ -150,8 +150,10 @@ const Memotest = () => {
   /* Volteamos todas las cartas para la nueva partida */
   const voltearCartas = () => {
     return arrayCartas.map((carta, i) => {
+      /* Obtenemos el id de las cartas del arrayCartas y la habilitamos */
+      document.getElementById(i).disabled=false;
       /* A través del id identificamos las cartas en la mesa y mostramos su reverso */
-      return (document.getElementById("img" + i).src = carta.reverso);
+      document.getElementById("img" + i).src = carta.reverso;
     });
   };
 
@@ -184,7 +186,6 @@ const Memotest = () => {
     setJuegoTerminado(false);
     setEstadoJuego("Jugando");
     setScore(0);
-    /* avilitar todos los botones de nuevo*/
 
     switch (nivel) {
       /* Nivel 1 */
@@ -250,7 +251,7 @@ const Memotest = () => {
           <br></br>
           <h2>Click en "REPARTIR" para comenzar</h2>
           <br></br>
-          <h1>{estadoJuego}</h1>
+          <h1>{estadoJuego}</h1> {/* estado de juego */}
         </aside>
       </section>
 
