@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
 import { LevelCreator } from "./levelCreator";
-import { Obstaculos} from "../../../json/obstaculos"
+//import { Obstaculos} from "../../../json/obstaculos";
 
 class Play extends Phaser.Scene {
   constructor(config) {
