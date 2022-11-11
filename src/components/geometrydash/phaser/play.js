@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
 import { LevelCreator } from "./levelCreator";
+import { Obstaculos} from "../../../json/obstaculos"
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -9,35 +10,31 @@ class Play extends Phaser.Scene {
     this.config = config;
     this.player = null;
     this.sonido = null;
-    this.soundChoqueBarra = null;
-    this.soundChoqueBloques = null;
-    this.sonidoPerder = null;
     this.score = 0;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
     this.levelCreator= new LevelCreator(this);
-    this.bloque=null;
   }
 
   create(nivel) {
     //condiciones iniciales
-    this.physics.world.setBoundsCollision(true, false);
+    this.physics.world.setBoundsCollision(false, true);
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //creando el fondo
-    this.crearFondo();
+    this.crearFondo(nivel);
 
     //agregando plataforma como player
-    this.crearNave();
+    this.crearJugador();
 
     //agregando contador de vidas
     this.liveCounter.create();
 
-    //agregando pelota
-    this.crearBola();
-
     //agregando los obstaculos
-    this.crearBloques(nivel);
+    this.crearObstaculos(nivel);
+
+
+    this.crearPortales(nivel);
 
     //agregando texto
     this.crearTextoInicio();
@@ -45,10 +42,10 @@ class Play extends Phaser.Scene {
     //agregando sonido
     this.crearSonido();
 
-    //impacto bola-nave
+    //impacto bola-jugador
     this.physics.add.collider(
       this.bola,
-      this.nave,
+      this.jugador,
       this.impactoNave,
       null,
       this
@@ -73,35 +70,44 @@ class Play extends Phaser.Scene {
     this.setInitialState();
   }
 
-  crearFondo() {
-    this.add.image(410, 250, "fondo");
+  crearFondo(nivel) {
+    switch (nivel){
+      case 1:
+        this.add.image(0, 0, "fondoNivel1");
+        this.groundBottom = this.physics.add.sprite(0, 600, 'terrenoInferiorNivel1.png')
+                .setOrigin(0, 1)
+                .setImmovable(true);
+        break;
+        default:
+          break;
+    }
+    
   }
 
-  crearNave() {
-    this.nave = this.physics.add.sprite(400, 460, "nave").setImmovable();
-    this.nave.body.allowGravity = true;
-    this.nave.setCollideWorldBounds(true);
-    //animación laser de nave
-    this.anims.create({
-      key: "naveLaser",
-      frames: this.anims.generateFrameNumbers("nave", {
+  crearJugador() {
+    this.jugador = this.physics.add.sprite(400, 460, "jugador");
+    this.jugador.body.allowGravity = true;
+    this.jugador.setCollideWorldBounds(false, true);
+    //animación laser de jugador
+    /* this.anims.create({
+      key: "jugadorCaminar",
+      frames: this.anims.generateFrameNumbers("jugador", {
         frames: [0, 1, 2],
       }),
       frameRate: 8,
       repeat: -1,
     });
-    this.nave.play("naveLaser");
+    this.jugador.play("jugadorCaminar"); */
   }
 
-  crearBola() {
-    this.bola = this.physics.add.image(385, 430, "bola");
-    this.bola.setBounce(0);
-    this.bola.setCollideWorldBounds(true);
-    this.bola.setData("glue", true);
+  crearObstaculos(nivel) {
+    /* Obstaculos.map( (spike) => ({
+      this.createObstacles(spike, 'spikeBottom', 0, 1)
+    })) */
   }
 
-  crearBloques(nivel) {
-    this.bloque=this.levelCreator.crearNivel(nivel);
+  crearPortales(nivel){
+    /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
   }
 
   crearTextoInicio() {
@@ -122,7 +128,7 @@ class Play extends Phaser.Scene {
   crearSonido() {
     this.sonido = this.sound.add("musica");
     this.soundChoqueBarra = this.sound.add("choqueBarra");
-    this.soundChoqueBloques = this.sound.add("choqueBloques");
+    this.soundChoqueObstaculos = this.sound.add("choqueObstaculos");
     this.soundPerder = this.sound.add("perder");
     const soundConfig = {
       volume: 0.2,
@@ -144,17 +150,17 @@ class Play extends Phaser.Scene {
   update() {
     //mover la plataforma
     if (this.cursors.left.isDown) {
-      this.nave.setVelocityX(-500);
+      this.jugador.setVelocityX(-500);
       if (this.bola.getData("glue")) {
         this.bola.setVelocityX(-500);
       }
     } else if (this.cursors.right.isDown) {
-      this.nave.setVelocityX(500);
+      this.jugador.setVelocityX(500);
       if (this.bola.getData("glue")) {
         this.bola.setVelocityX(500);
       }
     } else {
-      this.nave.setVelocityX(0);
+      this.jugador.setVelocityX(0);
       if (this.bola.getData("glue")) {
         this.bola.setVelocityX(0);
       }
@@ -184,8 +190,8 @@ class Play extends Phaser.Scene {
 
   //metodos invocados
 
-  impactoNave(bola, nave) {
-    let relativeImpact = bola.x - nave.x;
+  impactoNave(bola, jugador) {
+    let relativeImpact = bola.x - jugador.x;
     this.soundChoqueBarra.play();
     if (relativeImpact > 0) {
       bola.setVelocityX(8 * relativeImpact);
@@ -204,15 +210,15 @@ class Play extends Phaser.Scene {
   impactoBloque(bola, bloque) {
     bloque.disableBody(true, true);
     this.incrementarPuntos(10);
-    this.soundChoqueBloques.play();
+    this.soundChoqueObstaculos.play();
     if (this.bloque.countActive() === 0) {
       this.endGame(true);
     }
   }
 
   setInitialState() {
-    this.nave.x = this.config.posicionInicialNave.x;
-    this.nave.y = this.config.posicionInicialNave.y;
+    this.jugador.x = this.config.posicionInicialNave.x;
+    this.jugador.y = this.config.posicionInicialNave.y;
     this.bola.setVelocity(
       this.config.velocidadInicial,
       this.config.velocidadInicial
