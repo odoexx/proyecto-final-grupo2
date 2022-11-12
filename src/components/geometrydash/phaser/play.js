@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
-import { LevelCreator } from "./levelCreator";
-/* import { Obstaculos} from "../../../json/obstaculos" */
+/* import { LevelCreator } from "./levelCreator"; */
+import listaObtaculosAbajo  from "../../../json/geometryDash/obstaculosAbajo.json";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -11,9 +11,12 @@ class Play extends Phaser.Scene {
     this.player = null;
     this.sonido = null;
     this.score = 0;
+    this.pinchos = null;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
-    this.levelCreator= new LevelCreator(this);
+    this.groundBottom = null;
+    this.jugador= null;
+    /* this.levelCreator= new LevelCreator(this); */
   }
 
   create(nivel) {
@@ -29,31 +32,38 @@ class Play extends Phaser.Scene {
 
     //agregando contador de vidas
     this.liveCounter.create();
-
+    
     //agregando los obstaculos
-    //this.crearObstaculos(nivel);
-
+    this.pinchos = this.physics.add.group({
+        allowGravity: false
+    });
+    this.crearObstaculos(nivel, listaObtaculosAbajo, 'pinchoAbajo', 0 , 1);
 
     //this.crearPortales(nivel);
 
+    this.crearColisiones();
+
+    this.crearColisiones();
+
     //agregando texto
-    this.crearTextoInicio();
+    /* this.crearTextoInicio(); */
 
     //agregando sonido
-    //this.crearSonido();
+   /*  this.crearSonido(); */
 
     this.physics.add.collider(this.jugador, this.groundBottom);
     //impacto bola-jugador
+    /* this.physics.add.collider(
     /* this.physics.add.collider(
       this.bola,
       this.jugador,
       this.impactoNave,
       null,
       this
-    );
+    ); */
 
     //impacto bloque-bola
-    this.physics.add.collider(
+    /* this.physics.add.collider(
       this.bola,
       this.bloque,
       this.impactoBloque,
@@ -62,20 +72,33 @@ class Play extends Phaser.Scene {
     );*/
 
     //Texto score
-    this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
+    /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
       fontSize: "20px",
       fill: "#fff",
       fontFamily: "verdana, arial, sans-serif",
-    });
+    }); */
     //this.impactoNaveSample = this.sound.add('impactoNaveSample');
     this.setInitialState();
+  }
+
+  /* metodo para detectar las coliciones entre el jugador y el resto de objetos */
+  crearColisiones(){
+    /* le asignamos gravedad al jugador */
+    this.jugador.body.gravity.y = this.config.gravedad;
+    this.groundBottom = this.physics.add.collider(this.jugador, this.groundBottom, null, null, this);
+
+    /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
   }
 
   crearFondo(nivel) {
     switch (nivel){
       case 1:
-        this.add.image(0, 0, "fondoNivel1");
-        this.groundBottom = this.physics.add.staticSprite(500, 550, 'terrenoInferiorNivel1');
+        this.add.image(500, 300, "fondoNivel1");
+        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1'); */
+        this.groundBottom = this.physics.add.sprite(0, 600, 'terrenoInferiorNivel1')
+                .setOrigin(0, 1)
+                .setImmovable(true);
+        this.groundBottom.body.allowGravity = false;
         break;
         default:
           break;
@@ -84,7 +107,8 @@ class Play extends Phaser.Scene {
   }
 
   crearJugador() {
-    this.jugador = this.physics.add.sprite(400, 500, "jugador").setScale(0.25);
+    this.jugador = this.physics.add.sprite(this.config.posicionInicial.x, this.config.posicionInicial.y, "jugador").setScale(0.25);
+    /* this.jugador = this.physics.add.sprite(this.config.posicionInicial.x , this.config.posicionInicial.y, "jugador"); */
     this.jugador.body.allowGravity = true;
     this.jugador.setCollideWorldBounds(true);
     //animación del jugador
@@ -108,17 +132,35 @@ class Play extends Phaser.Scene {
     });
   }
 
-  crearObstaculos(nivel) {
-    /* Obstaculos.map( (spike) => ({
-      this.createObstacles(spike, 'spikeBottom', 0, 1)
-    })) */
+  /* Método para crear los obstáculos en cada nivel */
+  crearObstaculos(nivel, listaPinchos, spritePincho, origenX, origenY) {
+    switch (nivel) {
+      case 1:
+        if (spritePincho != 'pinchoLado') {
+          for (const pincho of listaPinchos) {
+            let posicionX= 0;
+            /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
+            let cadena= Math.floor(Math.random() * pincho.maxSpikesTopBottom + 1)
+            /* creamos las diferentes cadenas de obtaculos */
+            for (let index = 0; index < cadena; index++) {
+              let pinchoAux = this.pinchos.create((pincho.seconds * this.config.velocidadX) + posicionX, pincho.y, spritePincho).setOrigin(origenX, origenY);
+              posicionX += pinchoAux.width;
+            }
+          }
+        }
+        break;
+    
+      default:
+        break;
+    }
+
   }
 
   crearPortales(nivel){
     /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
   }
 
-  crearTextoInicio() {
+  /* crearTextoInicio() {
     this.openingText = this.add.text(
       this.physics.world.bounds.width / 2,
       (this.physics.world.bounds.height / 2) * 1.5,
@@ -131,7 +173,7 @@ class Play extends Phaser.Scene {
     );
 
     this.openingText.setOrigin(0.5);
-  }
+  } */
 
   crearSonido() {
     this.sonido = this.sound.add("musica");
@@ -185,7 +227,7 @@ class Play extends Phaser.Scene {
         //this.liveLostSample.play();
         this.setInitialState();
       }
-    }*/
+    } */
 
     //disparo inicial
     /* if (this.cursors.up.isDown) {
@@ -196,7 +238,7 @@ class Play extends Phaser.Scene {
         this.openingText.setVisible(false);
         this.bola.setBounce(1);
       }
-    }*/
+    } */
   }
 
   //metodos invocados
@@ -231,9 +273,9 @@ class Play extends Phaser.Scene {
   }
 
   setInitialState() {
-    this.jugador.x = 50;
-    this.jugador.y = 400;
-    this.openingText.setVisible(true);
+    this.jugador.x = this.config.posicionInicial.x;
+    this.jugador.y = this.config.posicionInicial.y;
+    /* this.openingText.setVisible(true); */
   }
 
   endGame(completed) {
