@@ -16,7 +16,7 @@ class Play extends Phaser.Scene {
     this.pinchos = null;
     this.portales = null;
     this.openingText = null;
-    this.liveCounter = new LiveCounter(this, 3);
+    this.liveCounter = new LiveCounter(this, this.config.vidas);
     this.groundBottom = null;
     this.jugador = null;
     /* this.levelCreator= new LevelCreator(this); */
@@ -194,8 +194,9 @@ class Play extends Phaser.Scene {
                   posicionY,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY);
-              posicionY += pinchoAux.height;
+                .setOrigin(origenX, origenY)
+                .setScale(0.5);
+              posicionY += pinchoAux.height*0.5;
             }
           }
         }
@@ -207,16 +208,11 @@ class Play extends Phaser.Scene {
   }
 
   crearPortales(nivel, listaPortales, spritePortal) {
-    /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
     listaPortales.map((portal) => {
       this.portales
         .create(portal.seconds * 700, portal.y, spritePortal)
         .setOrigin(0);
     });
-    /* for (let portal of portalList)
-        {
-            this.portals.create((portal.seconds * 700), portal.y, portalSprite).setOrigin(0);
-        } */
   }
 
   /* crearTextoInicio() {
@@ -235,12 +231,19 @@ class Play extends Phaser.Scene {
   } */
 
   perderVida() {
-    /* console.log("muerte"); */
     let gameNotFinished = this.liveCounter.perderVida();
     /* this.soundPerder.play(); */
     if (!gameNotFinished) {
       //this.liveLostSample.play();
-      this.setInitialState();
+      /* this.setInitialState(); */
+      this.physics.pause();
+      this.time.addEvent
+        ({
+            delay: 2000,
+            callback: ()=> {this.physics.resume()},
+            /* callback: () => {this.scene.restart();}, */
+            loop: false
+        });
     }
   }
 
@@ -267,24 +270,24 @@ class Play extends Phaser.Scene {
   } */
 
   update() {
-    //mover la plataforma
-    if (this.cursors.left.isDown) {
+    //mover jugador
+    /* if (this.cursors.left.isDown) {
       this.jugador.setVelocityX(-200);
     } else if (this.cursors.right.isDown) {
       this.jugador.setVelocityX(200);
     } else {
       this.jugador.setVelocityX(0);
-    }
+    } */
     if (this.cursors.up.isDown && this.jugador.body.touching.down) {
       this.jugador.setVelocityY(-800);
     }
     //Animaciones del Jugador
     if (this.jugador.body.touching.down) {
-      if (this.jugador.body.velocity.x != 0) {
+      /* if (this.jugador.body.velocity.x != 0) { */
         this.jugador.play("jugadorCaminar", true);
-      } else {
+      /* } else {
         this.jugador.play("jugadorCaminar", false);
-      }
+      } */
     } else {
       this.jugador.play("jugadorSaltar", true);
     }
@@ -342,7 +345,6 @@ class Play extends Phaser.Scene {
       this.score = 0;
     } else {
       //this.winSample.play();
-      console.log("entrando a Congratulations");
       this.scene.start("congratulations");
     }
   }
