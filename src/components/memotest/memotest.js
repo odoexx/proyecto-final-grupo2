@@ -17,7 +17,7 @@ const Memotest = () => {
   const [cartaElegida, setCartaElegida] = useState(false);
   const [mostrandoCarta, setMostrandoCarta] = useState(false);
   const [juegoTerminado, setJuegoTerminado] = useState(false);
-  const [estadoJuego, setEstadoJuego] = useState("Jugando");
+  const [estadoJuego, setEstadoJuego] = useState();
   const [contParejas, setContParejas] = useState(0);
 
   const parejasMazoNivel1 = 9;
@@ -60,11 +60,11 @@ const Memotest = () => {
   useEffect(() => {
     if (contVidas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: PERDISTE");
+      setEstadoJuego(Otros[3].img);
     }
     if (contParejas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: GANASTE");
+      setEstadoJuego(Otros[4].img);
     }
   }, [contVidas, contParejas]);
 
@@ -184,7 +184,7 @@ const Memotest = () => {
     setContVidas(2);
     setArrayCartas(arrayCartasAux);
     setJuegoTerminado(false);
-    setEstadoJuego("Jugando");
+    setEstadoJuego(Otros[1].img);
     setScore(0);
 
     switch (nivel) {
@@ -251,7 +251,7 @@ const Memotest = () => {
           <br></br>
           <h2>Click en "REPARTIR" para comenzar</h2>
           <br></br>
-          <h1>{estadoJuego}</h1> {/* estado de juego */}
+          <img src={estadoJuego} alt="Estado del juego"></img> {/* estado de juego */}
         </aside>
       </section>
 
