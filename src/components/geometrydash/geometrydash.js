@@ -14,9 +14,9 @@ function GeometryDash() {
   useEffect(() => {
     const CONFIGURACION = {
         scale: {
-            autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
             width: 1000,
-            height: 550,
+            height: 600,
             backgroundColor: "#03e3fc"
         },
         /* creamos variable globales para configurar el juego */
