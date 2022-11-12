@@ -19,6 +19,8 @@ const Juego = () => {
   const sonidoError=new Audio("/assets/sounds/ahorcadito/error.wav");
   const sonidoVictoria=new Audio("/assets/sounds/ahorcadito/victoria.wav");
   const sonidoClic=new Audio("/assets/sounds/ahorcadito/click.wav");
+  const sonidoPerder=new Audio("/assets/sounds/ahorcadito/derrota_ahorcadito.wav");
+
   /* Habilitar / Deshabilitar botones dependiendo si es fin de juego */
   useEffect(() => {
     Alfabeto.map((letra) => {
@@ -78,7 +80,7 @@ const Juego = () => {
         //sonido de acierto
         sonidoCorrecto.play();//sonido correcto
       } else {
-        //sonido error//sonido error
+        //sonido perder
       }
     }
 
@@ -94,6 +96,8 @@ const Juego = () => {
         /* Si no tiene vidas, pierde */
         setVidasRestantes("/assets/images/ahorcadito/game-over-1.png");
         setFinJuego(true);
+        //sonido perder
+        sonidoPerder.play();
       }
     }
 
