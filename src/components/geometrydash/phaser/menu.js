@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(410, 250, 'fondoNivel1');
+        this.add.image(500, 300, 'fondoNivel1');
         this.nivelButton1.create(1);
         this.nivelButton2.create(2);
         this.nivelButton2.create(3);

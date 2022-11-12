@@ -1,7 +1,9 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
-import { LevelCreator } from "./levelCreator";
-/* import { Obstaculos} from "../../../json/obstaculos" */
+/* import { LevelCreator } from "./levelCreator"; */
+import listaObtaculosAbajoNivel1 from "../../../json/geometryDash/obstaculosAbajoNivel1.json";
+import listaObstaculosLadoNivel1 from "../../../json/geometryDash/obstaculosLadoNivel1.json";
+import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -11,14 +13,18 @@ class Play extends Phaser.Scene {
     this.player = null;
     this.sonido = null;
     this.score = 0;
+    this.pinchos = null;
+    this.portales = null;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
-    this.levelCreator= new LevelCreator(this);
+    this.groundBottom = null;
+    this.jugador = null;
+    /* this.levelCreator= new LevelCreator(this); */
   }
 
   create(nivel) {
     //condiciones iniciales
-    this.physics.world.setBoundsCollision(false, true);
+    this.physics.world.setBoundsCollision(true);
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //creando el fondo
@@ -31,86 +37,189 @@ class Play extends Phaser.Scene {
     this.liveCounter.create();
 
     //agregando los obstaculos
-    this.crearObstaculos(nivel);
+    this.pinchos = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
+    this.crearObstaculos(nivel, listaObtaculosAbajoNivel1, "pinchoAbajo", 0, 1);
+    this.crearObstaculos(nivel, listaObstaculosLadoNivel1, "pinchoLado", 0, 1);
+    this.pinchos.setVelocityX(-this.config.velocidadX);
 
+    //agregando portales
+    this.portales = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
+    this.crearPortales(nivel, listaPortalesNivel1, "portalVuelo");
+    this.portales.setVelocityX(-this.config.velocidadX);
+    //this.crearPortales(nivel);
 
-    this.crearPortales(nivel);
+    this.crearColisiones();
 
     //agregando texto
-    this.crearTextoInicio();
+    /* this.crearTextoInicio(); */
 
     //agregando sonido
-    this.crearSonido();
+    /*  this.crearSonido(); */
 
+    /* this.physics.add.collider(this.jugador, this.groundBottom); */
     //impacto bola-jugador
-    this.physics.add.collider(
+    /* this.physics.add.collider(
+    /* this.physics.add.collider(
       this.bola,
       this.jugador,
       this.impactoNave,
       null,
       this
-    );
+    ); */
 
     //impacto bloque-bola
-    this.physics.add.collider(
+    /* this.physics.add.collider(
       this.bola,
       this.bloque,
       this.impactoBloque,
       null,
       this
-    );
+    );*/
 
     //Texto score
-    this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
+    /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
       fontSize: "20px",
       fill: "#fff",
       fontFamily: "verdana, arial, sans-serif",
-    });
+    }); */
     //this.impactoNaveSample = this.sound.add('impactoNaveSample');
     this.setInitialState();
   }
 
+  /* metodo para detectar las colisiones entre el jugador y el resto de objetos */
+  crearColisiones() {
+    /* le asignamos gravedad al jugador */
+    this.jugador.body.gravity.y = this.config.gravedad;
+    this.groundBottom = this.physics.add.collider(
+      this.jugador,
+      this.groundBottom,
+      null,
+      null,
+      this
+    );
+    this.physics.add.collider(
+      this.jugador,
+      this.pinchos,
+      this.perderVida,
+      null,
+      this
+    );
+    this.physics.add.overlap(this.jugador, this.portales, null , null, this); //this.onChangeToFlap
+    /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
+  }
+
   crearFondo(nivel) {
-    switch (nivel){
+    switch (nivel) {
       case 1:
-        this.add.image(0, 0, "fondoNivel1");
-        this.groundBottom = this.physics.add.sprite(0, 600, 'terrenoInferiorNivel1.png')
-                .setOrigin(0, 1)
-                .setImmovable(true);
+        this.add.image(500, 300, "fondoNivel1");
+        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1').setOrigin(0, 1); */
+        this.groundBottom = this.physics.add
+          .sprite(0, this.physics.world.bounds.height, "terrenoInferiorNivel1")
+          .setOrigin(0, 1)
+          .setImmovable(true);
+        this.groundBottom.body.allowGravity = false;
         break;
-        default:
-          break;
+      default:
+        break;
     }
-    
   }
 
   crearJugador() {
-    this.jugador = this.physics.add.sprite(400, 460, "jugador");
+    this.jugador = this.physics.add
+      .sprite(
+        this.config.posicionInicial.x,
+        this.config.posicionInicial.y,
+        "jugador"
+      )
+      .setScale(0.25);
+    /* this.jugador = this.physics.add.sprite(this.config.posicionInicial.x , this.config.posicionInicial.y, "jugador"); */
     this.jugador.body.allowGravity = true;
-    this.jugador.setCollideWorldBounds(false, true);
-    //animación laser de jugador
-    /* this.anims.create({
+    this.jugador.setCollideWorldBounds(true);
+    //animación del jugador
+    this.anims.create({
       key: "jugadorCaminar",
-      frames: this.anims.generateFrameNumbers("jugador", {
-        frames: [0, 1, 2],
-      }),
-      frameRate: 8,
+      frames: this.anims.generateFrameNumbers("jugador", { start: 0, end: 12 }),
+      frameRate: 20,
       repeat: -1,
     });
-    this.jugador.play("jugadorCaminar"); */
+    this.anims.create({
+      key: "jugadorQuieto",
+      frames: this.anims.generateFrameNumbers("jugador", { frames: [0] }),
+      frameRate: 5,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "jugadorSaltar",
+      frames: this.anims.generateFrameNumbers("jugador", { frames: [9] }),
+      frameRate: 20,
+      repeat: 1,
+    });
   }
 
-  crearObstaculos(nivel) {
-    /* Obstaculos.map( (spike) => ({
-      this.createObstacles(spike, 'spikeBottom', 0, 1)
-    })) */
+  /* Método para crear los obstáculos en cada nivel */
+  crearObstaculos(nivel, listaPinchos, spritePincho, origenX, origenY) {
+    switch (nivel) {
+      case 1:
+        if (spritePincho != "pinchoLado") {
+          for (const pincho of listaPinchos) {
+            let posicionX = 0;
+            /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
+            /* creamos las diferentes cadenas de obtaculos */
+            for (let index = 0; index < cadena; index++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + posicionX,
+                  pincho.y,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY);
+              posicionX += pinchoAux.width;
+            }
+          }
+        } else {
+          for (const pincho of listaPinchos) {
+            let posicionY = 225;
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
+            for (let i = 0; i < cadena; i++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + pincho.x,
+                  posicionY,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY);
+              posicionY += pinchoAux.height;
+            }
+          }
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 
-  crearPortales(nivel){
+  crearPortales(nivel, listaPortales, spritePortal) {
     /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
+    listaPortales.map((portal) => {
+      this.portales
+        .create(portal.seconds * 700, portal.y, spritePortal)
+        .setOrigin(0);
+    });
+    /* for (let portal of portalList)
+        {
+            this.portals.create((portal.seconds * 700), portal.y, portalSprite).setOrigin(0);
+        } */
   }
 
-  crearTextoInicio() {
+  /* crearTextoInicio() {
     this.openingText = this.add.text(
       this.physics.world.bounds.width / 2,
       (this.physics.world.bounds.height / 2) * 1.5,
@@ -123,9 +232,19 @@ class Play extends Phaser.Scene {
     );
 
     this.openingText.setOrigin(0.5);
+  } */
+
+  perderVida() {
+    /* console.log("muerte"); */
+    let gameNotFinished = this.liveCounter.perderVida();
+    /* this.soundPerder.play(); */
+    if (!gameNotFinished) {
+      //this.liveLostSample.play();
+      this.setInitialState();
+    }
   }
 
-  crearSonido() {
+  /* crearSonido() {
     this.sonido = this.sound.add("musica");
     this.soundChoqueBarra = this.sound.add("choqueBarra");
     this.soundChoqueObstaculos = this.sound.add("choqueObstaculos");
@@ -134,7 +253,7 @@ class Play extends Phaser.Scene {
       volume: 0.2,
       loop: true,
     };
-    // this.sonido.play(soundConfig);
+    this.sonido.play(soundConfig);
 
     if (!this.sound.locked) {
       // already unlocked so play
@@ -145,50 +264,44 @@ class Play extends Phaser.Scene {
         this.sonido.play(soundConfig);
       });
     }
-  }
+  } */
 
   update() {
     //mover la plataforma
     if (this.cursors.left.isDown) {
-      this.jugador.setVelocityX(-500);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(-500);
-      }
+      this.jugador.setVelocityX(-200);
     } else if (this.cursors.right.isDown) {
-      this.jugador.setVelocityX(500);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(500);
-      }
+      this.jugador.setVelocityX(200);
     } else {
       this.jugador.setVelocityX(0);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(0);
-      }
     }
-
+    if (this.cursors.up.isDown && this.jugador.body.touching.down) {
+      this.jugador.setVelocityY(-800);
+    }
+    //Animaciones del Jugador
+    if (this.jugador.body.touching.down) {
+      if (this.jugador.body.velocity.x != 0) {
+        this.jugador.play("jugadorCaminar", true);
+      } else {
+        this.jugador.play("jugadorCaminar", false);
+      }
+    } else {
+      this.jugador.play("jugadorSaltar", true);
+    }
     //Perdimos?
-    if (this.bola.y > 500 && this.bola.active) {
+    /* if (this.bola.y > 500 && this.bola.active) {
       let gameNotFinished = this.liveCounter.perderVida();
       this.soundPerder.play();
       if (!gameNotFinished) {
         //this.liveLostSample.play();
         this.setInitialState();
       }
-    }
-
-    //disparo inicial
-    if (this.cursors.up.isDown) {
-      if (this.bola.getData("glue")) {
-        //this.startGameSample.play();
-        this.bola.setVelocity(-60, -300);
-        this.bola.setData("glue", false);
-        this.openingText.setVisible(false);
-        this.bola.setBounce(1);
-      }
-    }
+    } */
   }
 
   //metodos invocados
+
+  animarJugador() {}
 
   impactoNave(bola, jugador) {
     let relativeImpact = bola.x - jugador.x;
@@ -217,16 +330,9 @@ class Play extends Phaser.Scene {
   }
 
   setInitialState() {
-    this.jugador.x = this.config.posicionInicialNave.x;
-    this.jugador.y = this.config.posicionInicialNave.y;
-    this.bola.setVelocity(
-      this.config.velocidadInicial,
-      this.config.velocidadInicial
-    );
-    this.bola.x = this.config.posicionInicialBola.x;
-    this.bola.y = this.config.posicionInicialBola.y;
-    this.bola.setData("glue", true);
-    this.openingText.setVisible(true);
+    this.jugador.x = this.config.posicionInicial.x;
+    this.jugador.y = this.config.posicionInicial.y;
+    /* this.openingText.setVisible(true); */
   }
 
   endGame(completed) {

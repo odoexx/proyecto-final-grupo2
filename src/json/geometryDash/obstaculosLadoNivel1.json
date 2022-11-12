@@ -1,0 +1,116 @@
+[
+    {
+        "seconds": 3,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 6,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 9,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 12,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 15,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 18,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 21,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 24,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 27,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 30,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 33,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 36,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 39,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 42,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 45,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 48,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 51,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 54,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    },
+    {
+        "seconds": 57,
+        "x": 1000,
+        "maxSpikes": 4,
+        "type": "side"
+    }
+]
