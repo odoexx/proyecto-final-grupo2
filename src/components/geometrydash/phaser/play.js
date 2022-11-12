@@ -276,7 +276,7 @@ class Play extends Phaser.Scene {
       this.jugador.setVelocityX(0);
     }
     if (this.cursors.up.isDown && this.jugador.body.touching.down) {
-      this.jugador.setVelocityY(-450);
+      this.jugador.setVelocityY(-800);
     }
     //Animaciones del Jugador
     if (this.jugador.body.touching.down) {

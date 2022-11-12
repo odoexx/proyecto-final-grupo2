@@ -21,8 +21,8 @@ function GeometryDash() {
         },
         /* creamos variable globales para configurar el juego */
         velocidadX: 700,
-        posicionInicial: { x: 10, y: 0 },
-        gravedad: 700
+        posicionInicial: { x: 100, y: 350 },
+        gravedad: 2000
     };
 
     const Escenas = [Preload, Menu, Play, GameOver, Congratulations];
