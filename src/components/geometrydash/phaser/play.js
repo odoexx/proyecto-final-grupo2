@@ -1,7 +1,9 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
 /* import { LevelCreator } from "./levelCreator"; */
-import listaObtaculosAbajo from "../../../json/geometryDash/obstaculosAbajo.json";
+import listaObtaculosAbajoNivel1 from "../../../json/geometryDash/obstaculosAbajoNivel1.json";
+import listaObstaculosLadoNivel1 from "../../../json/geometryDash/obstaculosLadoNivel1.json";
+import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -12,6 +14,7 @@ class Play extends Phaser.Scene {
     this.sonido = null;
     this.score = 0;
     this.pinchos = null;
+    this.portales = null;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
     this.groundBottom = null;
@@ -38,11 +41,18 @@ class Play extends Phaser.Scene {
       immovable: true,
       allowGravity: false,
     });
-    this.crearObstaculos(nivel, listaObtaculosAbajo, "pinchoAbajo", 0, 1);
+    this.crearObstaculos(nivel, listaObtaculosAbajoNivel1, "pinchoAbajo", 0, 1);
+    this.crearObstaculos(nivel, listaObstaculosLadoNivel1, "pinchoLado", 0, 1);
+    this.pinchos.setVelocityX(-this.config.velocidadX);
 
+    //agregando portales
+    this.portales = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
+    this.crearPortales(nivel, listaPortalesNivel1, "portalVuelo");
+    this.portales.setVelocityX(-this.config.velocidadX);
     //this.crearPortales(nivel);
-
-    this.crearColisiones();
 
     this.crearColisiones();
 
@@ -52,7 +62,7 @@ class Play extends Phaser.Scene {
     //agregando sonido
     /*  this.crearSonido(); */
 
-    this.physics.add.collider(this.jugador, this.groundBottom);
+    /* this.physics.add.collider(this.jugador, this.groundBottom); */
     //impacto bola-jugador
     /* this.physics.add.collider(
     /* this.physics.add.collider(
@@ -82,7 +92,7 @@ class Play extends Phaser.Scene {
     this.setInitialState();
   }
 
-  /* metodo para detectar las coliciones entre el jugador y el resto de objetos */
+  /* metodo para detectar las colisiones entre el jugador y el resto de objetos */
   crearColisiones() {
     /* le asignamos gravedad al jugador */
     this.jugador.body.gravity.y = this.config.gravedad;
@@ -100,7 +110,7 @@ class Play extends Phaser.Scene {
       null,
       this
     );
-
+    this.physics.add.overlap(this.jugador, this.portales, null , null, this); //this.onChangeToFlap
     /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
   }
 
@@ -108,9 +118,9 @@ class Play extends Phaser.Scene {
     switch (nivel) {
       case 1:
         this.add.image(500, 300, "fondoNivel1");
-        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1'); */
+        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1').setOrigin(0, 1); */
         this.groundBottom = this.physics.add
-          .sprite(0, 600, "terrenoInferiorNivel1")
+          .sprite(0, this.physics.world.bounds.height, "terrenoInferiorNivel1")
           .setOrigin(0, 1)
           .setImmovable(true);
         this.groundBottom.body.allowGravity = false;
@@ -160,9 +170,7 @@ class Play extends Phaser.Scene {
           for (const pincho of listaPinchos) {
             let posicionX = 0;
             /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
-            let cadena = Math.floor(
-              Math.random() * pincho.maxSpikesTopBottom + 1
-            );
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
             /* creamos las diferentes cadenas de obtaculos */
             for (let index = 0; index < cadena; index++) {
               let pinchoAux = this.pinchos
@@ -175,6 +183,21 @@ class Play extends Phaser.Scene {
               posicionX += pinchoAux.width;
             }
           }
+        } else {
+          for (const pincho of listaPinchos) {
+            let posicionY = 225;
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
+            for (let i = 0; i < cadena; i++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + pincho.x,
+                  posicionY,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY);
+              posicionY += pinchoAux.height;
+            }
+          }
         }
         break;
 
@@ -183,8 +206,17 @@ class Play extends Phaser.Scene {
     }
   }
 
-  crearPortales(nivel) {
+  crearPortales(nivel, listaPortales, spritePortal) {
     /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
+    listaPortales.map((portal) => {
+      this.portales
+        .create(portal.seconds * 700, portal.y, spritePortal)
+        .setOrigin(0);
+    });
+    /* for (let portal of portalList)
+        {
+            this.portals.create((portal.seconds * 700), portal.y, portalSprite).setOrigin(0);
+        } */
   }
 
   /* crearTextoInicio() {
@@ -212,7 +244,7 @@ class Play extends Phaser.Scene {
     }
   }
 
-  crearSonido() {
+  /* crearSonido() {
     this.sonido = this.sound.add("musica");
     this.soundChoqueBarra = this.sound.add("choqueBarra");
     this.soundChoqueObstaculos = this.sound.add("choqueObstaculos");
@@ -221,7 +253,7 @@ class Play extends Phaser.Scene {
       volume: 0.2,
       loop: true,
     };
-    // this.sonido.play(soundConfig);
+    this.sonido.play(soundConfig);
 
     if (!this.sound.locked) {
       // already unlocked so play
@@ -232,7 +264,7 @@ class Play extends Phaser.Scene {
         this.sonido.play(soundConfig);
       });
     }
-  }
+  } */
 
   update() {
     //mover la plataforma
@@ -263,17 +295,6 @@ class Play extends Phaser.Scene {
       if (!gameNotFinished) {
         //this.liveLostSample.play();
         this.setInitialState();
-      }
-    } */
-
-    //disparo inicial
-    /* if (this.cursors.up.isDown) {
-      if (this.bola.getData("glue")) {
-        //this.startGameSample.play();
-        this.bola.setVelocity(-60, -300);
-        this.bola.setData("glue", false);
-        this.openingText.setVisible(false);
-        this.bola.setBounce(1);
       }
     } */
   }

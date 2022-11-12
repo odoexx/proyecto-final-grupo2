@@ -34,9 +34,9 @@ class Preload extends Phaser.Scene {
     this.load.image("nave", "/assets/images/geometrydash/characters/ufo.png");
     this.load.image("corredor", "/assets/images/geometrydash/characters/runner.png");
     this.load.image("portalSalida", "/assets/images/geometrydash/scenes/nivel1/portal.png");
-    this.load.image("portalVuelo", "/assets/images/geometrydash/scenes/nivel1/portalFlap.png");
-    this.load.image("portalGravedad", "/assets/images/geometrydash/scenes/nivel1/portalGravity.png");
-    this.load.image("portalVelocidad", "/assets/images/geometrydash/scenes/nivel1/portalVelocity.png");
+    this.load.image("portalVuelo", "/assets/images/geometrydash/portals/portalFlap.png");
+    this.load.image("portalGravedad", "/assets/images/geometrydash/portals/portalGravity.png");
+    this.load.image("portalVelocidad", "/assets/images/geometrydash/portals/portalVelocity.png");
 
     //BGM y SFX
     this.load.audio("musica", "/assets/arkanoid/sounds/BGM-Echelon.mp3");
