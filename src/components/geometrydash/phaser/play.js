@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
 /* import { LevelCreator } from "./levelCreator"; */
-import listaObtaculosAbajo  from "../../../json/geometryDash/obstaculosAbajo.json";
+import listaObtaculosAbajo from "../../../json/geometryDash/obstaculosAbajo.json";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, 3);
     this.groundBottom = null;
-    this.jugador= null;
+    this.jugador = null;
     /* this.levelCreator= new LevelCreator(this); */
   }
 
@@ -32,12 +32,13 @@ class Play extends Phaser.Scene {
 
     //agregando contador de vidas
     this.liveCounter.create();
-    
+
     //agregando los obstaculos
     this.pinchos = this.physics.add.group({
-        allowGravity: false
+      immovable: true,
+      allowGravity: false,
     });
-    this.crearObstaculos(nivel, listaObtaculosAbajo, 'pinchoAbajo', 0 , 1);
+    this.crearObstaculos(nivel, listaObtaculosAbajo, "pinchoAbajo", 0, 1);
 
     //this.crearPortales(nivel);
 
@@ -49,7 +50,7 @@ class Play extends Phaser.Scene {
     /* this.crearTextoInicio(); */
 
     //agregando sonido
-   /*  this.crearSonido(); */
+    /*  this.crearSonido(); */
 
     this.physics.add.collider(this.jugador, this.groundBottom);
     //impacto bola-jugador
@@ -82,51 +83,70 @@ class Play extends Phaser.Scene {
   }
 
   /* metodo para detectar las coliciones entre el jugador y el resto de objetos */
-  crearColisiones(){
+  crearColisiones() {
     /* le asignamos gravedad al jugador */
     this.jugador.body.gravity.y = this.config.gravedad;
-    this.groundBottom = this.physics.add.collider(this.jugador, this.groundBottom, null, null, this);
+    this.groundBottom = this.physics.add.collider(
+      this.jugador,
+      this.groundBottom,
+      null,
+      null,
+      this
+    );
+    this.physics.add.collider(
+      this.jugador,
+      this.pinchos,
+      this.perderVida,
+      null,
+      this
+    );
 
     /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
   }
 
   crearFondo(nivel) {
-    switch (nivel){
+    switch (nivel) {
       case 1:
         this.add.image(500, 300, "fondoNivel1");
         /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1'); */
-        this.groundBottom = this.physics.add.sprite(0, 600, 'terrenoInferiorNivel1')
-                .setOrigin(0, 1)
-                .setImmovable(true);
+        this.groundBottom = this.physics.add
+          .sprite(0, 600, "terrenoInferiorNivel1")
+          .setOrigin(0, 1)
+          .setImmovable(true);
         this.groundBottom.body.allowGravity = false;
         break;
-        default:
-          break;
+      default:
+        break;
     }
-    
   }
 
   crearJugador() {
-    this.jugador = this.physics.add.sprite(this.config.posicionInicial.x, this.config.posicionInicial.y, "jugador").setScale(0.25);
+    this.jugador = this.physics.add
+      .sprite(
+        this.config.posicionInicial.x,
+        this.config.posicionInicial.y,
+        "jugador"
+      )
+      .setScale(0.25);
     /* this.jugador = this.physics.add.sprite(this.config.posicionInicial.x , this.config.posicionInicial.y, "jugador"); */
     this.jugador.body.allowGravity = true;
     this.jugador.setCollideWorldBounds(true);
     //animación del jugador
     this.anims.create({
       key: "jugadorCaminar",
-      frames: this.anims.generateFrameNumbers("jugador",{start:0,end:12}),
+      frames: this.anims.generateFrameNumbers("jugador", { start: 0, end: 12 }),
       frameRate: 20,
       repeat: -1,
     });
     this.anims.create({
       key: "jugadorQuieto",
-      frames: this.anims.generateFrameNumbers("jugador",{frames:[0]}),
+      frames: this.anims.generateFrameNumbers("jugador", { frames: [0] }),
       frameRate: 5,
       repeat: -1,
     });
     this.anims.create({
       key: "jugadorSaltar",
-      frames: this.anims.generateFrameNumbers("jugador",{frames:[9]}),
+      frames: this.anims.generateFrameNumbers("jugador", { frames: [9] }),
       frameRate: 20,
       repeat: 1,
     });
@@ -136,27 +156,34 @@ class Play extends Phaser.Scene {
   crearObstaculos(nivel, listaPinchos, spritePincho, origenX, origenY) {
     switch (nivel) {
       case 1:
-        if (spritePincho != 'pinchoLado') {
+        if (spritePincho != "pinchoLado") {
           for (const pincho of listaPinchos) {
-            let posicionX= 0;
+            let posicionX = 0;
             /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
-            let cadena= Math.floor(Math.random() * pincho.maxSpikesTopBottom + 1)
+            let cadena = Math.floor(
+              Math.random() * pincho.maxSpikesTopBottom + 1
+            );
             /* creamos las diferentes cadenas de obtaculos */
             for (let index = 0; index < cadena; index++) {
-              let pinchoAux = this.pinchos.create((pincho.seconds * this.config.velocidadX) + posicionX, pincho.y, spritePincho).setOrigin(origenX, origenY);
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + posicionX,
+                  pincho.y,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY);
               posicionX += pinchoAux.width;
             }
           }
         }
         break;
-    
+
       default:
         break;
     }
-
   }
 
-  crearPortales(nivel){
+  crearPortales(nivel) {
     /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
   }
 
@@ -174,6 +201,16 @@ class Play extends Phaser.Scene {
 
     this.openingText.setOrigin(0.5);
   } */
+
+  perderVida() {
+    /* console.log("muerte"); */
+    let gameNotFinished = this.liveCounter.perderVida();
+    /* this.soundPerder.play(); */
+    if (!gameNotFinished) {
+      //this.liveLostSample.play();
+      this.setInitialState();
+    }
+  }
 
   crearSonido() {
     this.sonido = this.sound.add("musica");
@@ -206,18 +243,18 @@ class Play extends Phaser.Scene {
     } else {
       this.jugador.setVelocityX(0);
     }
-    if(this.cursors.up.isDown && this.jugador.body.touching.down){
+    if (this.cursors.up.isDown && this.jugador.body.touching.down) {
       this.jugador.setVelocityY(-450);
     }
     //Animaciones del Jugador
-    if(this.jugador.body.touching.down){
-      if(this.jugador.body.velocity.x!=0){
-        this.jugador.play("jugadorCaminar",true);
-      }else{
-        this.jugador.play("jugadorCaminar",false);
+    if (this.jugador.body.touching.down) {
+      if (this.jugador.body.velocity.x != 0) {
+        this.jugador.play("jugadorCaminar", true);
+      } else {
+        this.jugador.play("jugadorCaminar", false);
       }
-    }else{
-      this.jugador.play("jugadorSaltar",true);
+    } else {
+      this.jugador.play("jugadorSaltar", true);
     }
     //Perdimos?
     /* if (this.bola.y > 500 && this.bola.active) {
@@ -243,8 +280,7 @@ class Play extends Phaser.Scene {
 
   //metodos invocados
 
-  animarJugador(){
-  }
+  animarJugador() {}
 
   impactoNave(bola, jugador) {
     let relativeImpact = bola.x - jugador.x;
