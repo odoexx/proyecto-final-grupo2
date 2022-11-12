@@ -16,7 +16,7 @@ class Play extends Phaser.Scene {
     this.pinchos = null;
     this.portales = null;
     this.openingText = null;
-    this.liveCounter = new LiveCounter(this, 3);
+    this.liveCounter = new LiveCounter(this, this.config.vidas);
     this.groundBottom = null;
     this.jugador = null;
     this.estadoNave=false;
@@ -175,8 +175,9 @@ class Play extends Phaser.Scene {
                   posicionY,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY).setScale(0.5);
-              posicionY += pinchoAux.height/1.5;
+                .setOrigin(origenX, origenY)
+                .setScale(0.5);
+              posicionY += pinchoAux.height*0.5;
             }
           }
         }
@@ -188,16 +189,11 @@ class Play extends Phaser.Scene {
   }
 
   crearPortales(nivel, listaPortales, spritePortal) {
-    /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
     listaPortales.map((portal) => {
       this.portales
         .create(portal.seconds * 700, portal.y, spritePortal)
         .setOrigin(0);
     });
-    /* for (let portal of portalList)
-        {
-            this.portals.create((portal.seconds * 700), portal.y, portalSprite).setOrigin(0);
-        } */
   }
 
   /* crearTextoInicio() {
@@ -216,12 +212,19 @@ class Play extends Phaser.Scene {
   } */
 
   perderVida() {
-    /* console.log("muerte"); */
     let gameNotFinished = this.liveCounter.perderVida();
     /* this.soundPerder.play(); */
     if (!gameNotFinished) {
       //this.liveLostSample.play();
-      this.setInitialState();
+      /* this.setInitialState(); */
+      this.physics.pause();
+      this.time.addEvent
+        ({
+            delay: 2000,
+            callback: ()=> {this.physics.resume()},
+            /* callback: () => {this.scene.restart();}, */
+            loop: false
+        });
     }
   }
 
@@ -253,16 +256,14 @@ class Play extends Phaser.Scene {
       this.jugador.setVelocityY(-1000);
     }
     //Animaciones del Jugador
-    if(!this.estadoNave){
-      if (this.jugador.body.touching.down) {
-        if (this.config.velocidadX != 0) {
-          this.jugador.play("jugadorCaminar", true);
-        } else {
-          this.jugador.play("jugadorCaminar", false);
-        }
-      } else {
-        this.jugador.play("jugadorSaltar", true);
-      }
+    if (this.jugador.body.touching.down) {
+      /* if (this.jugador.body.velocity.x != 0) { */
+        this.jugador.play("jugadorCaminar", true);
+      /* } else {
+        this.jugador.play("jugadorCaminar", false);
+      } */
+    } else {
+      this.jugador.play("jugadorSaltar", true);
     }
   }
 
@@ -302,8 +303,7 @@ class Play extends Phaser.Scene {
       this.scene.start("gameover");
       this.score = 0;
     } else {
-      //this.winSample.play();z
-      console.log("entrando a Congratulations");
+      //this.winSample.play();
       this.scene.start("congratulations");
     }
   }

@@ -6,7 +6,7 @@ export class LiveCounter {
 
   create() {
     let desplazamiento = 30;
-    let posicionPrimero = 0 - (this.vidasIniciales - 1) * desplazamiento;
+    let posicionPrimero = (this.vidasIniciales - 1) * desplazamiento;
     this.imagenVida = this.relatedScene.physics.add.staticGroup({
       setScale: { x: 0.15, y: 0.15 },
       key: "jugador",
