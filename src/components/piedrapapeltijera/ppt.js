@@ -10,12 +10,15 @@ const Juego=()=> {
   const [puntaje, setPuntaje] = useState(0);
   const [puntajeCPU, setPuntajeCPU] = useState(0);
   const [resultado, setResultado] = useState("Haz una jugada...");
+  const sonidoClic=new Audio("/assets/sounds/piedrapapeltijera/click.wav");
 
   const hacerJugada = (srcJugador, srcJugada, eleccion) => {
     setJugador(srcJugador);
     setJugada(srcJugada);
     let enemigo = Math.floor(Math.random() * 4);
     let ataque = Math.floor(Math.random() * 3);
+    //sonido click
+    sonidoClic.play();
 
     console.log("CPU: " + puntajeCPU + " - Jugador: " + puntaje);
 

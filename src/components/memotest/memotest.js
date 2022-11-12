@@ -24,6 +24,13 @@ const Memotest = () => {
   const parejasMazoNivel2 = 8;
   const trampasPorNivel = 2;
   const imgVida = Otros[0].img;
+  
+  //Sonidos
+  const sonidoClic = new Audio("/assets/sounds/memotest/click.wav");
+  const sonidoInicioPartida = new Audio("/assets/sounds/memotest/iniciar_memotest.wav");
+  const sonidoMuerte = new Audio("/assets/sounds/memotest/muerte.wav");
+  const sonidoVictoria = new Audio("/assets/sounds/memotest/victoria_memotest.wav");
+
 
   /* Se dispara cuando juegoTerminado cambia de valor */
   /* Ponemos todas las cartas boca arriba y las desactivamos */
@@ -61,10 +68,12 @@ const Memotest = () => {
     if (contVidas <= 0) {
       setJuegoTerminado(true);
       setEstadoJuego("Juego Terminado: PERDISTE");
+      //sonido perder
     }
     if (contParejas <= 0) {
       setJuegoTerminado(true);
       setEstadoJuego("Juego Terminado: GANASTE");
+      //sonido ganar
     }
   }, [contVidas, contParejas]);
 
@@ -72,6 +81,9 @@ const Memotest = () => {
   const elegirNivel = (nivel) => {
     setNivel(nivel);
     setComenzarHabilitado(true);
+    //sonido click
+    sonidoClic.play();
+
   };
 
   /* Mostramos la cantidad de vidas restantes */
@@ -97,6 +109,8 @@ const Memotest = () => {
   /* Dar vuelta carta elegida */
   const elegirCarta = (carta, i) => {
     let arrayCartasActivasAux = arrayCartasActivas;
+    //sonido click 
+    sonidoClic.play();
 
     /* Si no estamos mostrando/animando otra carta, podemos clickear en una nueva */
     if (!mostrandoCarta) {
@@ -107,6 +121,7 @@ const Memotest = () => {
         /* Si es carta trampa resto vida y la desactivo */
         setContVidas(contVidas - 1);
         document.getElementById(i).disabled = true;
+        sonidoMuerte.play();
       } else {
         /* Controlamos si ya hay alguna carta activa */
         if (arrayCartasActivas.length > 0) {
@@ -132,6 +147,7 @@ const Memotest = () => {
           setContParejas(contParejas - 1);
           document.getElementById(arrayCartasActivas[0].i).disabled = true;
           document.getElementById(arrayCartasActivas[1].i).disabled = true;
+          sonidoVictoria.play();
         } else {
           /* Si no son iguales espero un tiempo y pongo boca abajo ambas cartas */
           setMostrandoCarta(true);
@@ -159,6 +175,7 @@ const Memotest = () => {
 
   /* Repartimos las cartas */
   const repartirCartas = () => {
+  
     return arrayCartas.map((carta, i) => {
       return (
         /* Creamos el botón con las propiedades necesarias */
@@ -186,6 +203,7 @@ const Memotest = () => {
     setJuegoTerminado(false);
     setEstadoJuego("Jugando");
     setScore(0);
+    sonidoInicioPartida.play();
 
     switch (nivel) {
       /* Nivel 1 */
