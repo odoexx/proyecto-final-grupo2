@@ -22,7 +22,7 @@ function GeometryDash() {
         /* creamos variable globales para configurar el juego */
         velocidadX: 700,
         posicionInicial: { x: 100, y: 350 },
-        gravedad: 4000
+        gravedad: 2000
     };
 
     const Escenas = [Preload, Menu, Play, GameOver, Congratulations];
