@@ -15,8 +15,7 @@ function Integrantes() {
             <Card.Text>
               <Button variant="outline-light" border="success" onClick={()=>sonidoClic.play()} href={lista.github}>
                 {lista.usuario}
-              </Button>
-              <hr className="linea-central-tarjeta" />
+              </Button><br/><br/>
               Edad: {lista.edad} años<br/><br/>Intereses:<br/>{lista.intereses}
             </Card.Text>
           </Card.Body>

@@ -16,12 +16,12 @@ function GeometryDash() {
         scale: {
             autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
             width: 1000,
-            height: 600,
+            height: 550,
             backgroundColor: "#03e3fc"
         },
         /* creamos variable globales para configurar el juego */
         velocidadX: 700,
-        posicionInicial: { x: 100, y: 450 },
+        posicionInicial: { x: 100, y: 350 },
         gravedad: 4000
     };
 

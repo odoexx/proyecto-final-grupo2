@@ -21,7 +21,7 @@ class Play extends Phaser.Scene {
 
   create(nivel) {
     //condiciones iniciales
-    this.physics.world.setBoundsCollision(false, true);
+    this.physics.world.setBoundsCollision(true);
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //creando el fondo
@@ -39,7 +39,9 @@ class Play extends Phaser.Scene {
     });
     this.crearObstaculos(nivel, listaObtaculosAbajo, 'pinchoAbajo', 0 , 1);
 
-    this.crearPortales(nivel);
+    //this.crearPortales(nivel);
+
+    this.crearColisiones();
 
     this.crearColisiones();
 
@@ -49,7 +51,9 @@ class Play extends Phaser.Scene {
     //agregando sonido
    /*  this.crearSonido(); */
 
+    this.physics.add.collider(this.jugador, this.groundBottom);
     //impacto bola-jugador
+    /* this.physics.add.collider(
     /* this.physics.add.collider(
       this.bola,
       this.jugador,
@@ -65,8 +69,8 @@ class Play extends Phaser.Scene {
       this.impactoBloque,
       null,
       this
-    );
- */
+    );*/
+
     //Texto score
     /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
       fontSize: "20px",
@@ -90,6 +94,7 @@ class Play extends Phaser.Scene {
     switch (nivel){
       case 1:
         this.add.image(500, 300, "fondoNivel1");
+        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1'); */
         this.groundBottom = this.physics.add.sprite(0, 600, 'terrenoInferiorNivel1')
                 .setOrigin(0, 1)
                 .setImmovable(true);
@@ -102,19 +107,29 @@ class Play extends Phaser.Scene {
   }
 
   crearJugador() {
-    this.jugador = this.physics.add.sprite(this.config.posicionInicial.x , this.config.posicionInicial.y, "jugador");
+    this.jugador = this.physics.add.sprite(this.config.posicionInicial.x, this.config.posicionInicial.y, "jugador").setScale(0.25);
+    /* this.jugador = this.physics.add.sprite(this.config.posicionInicial.x , this.config.posicionInicial.y, "jugador"); */
     this.jugador.body.allowGravity = true;
-    this.jugador.setCollideWorldBounds(true, false);
-    //animación laser de jugador
-    /* this.anims.create({
+    this.jugador.setCollideWorldBounds(true);
+    //animación del jugador
+    this.anims.create({
       key: "jugadorCaminar",
-      frames: this.anims.generateFrameNumbers("jugador", {
-        frames: [0, 1, 2],
-      }),
-      frameRate: 8,
+      frames: this.anims.generateFrameNumbers("jugador",{start:0,end:12}),
+      frameRate: 20,
       repeat: -1,
     });
-    this.jugador.play("jugadorCaminar"); */
+    this.anims.create({
+      key: "jugadorQuieto",
+      frames: this.anims.generateFrameNumbers("jugador",{frames:[0]}),
+      frameRate: 5,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: "jugadorSaltar",
+      frames: this.anims.generateFrameNumbers("jugador",{frames:[9]}),
+      frameRate: 20,
+      repeat: 1,
+    });
   }
 
   /* Método para crear los obstáculos en cada nivel */
@@ -184,23 +199,26 @@ class Play extends Phaser.Scene {
 
   update() {
     //mover la plataforma
-    /* if (this.cursors.left.isDown) {
-      this.jugador.setVelocityX(-500);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(-500);
-      }
+    if (this.cursors.left.isDown) {
+      this.jugador.setVelocityX(-200);
     } else if (this.cursors.right.isDown) {
-      this.jugador.setVelocityX(500);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(500);
-      }
+      this.jugador.setVelocityX(200);
     } else {
       this.jugador.setVelocityX(0);
-      if (this.bola.getData("glue")) {
-        this.bola.setVelocityX(0);
+    }
+    if(this.cursors.up.isDown && this.jugador.body.touching.down){
+      this.jugador.setVelocityY(-450);
+    }
+    //Animaciones del Jugador
+    if(this.jugador.body.touching.down){
+      if(this.jugador.body.velocity.x!=0){
+        this.jugador.play("jugadorCaminar",true);
+      }else{
+        this.jugador.play("jugadorCaminar",false);
       }
-    } */
-
+    }else{
+      this.jugador.play("jugadorSaltar",true);
+    }
     //Perdimos?
     /* if (this.bola.y > 500 && this.bola.active) {
       let gameNotFinished = this.liveCounter.perderVida();
@@ -224,6 +242,9 @@ class Play extends Phaser.Scene {
   }
 
   //metodos invocados
+
+  animarJugador(){
+  }
 
   impactoNave(bola, jugador) {
     let relativeImpact = bola.x - jugador.x;
