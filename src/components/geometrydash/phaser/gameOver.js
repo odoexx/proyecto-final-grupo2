@@ -14,9 +14,9 @@ class GameOver extends Phaser.Scene {
     }
     
     create() {
-        this.add.image(410, 250, 'fondoNivel1');
+        this.add.image(500, 300, 'fondoNivel1');
         this.restartButton.create();
-        this.gameoverImage = this.add.image(400, 90, 'gameover');
+        this.gameoverImage = this.add.image(500, 180, 'gameover');
     }
 }
 
