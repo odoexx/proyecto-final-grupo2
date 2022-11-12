@@ -29,10 +29,10 @@ class Preload extends Phaser.Scene {
     this.load.image("pinchoAbajo", "/assets/images/geometrydash/obstacles/nivel3/spikeBottom.png");
     this.load.image("pinchoLado", "/assets/images/geometrydash/obstacles/nivel3/spikeSide.png");
     //Comunes a varios o todos los niveles
-    this.load.image("jugador", "/assets/images/geometrydash/characters/player.png");
+    //this.load.image("jugador", "/assets/images/geometrydash/characters/player.png");
+    this.load.spritesheet("jugador", "/assets/images/geometrydash/characters/player.png", {frameWidth: 178, frameHeight: 240});
     this.load.image("nave", "/assets/images/geometrydash/characters/ufo.png");
     this.load.image("corredor", "/assets/images/geometrydash/characters/runner.png");
-    /* this.load.spritesheet("jugador", "/assets/images/geometrydash/characters/box.png", { frameWidth: 97, frameHeight: 26 }); */
     this.load.image("portalSalida", "/assets/images/geometrydash/scenes/nivel1/portal.png");
     this.load.image("portalVuelo", "/assets/images/geometrydash/scenes/nivel1/portalFlap.png");
     this.load.image("portalGravedad", "/assets/images/geometrydash/scenes/nivel1/portalGravity.png");
