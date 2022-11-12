@@ -16,7 +16,7 @@ function GeometryDash() {
         scale: {
             autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
             width: 1000,
-            height: 600,
+            height: 550,
             backgroundColor: "#03e3fc"
         },
         /* posicionInicialNave: { x: 400, y: 460 },
@@ -35,7 +35,7 @@ function GeometryDash() {
       physics: {
         default: "arcade",
         arcade: {
-          gravity: { y: 100 },
+          gravity: { y: 1000 },
           debug: false,
         },
       },
