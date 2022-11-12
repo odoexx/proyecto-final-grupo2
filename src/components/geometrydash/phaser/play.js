@@ -19,6 +19,7 @@ class Play extends Phaser.Scene {
     this.liveCounter = new LiveCounter(this, 3);
     this.groundBottom = null;
     this.jugador = null;
+    this.estadoNave=false;
     /* this.levelCreator= new LevelCreator(this); */
   }
 
@@ -62,26 +63,6 @@ class Play extends Phaser.Scene {
     //agregando sonido
     /*  this.crearSonido(); */
 
-    /* this.physics.add.collider(this.jugador, this.groundBottom); */
-    //impacto bola-jugador
-    /* this.physics.add.collider(
-    /* this.physics.add.collider(
-      this.bola,
-      this.jugador,
-      this.impactoNave,
-      null,
-      this
-    ); */
-
-    //impacto bloque-bola
-    /* this.physics.add.collider(
-      this.bola,
-      this.bloque,
-      this.impactoBloque,
-      null,
-      this
-    );*/
-
     //Texto score
     /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
       fontSize: "20px",
@@ -103,14 +84,14 @@ class Play extends Phaser.Scene {
       null,
       this
     );
-    this.physics.add.collider(
+    this.physics.add.overlap(
       this.jugador,
       this.pinchos,
       this.perderVida,
       null,
       this
     );
-    this.physics.add.overlap(this.jugador, this.portales, null , null, this); //this.onChangeToFlap
+    this.physics.add.overlap(this.jugador, this.portales, this.cambiarNave, null, this); //this.onChangeToFlap
     /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
   }
 
@@ -179,7 +160,7 @@ class Play extends Phaser.Scene {
                   pincho.y,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY);
+                .setOrigin(origenX, origenY).setScale(1.25);
               posicionX += pinchoAux.width;
             }
           }
@@ -194,8 +175,8 @@ class Play extends Phaser.Scene {
                   posicionY,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY);
-              posicionY += pinchoAux.height;
+                .setOrigin(origenX, origenY).setScale(0.5);
+              posicionY += pinchoAux.height/1.5;
             }
           }
         }
@@ -268,64 +249,43 @@ class Play extends Phaser.Scene {
 
   update() {
     //mover la plataforma
-    if (this.cursors.left.isDown) {
-      this.jugador.setVelocityX(-200);
-    } else if (this.cursors.right.isDown) {
-      this.jugador.setVelocityX(200);
-    } else {
-      this.jugador.setVelocityX(0);
-    }
     if (this.cursors.up.isDown && this.jugador.body.touching.down) {
-      this.jugador.setVelocityY(-800);
+      this.jugador.setVelocityY(-1000);
     }
     //Animaciones del Jugador
-    if (this.jugador.body.touching.down) {
-      if (this.jugador.body.velocity.x != 0) {
-        this.jugador.play("jugadorCaminar", true);
+    if(!this.estadoNave){
+      if (this.jugador.body.touching.down) {
+        if (this.config.velocidadX != 0) {
+          this.jugador.play("jugadorCaminar", true);
+        } else {
+          this.jugador.play("jugadorCaminar", false);
+        }
       } else {
-        this.jugador.play("jugadorCaminar", false);
+        this.jugador.play("jugadorSaltar", true);
       }
-    } else {
-      this.jugador.play("jugadorSaltar", true);
     }
-    //Perdimos?
-    /* if (this.bola.y > 500 && this.bola.active) {
-      let gameNotFinished = this.liveCounter.perderVida();
-      this.soundPerder.play();
-      if (!gameNotFinished) {
-        //this.liveLostSample.play();
-        this.setInitialState();
-      }
-    } */
   }
 
   //metodos invocados
 
-  animarJugador() {}
-
-  impactoNave(bola, jugador) {
-    let relativeImpact = bola.x - jugador.x;
-    this.soundChoqueBarra.play();
-    if (relativeImpact > 0) {
-      bola.setVelocityX(8 * relativeImpact);
-    } else if (relativeImpact < 0) {
-      bola.setVelocityX(8 * relativeImpact);
-    } else {
-      bola.setVelocityX(Phaser.Math.Between(-10, 10));
-    }
-  }
-
-  incrementarPuntos(puntos) {
+  /* incrementarPuntos(puntos) {
     this.score += puntos;
     this.scoreText.setText("PUNTOS: " + this.score);
   }
+  */
 
-  impactoBloque(bola, bloque) {
-    bloque.disableBody(true, true);
-    this.incrementarPuntos(10);
-    this.soundChoqueObstaculos.play();
-    if (this.bloque.countActive() === 0) {
-      this.endGame(true);
+  cambiarNave(jugador,portales){
+    if(!this.estadoNave){
+      portales.disableBody(true,true);
+      //this.jugador.body.gravity=200;
+      this.jugador.setTexture("nave");
+      this.estadoNave=true;
+      return;
+    }else{
+      portales.disableBody(true,true);
+      //this.jugador.body.gravity=500;
+      this.jugador.setTexture("jugador");
+      this.estadoNave=false;
     }
   }
 
@@ -337,11 +297,12 @@ class Play extends Phaser.Scene {
 
   endGame(completed) {
     if (!completed) {
+      this.estadoNave=false;
       //this.gameOverSample.play();
       this.scene.start("gameover");
       this.score = 0;
     } else {
-      //this.winSample.play();
+      //this.winSample.play();z
       console.log("entrando a Congratulations");
       this.scene.start("congratulations");
     }
