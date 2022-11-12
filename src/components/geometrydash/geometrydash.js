@@ -14,14 +14,15 @@ function GeometryDash() {
   useEffect(() => {
     const CONFIGURACION = {
         scale: {
-            autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
             width: 1000,
             height: 600,
             backgroundColor: "#03e3fc"
         },
-        /* posicionInicialNave: { x: 400, y: 460 },
-        posicionInicialBola:{ x: 385, y: 430 },
-        velocidadInicial: 0, */
+        /* creamos variable globales para configurar el juego */
+        velocidadX: 700,
+        posicionInicial: { x: 100, y: 350 },
+        gravedad: 2000
     };
 
     const Escenas = [Preload, Menu, Play, GameOver, Congratulations];
@@ -35,7 +36,7 @@ function GeometryDash() {
       physics: {
         default: "arcade",
         arcade: {
-          gravity: { y: 100 },
+          gravity: { y: CONFIGURACION.gravedad },
           debug: false,
         },
       },

@@ -3,5 +3,25 @@
       "id": "1",
       "img": "/assets/images/memotest/Corazon.png",
       "type": "vida"
+    },
+    {
+      "id": "2",
+      "img": "/assets/images/memotest/emergenciaAlertaMemotest.png",
+      "type": "inicial"
+    },
+    {
+      "id": "3",
+      "img": "/assets/images/memotest/victoriaMemotest.png",
+      "type": "victoria"
+    },
+    {
+      "id": "4",
+      "img": "/assets/images/memotest/derrotaMemotest.png",
+      "type": "derrota"
+    },
+    {
+      "id": "5",
+      "img": "/assets/images/memotest/inicioMemotest.png",
+      "type": "inicio"
     }
 ]
