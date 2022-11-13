@@ -2,26 +2,26 @@
   {
     "seconds": 3,
     "y": 135,
-    "type": "flap"
+    "type": "portalVuelo"
   },
   {
     "seconds": 10,
     "y": 135,
-    "type": "flap"
+    "type": "portalVuelo"
   },
   {
     "seconds": 27,
     "y": 135,
-    "type": "flap"
+    "type": "portalVuelo"
   },
   {
     "seconds": 37,
     "y": 135,
-    "type": "flap"
+    "type": "portalVuelo"
   },
   {
     "seconds": 7,
     "y": 135,
-    "type": "exit"
+    "type": "portalSalida"
   }
 ]
