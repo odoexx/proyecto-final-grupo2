@@ -19,6 +19,7 @@ const Memotest = () => {
   const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [estadoJuego, setEstadoJuego] = useState();
   const [contParejas, setContParejas] = useState(0);
+  const [clickComenzar, setClickComenzar] = useState("Click en REPARTIR para jugar");
 
   const parejasMazoNivel1 = 9;
   const parejasMazoNivel2 = 8;
@@ -67,18 +68,14 @@ const Memotest = () => {
   useEffect(() => {
     if (contVidas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: PERDISTE");
+      setEstadoJuego(Otros[3].img);
       //sonido perder
     }
     if (contParejas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: GANASTE");
+      setEstadoJuego(Otros[2].img);
       //sonido ganar
-      setEstadoJuego(Otros[3].img);
-    }
-    if (contParejas <= 0) {
-      setJuegoTerminado(true);
-      setEstadoJuego(Otros[4].img);
+      setClickComenzar("Click en REPARTIR para jugar");
     }
   }, [contVidas, contParejas]);
 
@@ -208,6 +205,7 @@ const Memotest = () => {
     setJuegoTerminado(false);
     setEstadoJuego(Otros[1].img);
     setScore(0);
+    setClickComenzar("");
     sonidoInicioPartida.play();
 
     switch (nivel) {
@@ -272,7 +270,7 @@ const Memotest = () => {
         <aside className="game-area hints">
           <h1>Seleccionaste el nivel: {nivel} </h1>
           <br></br>
-          <h2>Click en "REPARTIR" para comenzar</h2>
+          <h2>{clickComenzar}</h2>
           <br></br>
           <img src={estadoJuego} alt="Estado del juego"></img> {/* estado de juego */}
         </aside>
