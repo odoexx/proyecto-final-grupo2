@@ -34,7 +34,7 @@ class Preload extends Phaser.Scene {
     /* this.load.spritesheet("nave", "/assets/images/geometrydash/characters/ufo.png", {frameWidth: 450, frameHeight: 270}); */
     this.load.image("nave", "/assets/images/geometrydash/characters/ufo.png");
     this.load.image("corredor", "/assets/images/geometrydash/characters/runner.png");
-    this.load.image("portalSalida", "/assets/images/geometrydash/scenes/nivel1/portal.png");
+    this.load.image("portalSalida", "/assets/images/geometrydash/portals/portal.png");
     this.load.image("portalVuelo", "/assets/images/geometrydash/portals/portalFlap.png");
     this.load.image("portalGravedad", "/assets/images/geometrydash/portals/portalGravity.png");
     this.load.image("portalVelocidad", "/assets/images/geometrydash/portals/portalVelocity.png");
