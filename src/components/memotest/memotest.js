@@ -75,13 +75,7 @@ const Memotest = () => {
       setJuegoTerminado(true);
       setEstadoJuego(Otros[2].img);
       //sonido ganar
-      setEstadoJuego(Otros[3].img);
       setClickComenzar("Click en REPARTIR para jugar");
-    }
-    if (contParejas <= 0) {
-      setJuegoTerminado(true);
-      setEstadoJuego(Otros[4].img);
-      setClickComenzar("Click en REPARTIR para jugar")
     }
   }, [contVidas, contParejas]);
 
