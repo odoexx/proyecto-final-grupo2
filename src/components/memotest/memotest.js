@@ -68,12 +68,12 @@ const Memotest = () => {
   useEffect(() => {
     if (contVidas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: PERDISTE");
+      setEstadoJuego(Otros[3].img);
       //sonido perder
     }
     if (contParejas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego("Juego Terminado: GANASTE");
+      setEstadoJuego(Otros[2].img);
       //sonido ganar
       setEstadoJuego(Otros[3].img);
       setClickComenzar("Click en REPARTIR para jugar");
