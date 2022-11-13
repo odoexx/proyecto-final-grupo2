@@ -23,7 +23,7 @@ class Play extends Phaser.Scene {
     this.isGravedadInvertida = false;
     this.contadorSaltos = 0;
     this.gravedadActual = this.config.gravedad;
-    this.fuerzaSalto= -600;
+    this.fuerzaSalto= -400;
     this.estadoNave=false;
     /* this.levelCreator= new LevelCreator(this); */
   }
@@ -119,13 +119,12 @@ class Play extends Phaser.Scene {
     }
     //Si no está en modo nave y salta, incremento el contador de saltos
     this.contadorSaltos++;
-    console.log(this.contadorSaltos);
     //Si no está en modo nave y salta, tengo que darle sentido a ese salto según la gravedad esté invertida o no
     if (this.isGravedadInvertida) {
-      this.jugador.body.velocity.y = this.config.gravedad;
+      this.jugador.body.velocity.y = -this.fuerzaSalto; //this.config.gravedad;
       this.rotar(-180);
     } else {
-      this.jugador.body.velocity.y = -this.config.gravedad;
+      this.jugador.body.velocity.y = this.fuerzaSalto; //-this.config.gravedad;
       // this.rotar(180);
     }
   }
@@ -133,7 +132,6 @@ class Play extends Phaser.Scene {
   //Resetear el contador de saltos para poder saltar
   resetearContadorSaltos() {
     this.contadorSaltos = 0;
-    console.log("reseteando contador");
   }
 
   /* metodo para detectar las colisiones entre el jugador y el resto de objetos */
@@ -205,7 +203,7 @@ class Play extends Phaser.Scene {
     if (!this.isModoNave) {
       portales.disableBody(true, true);
       this.jugador.body.gravity.y = this.config.gravedad/2;
-      this.fuerzaSalto += 500;
+      this.fuerzaSalto += 100;
       jugador.stop(null, true);
       jugador.setTexture("nave").setScale(0.2);
       this.tweens.add
@@ -220,7 +218,7 @@ class Play extends Phaser.Scene {
     } else {
       portales.disableBody(true, true);
       this.jugador.body.gravity.y = this.config.gravedad;
-      this.fuerzaSalto -= 500;
+      this.fuerzaSalto -= 100;
       jugador.setTexture("jugador").setScale(0.25);
       this.isModoNave = false;
     }
@@ -295,7 +293,7 @@ class Play extends Phaser.Scene {
     this.openingText.setOrigin(0.5);
   } */
 
-  perderVida() {
+  perderVida(jugador, pinchos) {
     let gameNotFinished = this.liveCounter.perderVida();
     /* this.soundPerder.play(); */
     if (!gameNotFinished) {
@@ -306,6 +304,8 @@ class Play extends Phaser.Scene {
         delay: 1500,
         callback: () => {
           this.physics.resume();
+          //Mostrar texto de chocaste obstaculo
+          pinchos.disableBody(true, true);
         },
         /* callback: () => {this.scene.restart();}, */
         loop: false,
@@ -385,8 +385,8 @@ class Play extends Phaser.Scene {
   // }
 
   invertirGravedad(){
-    this.fuerzaSalto*=-1;
-    this.estaInvertido=true;
+    this.fuerzaSalto *= -1;
+    this.estaInvertido = true;
     portales.disableBody(true,true);
   }
 
@@ -399,8 +399,8 @@ class Play extends Phaser.Scene {
   endGame(completed) {
     if (!completed) {
       this.isModoNave = false;
-      this.estadoNave=false;
-      this.fuerzaSalto=-1000;
+      this.estadoNave = false;
+      this.fuerzaSalto = -1000;
       //this.gameOverSample.play();
       this.scene.start("gameover");
       this.score = 0;
