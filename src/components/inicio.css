@@ -29,6 +29,7 @@ body{
     width: auto;
     height: 60vh;
     padding-top: 5vh;
+    text-shadow: 6px 8px 2px black;
 }
 
 .inicio-img img{
@@ -36,19 +37,63 @@ body{
     width: 100%;
 }
 
-#inicio-texto2{
-    font-size: 20px;
-    padding-top: 5vh;
-}
-
 .boton-inicio{
     font-size: 30px;
     width: 90vh;
     height: 50vh;
-    background-image: url("/public/assets/images/ImagenInicio.png");
+    background-image: url("/public/assets/images/Ahorcadito.jpg");
+    background-size: cover;
+}
+
+.boton-inicio2{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
+    background-image: url("/public/assets/images/Arkanoid.png");
+    background-size: cover;
+}
+
+.boton-inicio3{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
+    background-image: url("/public/assets/images/Geometry\ Dash.jpg");
+    background-size: cover;
+}
+
+
+.boton-inicio4{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
+    background-image: url("/public/assets/images/MemoTest.jpg");
+    background-size: cover;
+}
+
+.boton-inicio5{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
+    background-image: url("/public/assets/images/PiedraPapelTijera.jfif");
     background-size: cover;
 }
 
 .boton-inicio:hover{
+    box-shadow: 20px 30px 40px blue;
+}
+
+.boton-inicio2:hover{
+    box-shadow: 20px 30px 40px blue;
+}
+
+.boton-inicio3:hover{
+    box-shadow: 20px 30px 40px blue;
+}
+
+.boton-inicio4:hover{
+    box-shadow: 20px 30px 40px blue;
+}
+
+.boton-inicio5:hover{
     box-shadow: 20px 30px 40px blue;
 }
