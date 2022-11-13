@@ -19,14 +19,19 @@ class Play extends Phaser.Scene {
     this.liveCounter = new LiveCounter(this, this.config.vidas);
     this.groundBottom = null;
     this.jugador = null;
-    this.estadoNave=false;
+    this.isModoNave = false;
+    this.isGravedadInvertida = false;
+    this.contadorSaltos = 0;
+    this.gravedadActual = this.config.gravedad;
     /* this.levelCreator= new LevelCreator(this); */
   }
 
   create(nivel) {
-    //condiciones iniciales
+    //condiciones iniciales y acciones
     this.physics.world.setBoundsCollision(true);
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.input.on = ("pointerdown", this.accion, this);
+    this.input.keyboard.on = ("keydown-SPACE", this.accion, this);
 
     //creando el fondo
     this.crearFondo(nivel);
@@ -53,8 +58,8 @@ class Play extends Phaser.Scene {
     });
     this.crearPortales(nivel, listaPortalesNivel1, "portalVuelo");
     this.portales.setVelocityX(-this.config.velocidadX);
-    //this.crearPortales(nivel);
 
+    //Creamos las colisiones
     this.crearColisiones();
 
     //agregando texto
@@ -73,6 +78,73 @@ class Play extends Phaser.Scene {
     this.setInitialState();
   }
 
+  update() {
+    //mover el jugador con el teclado o el mouse
+    if ((this.cursors.up.isDown || this.input.activePointer.isDown) ){//&& this.jugador.body.touching.down) {
+      this.jugador.setVelocityY(-this.config.gravedad/2);
+      this.accion();
+    }
+    if(!this.isModoNave){
+      //Animaciones del Jugador
+      if (this.jugador.body.touching.down) {
+        /* if (this.jugador.body.velocity.x != 0) { */
+        this.jugador.play("jugadorCaminar", true);
+        /* } else {
+          this.jugador.play("jugadorCaminar", false);
+        } */
+      } else {
+        this.jugador.play("jugadorSaltar", true);
+      }
+    }
+    //Volar mientras se mantiene el botón izquierdo del mouse presionado
+    if (this.isModoNave && this.input.activePointer.isDown) {
+      this.accion();
+    }
+  }
+
+  rotar(angulo) {
+    if (!this.animarRotacion) {
+      this.animarRotacion = this.tweens.add({
+        targets: this.jugador, //your image that must spin
+        angle: angulo, //rotation value must be radian
+        duration: 400, //duration in miliseconds
+        ease: "Linear",
+      });
+    } else {
+      this.animarRotacion.play();
+    }
+  }
+
+  accion() {
+    //Si está en modo nave, la acción será en una gravedad más suave
+    if (this.isModoNave) {
+      this.isGravedadInvertida
+        ? (this.jugador.body.velocity.y = this.config.gravedad / 4)
+        : (this.jugador.body.velocity.y = -this.config.gravedad / 4);
+      return;
+    }
+    //Si no está en modo nave, está en modo jugador, que puede ser normal o runner y no puede dar más de 2 saltos seguidos
+    if (this.contadorSaltos >= 2) {
+      return;
+    }
+    //Si no está en modo nave y salta, incremento el contador de saltos
+    this.contadorSaltos++;
+    console.log(this.contadorSaltos);
+    //Si no está en modo nave y salta, tengo que darle sentido a ese salto según la gravedad esté invertida o no
+    if (this.isGravedadInvertida) {
+      this.jugador.body.velocity.y = this.config.gravedad;
+      this.rotar(-180);
+    } else {
+      this.jugador.body.velocity.y = -this.config.gravedad;
+      this.rotar(180);
+    }
+  }
+
+  //Resetear el contador de saltos para poder saltar
+  resetearContadorSaltos() {
+    this.contadorSaltos = 0;
+  }
+
   /* metodo para detectar las colisiones entre el jugador y el resto de objetos */
   crearColisiones() {
     /* le asignamos gravedad al jugador */
@@ -80,19 +152,25 @@ class Play extends Phaser.Scene {
     this.groundBottom = this.physics.add.collider(
       this.jugador,
       this.groundBottom,
-      null,
+      this.resetearContadorSaltos,
       null,
       this
     );
-    this.physics.add.overlap(
+    this.physics.add.collider(
       this.jugador,
       this.pinchos,
       this.perderVida,
       null,
       this
     );
-    this.physics.add.overlap(this.jugador, this.portales, this.cambiarNave, null, this); //this.onChangeToFlap
-    /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
+    this.physics.add.overlap(
+      this.jugador,
+      this.portales,
+      this.cambiarNave,
+      null,
+      this
+    );
+    /* this.groundTop = this.physics.add.collider(this.jugador, this.groundTop, this.resetcontadorSaltos, null, this); */
   }
 
   crearFondo(nivel) {
@@ -143,6 +221,29 @@ class Play extends Phaser.Scene {
     });
   }
 
+  cambiarNave(jugador, portales) {
+    if (!this.isModoNave) {
+      portales.disableBody(true, true);
+      this.jugador.body.gravity.y= this.config.gravedad/2;
+      jugador.stop(null, true);
+      jugador.setTexture("nave").setScale(0.2);
+      this.tweens.add
+            ({
+                targets: this.jugador, //your image that must spin
+                angle: 360, //rotation value must be radian
+                duration: 200,
+                ease: 'Linear'
+            });
+      this.isModoNave = true;
+      return;
+    } else {
+      portales.disableBody(true, true);
+      this.jugador.body.gravity.y = this.config.gravedad;
+      jugador.setTexture("jugador").setScale(0.25);
+      this.isModoNave = false;
+    }
+  }
+
   /* Método para crear los obstáculos en cada nivel */
   crearObstaculos(nivel, listaPinchos, spritePincho, origenX, origenY) {
     switch (nivel) {
@@ -160,7 +261,8 @@ class Play extends Phaser.Scene {
                   pincho.y,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY).setScale(1.25);
+                .setOrigin(origenX, origenY)
+                .setScale(1.25);
               posicionX += pinchoAux.width;
             }
           }
@@ -177,7 +279,7 @@ class Play extends Phaser.Scene {
                 )
                 .setOrigin(origenX, origenY)
                 .setScale(0.5);
-              posicionY += pinchoAux.height*0.5;
+              posicionY += pinchoAux.height * 0.5;
             }
           }
         }
@@ -218,13 +320,14 @@ class Play extends Phaser.Scene {
       //this.liveLostSample.play();
       /* this.setInitialState(); */
       this.physics.pause();
-      this.time.addEvent
-        ({
-            delay: 2000,
-            callback: ()=> {this.physics.resume()},
-            /* callback: () => {this.scene.restart();}, */
-            loop: false
-        });
+      this.time.addEvent({
+        delay: 1500,
+        callback: () => {
+          this.physics.resume();
+        },
+        /* callback: () => {this.scene.restart();}, */
+        loop: false,
+      });
     }
   }
 
@@ -250,23 +353,6 @@ class Play extends Phaser.Scene {
     }
   } */
 
-  update() {
-    //mover la plataforma
-    if (this.cursors.up.isDown && this.jugador.body.touching.down) {
-      this.jugador.setVelocityY(-1000);
-    }
-    //Animaciones del Jugador
-    if (this.jugador.body.touching.down) {
-      /* if (this.jugador.body.velocity.x != 0) { */
-        this.jugador.play("jugadorCaminar", true);
-      /* } else {
-        this.jugador.play("jugadorCaminar", false);
-      } */
-    } else {
-      this.jugador.play("jugadorSaltar", true);
-    }
-  }
-
   //metodos invocados
 
   /* incrementarPuntos(puntos) {
@@ -274,21 +360,6 @@ class Play extends Phaser.Scene {
     this.scoreText.setText("PUNTOS: " + this.score);
   }
   */
-
-  cambiarNave(jugador,portales){
-    if(!this.estadoNave){
-      portales.disableBody(true,true);
-      //this.jugador.body.gravity=200;
-      this.jugador.setTexture("nave");
-      this.estadoNave=true;
-      return;
-    }else{
-      portales.disableBody(true,true);
-      //this.jugador.body.gravity=500;
-      this.jugador.setTexture("jugador");
-      this.estadoNave=false;
-    }
-  }
 
   setInitialState() {
     this.jugador.x = this.config.posicionInicial.x;
@@ -298,7 +369,7 @@ class Play extends Phaser.Scene {
 
   endGame(completed) {
     if (!completed) {
-      this.estadoNave=false;
+      this.isModoNave = false;
       //this.gameOverSample.play();
       this.scene.start("gameover");
       this.score = 0;
