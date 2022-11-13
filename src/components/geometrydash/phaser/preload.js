@@ -31,12 +31,13 @@ class Preload extends Phaser.Scene {
     //Comunes a varios o todos los niveles
     //this.load.image("jugador", "/assets/images/geometrydash/characters/player.png");
     this.load.spritesheet("jugador", "/assets/images/geometrydash/characters/player.png", {frameWidth: 178, frameHeight: 240});
+    /* this.load.spritesheet("nave", "/assets/images/geometrydash/characters/ufo.png", {frameWidth: 450, frameHeight: 270}); */
     this.load.image("nave", "/assets/images/geometrydash/characters/ufo.png");
     this.load.image("corredor", "/assets/images/geometrydash/characters/runner.png");
     this.load.image("portalSalida", "/assets/images/geometrydash/scenes/nivel1/portal.png");
-    this.load.image("portalVuelo", "/assets/images/geometrydash/scenes/nivel1/portalFlap.png");
-    this.load.image("portalGravedad", "/assets/images/geometrydash/scenes/nivel1/portalGravity.png");
-    this.load.image("portalVelocidad", "/assets/images/geometrydash/scenes/nivel1/portalVelocity.png");
+    this.load.image("portalVuelo", "/assets/images/geometrydash/portals/portalFlap.png");
+    this.load.image("portalGravedad", "/assets/images/geometrydash/portals/portalGravity.png");
+    this.load.image("portalVelocidad", "/assets/images/geometrydash/portals/portalVelocity.png");
 
     //BGM y SFX
     this.load.audio("musica", "/assets/arkanoid/sounds/BGM-Echelon.mp3");

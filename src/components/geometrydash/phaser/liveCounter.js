@@ -5,19 +5,19 @@ export class LiveCounter {
   }
 
   create() {
-    let desplazamiento = 60;
-    let posicionPrimero = 800 - (this.vidasIniciales - 1) * desplazamiento;
+    let desplazamiento = 30;
+    let posicionPrimero = (this.vidasIniciales - 1) * desplazamiento;
     this.imagenVida = this.relatedScene.physics.add.staticGroup({
-      setScale: { x: 0.5, y: 0.5 },
-      key: "nave",
+      setScale: { x: 0.15, y: 0.15 },
+      key: "jugador",
       frameQuantity: this.vidasIniciales - 1,
       gridAlign: {
         width: this.vidasIniciales - 1,
         height: 1,
         cellWidth: desplazamiento,
-        cellHeight: 30,
+        cellHeight: 100,
         x: posicionPrimero,
-        y: 30,
+        y: 0,
       },
     });
   }

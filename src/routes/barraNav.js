@@ -21,10 +21,6 @@ const BarraNav = () => {
                 className="navDrop"
                 id="basic-nav-dropdown"
               >
-                <Link className="dropDown" to="/PPT">
-                  PiedraPapelTijeras
-                </Link>
-                <NavDropdown.Divider />
                 <Link className="dropDown" to="/ahorcadito">
                   Ahorcadito
                 </Link>
@@ -33,12 +29,16 @@ const BarraNav = () => {
                   Arkanoid
                 </Link>
                 <NavDropdown.Divider />
+                <Link className="dropDown" to="/geometrydash">
+                  Geometry Dash
+                </Link>
+                <NavDropdown.Divider />
                 <Link className="dropDown" to="/memotest">
                   Memotest
                 </Link>
                 <NavDropdown.Divider />
-                <Link className="dropDown" to="/geometrydash">
-                  Geometry Dash
+                <Link className="dropDown" to="/PPT">
+                  PiedraPapelTijeras
                 </Link>
               </NavDropdown>
 

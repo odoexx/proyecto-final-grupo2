@@ -9,14 +9,14 @@ class GameOver extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('gameover', '/assets/arkanoid/images/arkanoid/gameover.png');
+        this.load.image('gameover', '/assets/images/geometrydash/others/gameover.png');
         this.restartButton.preload();
     }
     
     create() {
-        this.add.image(410, 250, 'fondo');
+        this.add.image(500, 300, 'fondoNivel1');
         this.restartButton.create();
-        this.gameoverImage = this.add.image(400, 90, 'gameover');
+        this.gameoverImage = this.add.image(500, 180, 'gameover');
     }
 }
 

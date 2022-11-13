@@ -6,11 +6,11 @@ export class RestartButton {
     }
   
     preload() {
-      this.relatedScene.load.spritesheet('button', '/assets/arkanoid/images/arkanoid/resetbtn.png', { frameWidth: 195, frameHeight: 49 });
+      this.relatedScene.load.spritesheet('button', '/assets/images/geometrydash/others/resetbtn.png', { frameWidth: 195, frameHeight: 49 });
     }
     
     create() {
-        this.startButton = this.relatedScene.add.sprite(400, 230, 'button').setInteractive();
+        this.startButton = this.relatedScene.add.sprite(500, 250, 'button').setInteractive();
     
         this.startButton.on('pointerover', () => {
             this.startButton.setFrame(0);

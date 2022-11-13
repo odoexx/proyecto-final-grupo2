@@ -1,7 +1,9 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
 /* import { LevelCreator } from "./levelCreator"; */
-import listaObtaculosAbajo from "../../../json/geometryDash/obstaculosAbajo.json";
+import listaObtaculosAbajoNivel1 from "../../../json/geometryDash/obstaculosAbajoNivel1.json";
+import listaObstaculosLadoNivel1 from "../../../json/geometryDash/obstaculosLadoNivel1.json";
+import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -12,84 +14,136 @@ class Play extends Phaser.Scene {
     this.sonido = null;
     this.score = 0;
     this.pinchos = null;
+    this.portales = null;
     this.openingText = null;
-    this.liveCounter = new LiveCounter(this, 3);
+    this.liveCounter = new LiveCounter(this, this.config.vidas);
     this.groundBottom = null;
     this.jugador = null;
+    this.isModoNave = false;
+    this.isGravedadInvertida = false;
+    this.contadorSaltos = 0;
+    this.gravedadActual = this.config.gravedad;
+    this.fuerzaSalto= -600;
+    this.estadoNave=false;
     /* this.levelCreator= new LevelCreator(this); */
   }
 
   create(nivel) {
-    //condiciones iniciales
+    //condiciones iniciales y acciones
     this.physics.world.setBoundsCollision(true);
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.input.on = ("pointerdown", this.accion, this);
+    this.input.keyboard.on = ("keydown-SPACE", this.accion, this);
+    this.crearFondo(nivel); //creando el fondo
+    this.crearJugador(); //agregando sprite como player
+    this.liveCounter.create(); //agregando contador de vidas
 
-    //creando el fondo
-    this.crearFondo(nivel);
-
-    //agregando plataforma como player
-    this.crearJugador();
-
-    //agregando contador de vidas
-    this.liveCounter.create();
-
-    //agregando los obstaculos
     this.pinchos = this.physics.add.group({
       immovable: true,
       allowGravity: false,
-    });
-    this.crearObstaculos(nivel, listaObtaculosAbajo, "pinchoAbajo", 0, 1);
+    }); //agregando los obstaculos
+    this.crearObstaculos(nivel, listaObtaculosAbajoNivel1, "pinchoAbajo", 0, 1);
+    this.crearObstaculos(nivel, listaObstaculosLadoNivel1, "pinchoLado", 0, 1);
+    this.pinchos.setVelocityX(-this.config.velocidadX);
 
-    //this.crearPortales(nivel);
+    this.portales = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    }); //agregando portales
+    this.crearPortales(nivel, listaPortalesNivel1, "portalVuelo");
+    this.portales.setVelocityX(-this.config.velocidadX);
 
+    //Creamos las colisiones
     this.crearColisiones();
+    /* this.crearTextoInicio(); */ //agregando texto
+    /*  this.crearSonido(); */ //agregando sonido
 
-    this.crearColisiones();
-
-    //agregando texto
-    /* this.crearTextoInicio(); */
-
-    //agregando sonido
-    /*  this.crearSonido(); */
-
-    this.physics.add.collider(this.jugador, this.groundBottom);
-    //impacto bola-jugador
-    /* this.physics.add.collider(
-    /* this.physics.add.collider(
-      this.bola,
-      this.jugador,
-      this.impactoNave,
-      null,
-      this
-    ); */
-
-    //impacto bloque-bola
-    /* this.physics.add.collider(
-      this.bola,
-      this.bloque,
-      this.impactoBloque,
-      null,
-      this
-    );*/
-
-    //Texto score
     /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
       fontSize: "20px",
       fill: "#fff",
       fontFamily: "verdana, arial, sans-serif",
-    }); */
+    }); */ //Texto score
     //this.impactoNaveSample = this.sound.add('impactoNaveSample');
     this.setInitialState();
   }
 
-  /* metodo para detectar las coliciones entre el jugador y el resto de objetos */
+  update() {
+    //mover el jugador con el teclado o el mouse
+    if ((this.cursors.up.isDown || this.input.activePointer.isDown) && this.contadorSaltos < 2){ //&& this.jugador.body.touching.down) {
+      // this.jugador.setVelocityY(-this.config.gravedad/2);
+      this.jugador.setVelocityY(this.fuerzaSalto);
+      this.accion();
+    }
+    if(!this.isModoNave){
+      //Animaciones del Jugador
+      if (this.jugador.body.touching.down) {
+        /* if (this.jugador.body.velocity.x != 0) { */
+        this.jugador.play("jugadorCaminar", true);
+        /* } else {
+          this.jugador.play("jugadorCaminar", false);
+        } */
+      } else {
+        this.jugador.play("jugadorSaltar", true);
+      }
+    }
+    //Volar mientras se mantiene el botón izquierdo del mouse presionado
+    if (this.isModoNave && this.input.activePointer.isDown) {
+      this.accion();
+    }
+  }
+
+  rotar(angulo) {
+    if (!this.animarRotacion) {
+      this.animarRotacion = this.tweens.add({
+        targets: this.jugador, //your image that must spin
+        angle: angulo, //rotation value must be radian
+        duration: 400, //duration in miliseconds
+        ease: "Linear",
+      });
+    } else {
+      this.animarRotacion.play();
+    }
+  }
+
+  accion() {
+    //Si está en modo nave, la acción será en una gravedad más suave
+    if (this.isModoNave) {
+      this.isGravedadInvertida
+        ? (this.jugador.body.velocity.y = this.config.gravedad / 4)
+        : (this.jugador.body.velocity.y = -this.config.gravedad / 4);
+      return;
+    }
+    //Si no está en modo nave, está en modo jugador, que puede ser normal o runner y no puede dar más de 2 saltos seguidos
+    if (this.contadorSaltos >= 2) {
+      return;
+    }
+    //Si no está en modo nave y salta, incremento el contador de saltos
+    this.contadorSaltos++;
+    console.log(this.contadorSaltos);
+    //Si no está en modo nave y salta, tengo que darle sentido a ese salto según la gravedad esté invertida o no
+    if (this.isGravedadInvertida) {
+      this.jugador.body.velocity.y = this.config.gravedad;
+      this.rotar(-180);
+    } else {
+      this.jugador.body.velocity.y = -this.config.gravedad;
+      // this.rotar(180);
+    }
+  }
+
+  //Resetear el contador de saltos para poder saltar
+  resetearContadorSaltos() {
+    this.contadorSaltos = 0;
+    console.log("reseteando contador");
+  }
+
+  /* metodo para detectar las colisiones entre el jugador y el resto de objetos */
   crearColisiones() {
     /* le asignamos gravedad al jugador */
     this.jugador.body.gravity.y = this.config.gravedad;
     this.groundBottom = this.physics.add.collider(
       this.jugador,
       this.groundBottom,
-      null,
+      this.resetearContadorSaltos,
       null,
       this
     );
@@ -100,7 +154,8 @@ class Play extends Phaser.Scene {
       null,
       this
     );
-
+    this.physics.add.overlap(this.jugador, this.portales, this.cambiarNave, null, this); //this.onChangeToFlap
+    this.physics.add.overlap(this.jugador, this.portales2, this.invertirGravedad, null, this);
     /* this.groundTop = this.physics.add.collider(this.box, this.groundTop, this.resetJumpCount, null, this); */
   }
 
@@ -108,9 +163,9 @@ class Play extends Phaser.Scene {
     switch (nivel) {
       case 1:
         this.add.image(500, 300, "fondoNivel1");
-        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1'); */
+        /* this.groundBottom = this.physics.add.staticSprite(0, 600, 'terrenoInferiorNivel1').setOrigin(0, 1); */
         this.groundBottom = this.physics.add
-          .sprite(0, 600, "terrenoInferiorNivel1")
+          .sprite(0, this.physics.world.bounds.height, "terrenoInferiorNivel1")
           .setOrigin(0, 1)
           .setImmovable(true);
         this.groundBottom.body.allowGravity = false;
@@ -139,17 +194,36 @@ class Play extends Phaser.Scene {
       repeat: -1,
     });
     this.anims.create({
-      key: "jugadorQuieto",
-      frames: this.anims.generateFrameNumbers("jugador", { frames: [0] }),
-      frameRate: 5,
-      repeat: -1,
-    });
-    this.anims.create({
       key: "jugadorSaltar",
-      frames: this.anims.generateFrameNumbers("jugador", { frames: [9] }),
+      frames: this.anims.generateFrameNumbers("jugador", { frames: [8] }),
       frameRate: 20,
       repeat: 1,
     });
+  }
+
+  cambiarNave(jugador, portales) {
+    if (!this.isModoNave) {
+      portales.disableBody(true, true);
+      this.jugador.body.gravity.y = this.config.gravedad/2;
+      this.fuerzaSalto += 500;
+      jugador.stop(null, true);
+      jugador.setTexture("nave").setScale(0.2);
+      this.tweens.add
+            ({
+                targets: this.jugador, //your image that must spin
+                angle: 360, //rotation value must be radian
+                duration: 200,
+                ease: 'Linear'
+            });
+      this.isModoNave = true;
+      return;
+    } else {
+      portales.disableBody(true, true);
+      this.jugador.body.gravity.y = this.config.gravedad;
+      this.fuerzaSalto -= 500;
+      jugador.setTexture("jugador").setScale(0.25);
+      this.isModoNave = false;
+    }
   }
 
   /* Método para crear los obstáculos en cada nivel */
@@ -160,9 +234,7 @@ class Play extends Phaser.Scene {
           for (const pincho of listaPinchos) {
             let posicionX = 0;
             /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
-            let cadena = Math.floor(
-              Math.random() * pincho.maxSpikesTopBottom + 1
-            );
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
             /* creamos las diferentes cadenas de obtaculos */
             for (let index = 0; index < cadena; index++) {
               let pinchoAux = this.pinchos
@@ -171,8 +243,25 @@ class Play extends Phaser.Scene {
                   pincho.y,
                   spritePincho
                 )
-                .setOrigin(origenX, origenY);
+                .setOrigin(origenX, origenY)
+                .setScale(1.25);
               posicionX += pinchoAux.width;
+            }
+          }
+        } else {
+          for (const pincho of listaPinchos) {
+            let posicionY = 225;
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
+            for (let i = 0; i < cadena; i++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + pincho.x,
+                  posicionY,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY)
+                .setScale(0.15);
+              posicionY += pinchoAux.height * 0.15;
             }
           }
         }
@@ -183,8 +272,12 @@ class Play extends Phaser.Scene {
     }
   }
 
-  crearPortales(nivel) {
-    /* spikeBottomList.map( (spike) => ({ this.createObstacles(spike, 'spikeBottom', 0, 1);}) */
+  crearPortales(nivel, listaPortales, spritePortal) {
+    listaPortales.map((portal) => {
+      this.portales
+        .create(portal.seconds * 700, portal.y, spritePortal)
+        .setOrigin(0);
+    });
   }
 
   /* crearTextoInicio() {
@@ -203,16 +296,24 @@ class Play extends Phaser.Scene {
   } */
 
   perderVida() {
-    /* console.log("muerte"); */
     let gameNotFinished = this.liveCounter.perderVida();
     /* this.soundPerder.play(); */
     if (!gameNotFinished) {
       //this.liveLostSample.play();
-      this.setInitialState();
+      /* this.setInitialState(); */
+      this.physics.pause();
+      this.time.addEvent({
+        delay: 1500,
+        callback: () => {
+          this.physics.resume();
+        },
+        /* callback: () => {this.scene.restart();}, */
+        loop: false,
+      });
     }
   }
 
-  crearSonido() {
+  /* crearSonido() {
     this.sonido = this.sound.add("musica");
     this.soundChoqueBarra = this.sound.add("choqueBarra");
     this.soundChoqueObstaculos = this.sound.add("choqueObstaculos");
@@ -221,7 +322,7 @@ class Play extends Phaser.Scene {
       volume: 0.2,
       loop: true,
     };
-    // this.sonido.play(soundConfig);
+    this.sonido.play(soundConfig);
 
     if (!this.sound.locked) {
       // already unlocked so play
@@ -232,80 +333,61 @@ class Play extends Phaser.Scene {
         this.sonido.play(soundConfig);
       });
     }
-  }
+  } */
 
-  update() {
-    //mover la plataforma
-    if (this.cursors.left.isDown) {
-      this.jugador.setVelocityX(-200);
-    } else if (this.cursors.right.isDown) {
-      this.jugador.setVelocityX(200);
-    } else {
-      this.jugador.setVelocityX(0);
-    }
-    if (this.cursors.up.isDown && this.jugador.body.touching.down) {
-      this.jugador.setVelocityY(-450);
-    }
-    //Animaciones del Jugador
-    if (this.jugador.body.touching.down) {
-      if (this.jugador.body.velocity.x != 0) {
-        this.jugador.play("jugadorCaminar", true);
-      } else {
-        this.jugador.play("jugadorCaminar", false);
-      }
-    } else {
-      this.jugador.play("jugadorSaltar", true);
-    }
-    //Perdimos?
-    /* if (this.bola.y > 500 && this.bola.active) {
-      let gameNotFinished = this.liveCounter.perderVida();
-      this.soundPerder.play();
-      if (!gameNotFinished) {
-        //this.liveLostSample.play();
-        this.setInitialState();
-      }
-    } */
-
-    //disparo inicial
-    /* if (this.cursors.up.isDown) {
-      if (this.bola.getData("glue")) {
-        //this.startGameSample.play();
-        this.bola.setVelocity(-60, -300);
-        this.bola.setData("glue", false);
-        this.openingText.setVisible(false);
-        this.bola.setBounce(1);
-      }
-    } */
-  }
+  // update() {
+  //   //mover el jugador
+  //   if (this.cursors.up.isDown) {
+  //     if(!this.estadoNave && this.jugador.body.touching.down){
+  //       this.jugador.setVelocityY(this.fuerzaSalto);
+  //     }
+  //     else if(this.estadoNave){
+  //       this.jugador.setVelocityY(this.fuerzaSalto);
+  //     }
+  //   }
+  //   //Animaciones del Jugador
+  //   if (this.jugador.body.touching.down && !this.estadoNave) {
+  //     if (this.config.velocidadX != 0) {
+  //       this.jugador.play("jugadorCaminar", true);
+  //     }
+  //   } else {
+  //     this.jugador.play("jugadorSaltar", true);
+  //   }
+  //   //Sprite del Jugador
+  //   if(this.estadoNave){
+  //     this.jugador.play("jugadorCaminar", false);
+  //     this.jugador.setTexture("nave");
+  //   }
+  // }
 
   //metodos invocados
 
-  animarJugador() {}
-
-  impactoNave(bola, jugador) {
-    let relativeImpact = bola.x - jugador.x;
-    this.soundChoqueBarra.play();
-    if (relativeImpact > 0) {
-      bola.setVelocityX(8 * relativeImpact);
-    } else if (relativeImpact < 0) {
-      bola.setVelocityX(8 * relativeImpact);
-    } else {
-      bola.setVelocityX(Phaser.Math.Between(-10, 10));
-    }
-  }
-
-  incrementarPuntos(puntos) {
+  /* incrementarPuntos(puntos) {
     this.score += puntos;
     this.scoreText.setText("PUNTOS: " + this.score);
   }
+  */
 
-  impactoBloque(bola, bloque) {
-    bloque.disableBody(true, true);
-    this.incrementarPuntos(10);
-    this.soundChoqueObstaculos.play();
-    if (this.bloque.countActive() === 0) {
-      this.endGame(true);
-    }
+  // cambiarNave(jugador,portales){
+  //   if(!this.estadoNave){
+  //     this.jugador.body.gravity.y=1000;
+  //     this.fuerzaSalto+=500;
+  //     this.estadoNave=true;
+  //     portales.disableBody(true,true);
+  //     return;
+  //   }else{
+  //     this.jugador.body.gravity.y=this.config.gravedad;
+  //     this.fuerzaSalto-=500;
+  //     this.estadoNave=false;
+  //     this.jugador.setTexture("jugador");
+  //     portales.disableBody(true,true);
+  //   }
+  // }
+
+  invertirGravedad(){
+    this.fuerzaSalto*=-1;
+    this.estaInvertido=true;
+    portales.disableBody(true,true);
   }
 
   setInitialState() {
@@ -316,12 +398,14 @@ class Play extends Phaser.Scene {
 
   endGame(completed) {
     if (!completed) {
+      this.isModoNave = false;
+      this.estadoNave=false;
+      this.fuerzaSalto=-1000;
       //this.gameOverSample.play();
       this.scene.start("gameover");
       this.score = 0;
     } else {
       //this.winSample.play();
-      console.log("entrando a Congratulations");
       this.scene.start("congratulations");
     }
   }
