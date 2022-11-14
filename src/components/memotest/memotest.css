@@ -2,15 +2,14 @@ body {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 80vh;
+  height: 75vh;
 }
 /* Barra vida y score */
 .game-status {
   display: flex;
   flex-direction: row;
-  width: 90vw;
+  width: 50vw;
   height: 10vh;
-  margin: 0 5vw;
 }
 
 
@@ -21,7 +20,7 @@ body {
 
 .score {
   align-items: center;
-  justify-content: right;
+  justify-content: center;
 }
 
 /* Área de juego */
@@ -65,6 +64,10 @@ body {
   margin: 0;
   padding: 0 5vw;
   flex-direction: column;
+}
+
+.hints img{
+  width: 100%;
 }
 
 /* Área de controles */

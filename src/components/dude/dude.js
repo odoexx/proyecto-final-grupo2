@@ -7,10 +7,11 @@ function Dude(){
 
     useEffect(()=>{
         var config = {
+            parent: "game",
             type: Phaser.AUTO,
             autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
             width: 800,
-            height: 600,
+            height: 550,
             physics:{default:"arcade",
                 arcade:{
                     gravity:{y:300},
