@@ -21,7 +21,7 @@ function GeometryDash() {
         },
         /* creamos variable globales para configurar el juego */
         velocidadX: 700,
-        posicionInicial: { x: 100, y: 400 },
+        posicionInicial: { x: 150, y: 400 },
         gravedad: 1500,
         vidas: 3
     };
