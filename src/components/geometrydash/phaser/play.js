@@ -553,8 +553,9 @@ class Play extends Phaser.Scene {
     }
     // this.isGravedadInvertida = true;
     // this.config.gravedad *= -1;
-    // portales.disableBody(true, true);
-    // this.rotar(180);
+    portales.disableBody(true, true);
+    this.jugador.flipX=true;
+    this.rotar(180);
   }
 
   //Efecto portal velocidad
