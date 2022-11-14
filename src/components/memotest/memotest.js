@@ -17,7 +17,7 @@ const Memotest = () => {
   const [cartaElegida, setCartaElegida] = useState(false);
   const [mostrandoCarta, setMostrandoCarta] = useState(false);
   const [juegoTerminado, setJuegoTerminado] = useState(false);
-  const [estadoJuego, setEstadoJuego] = useState();
+  const [estadoJuego, setEstadoJuego] = useState(Otros[4].img);
   const [contParejas, setContParejas] = useState(0);
   const [clickComenzar, setClickComenzar] = useState("Click en REPARTIR para jugar");
 
@@ -73,7 +73,7 @@ const Memotest = () => {
     }
     if (contParejas <= 0) {
       setJuegoTerminado(true);
-      setEstadoJuego(Otros[2].img);
+      setEstadoJuego(Otros[4].img);
       //sonido ganar
       setClickComenzar("Click en REPARTIR para jugar");
     }
