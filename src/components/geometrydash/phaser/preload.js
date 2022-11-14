@@ -11,23 +11,23 @@ class Preload extends Phaser.Scene {
     this.load.image("fondoNivel1", "/assets/images/geometrydash/scenes/nivel1/background.png");
     this.load.image("terrenoInferiorNivel1", "/assets/images/geometrydash/scenes/nivel1/groundBottom.png");
     this.load.image("terrenoSuperiorNivel1", "/assets/images/geometrydash/scenes/nivel1/groundTop.png");
-    this.load.image("pinchoArriba", "/assets/images/geometrydash/obstacles/nivel1/spikeTop.png");
-    this.load.image("pinchoAbajo", "/assets/images/geometrydash/obstacles/nivel1/spikeBottom.png");
-    this.load.image("pinchoLado", "/assets/images/geometrydash/obstacles/nivel1/spikeSide.png");
+    this.load.image("pinchoArriba1", "/assets/images/geometrydash/obstacles/nivel1/spikeTop.png");
+    this.load.image("pinchoAbajo1", "/assets/images/geometrydash/obstacles/nivel1/spikeBottom.png");
+    this.load.image("pinchoLado1", "/assets/images/geometrydash/obstacles/nivel1/spikeSide.png");
     //Nivel 2
     this.load.image("fondoNivel2", "/assets/images/geometrydash/scenes/nivel2/background.png");
     this.load.image("terrenoInferiorNivel2", "/assets/images/geometrydash/scenes/nivel2/groundBottom.png");
     this.load.image("terrenoSuperiorNivel2", "/assets/images/geometrydash/scenes/nivel2/groundTop.png");
-    this.load.image("pinchoArriba", "/assets/images/geometrydash/obstacles/nivel2/spikeTop.png");
-    this.load.image("pinchoAbajo", "/assets/images/geometrydash/obstacles/nivel2/spikeBottom.png");
-    this.load.image("pinchoLado", "/assets/images/geometrydash/obstacles/nivel2/spikeSide.png");
+    this.load.image("pinchoArriba2", "/assets/images/geometrydash/obstacles/nivel2/spikeTop.png");
+    this.load.image("pinchoAbajo2", "/assets/images/geometrydash/obstacles/nivel2/spikeBottom.png");
+    this.load.image("pinchoLado2", "/assets/images/geometrydash/obstacles/nivel2/spikeSide.png");
     //Nivel 3
     this.load.image("fondoNivel3", "/assets/images/geometrydash/scenes/nivel3/background.png");
     this.load.image("terrenoInferiorNivel3", "/assets/images/geometrydash/scenes/nivel3/groundBottom.png");
     this.load.image("terrenoSuperiorNivel3", "/assets/images/geometrydash/scenes/nivel3/groundTop.png");
-    this.load.image("pinchoArriba", "/assets/images/geometrydash/obstacles/nivel3/spikeTop.png");
-    this.load.image("pinchoAbajo", "/assets/images/geometrydash/obstacles/nivel3/spikeBottom.png");
-    this.load.image("pinchoLado", "/assets/images/geometrydash/obstacles/nivel3/spikeSide.png");
+    this.load.image("pinchoArriba3", "/assets/images/geometrydash/obstacles/nivel3/spikeTop.png");
+    this.load.image("pinchoAbajo3", "/assets/images/geometrydash/obstacles/nivel3/spikeBottom.png");
+    this.load.image("pinchoLado3", "/assets/images/geometrydash/obstacles/nivel3/spikeSide.png");
     //Comunes a varios o todos los niveles
     //this.load.image("jugador", "/assets/images/geometrydash/characters/player.png");
     this.load.spritesheet("jugador", "/assets/images/geometrydash/characters/player.png", {frameWidth: 178, frameHeight: 240});
