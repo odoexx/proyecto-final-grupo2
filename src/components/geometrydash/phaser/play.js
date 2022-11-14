@@ -164,7 +164,7 @@ class Play extends Phaser.Scene {
     this.crearColisiones();
 
     //agregando sonido
-    /* this.crearSonido(nivel); */
+    this.crearSonido(nivel);
 
     //Estado inicial jugador
     this.setInitialState();
@@ -617,6 +617,7 @@ class Play extends Phaser.Scene {
   }
 
   endGame(completed) {
+    this.sonido.stop();
     if (!completed) {
       this.isModoNave = false;
       this.estadoNave = false;
@@ -627,37 +628,37 @@ class Play extends Phaser.Scene {
     }
   }
 
-  // crearSonido(nivel) {
-  //   switch (nivel) {
-  //     case 1:
-  //       this.sonido = this.sound.add("musica");
-  //       break;
-  //     case 2:
-  //       this.sonido = this.sound.add("musica2");
-  //       break;
-  //     case 3:
-  //       this.sonido = this.sound.add("musica3");
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   /* this.soundPerder = this.sound.add("perder"); */
-  //   const soundConfig = {
-  //     volume: 0.2,
-  //     loop: true,
-  //   };
-  //   // this.sonido.play(soundConfig);
+  crearSonido(nivel) {
+    switch (nivel) {
+      case 1:
+        this.sonido = this.sound.add("musica");
+        break;
+      case 2:
+        this.sonido = this.sound.add("musica2");
+        break;
+      case 3:
+        this.sonido = this.sound.add("musica3");
+        break;
+      default:
+        break;
+    }
+    /* this.soundPerder = this.sound.add("perder"); */
+    const soundConfig = {
+      volume: 0.2,
+      loop: true,
+    };
+    // this.sonido.play(soundConfig);
 
-  //   if (!this.sound.locked) {
-  //     // already unlocked so play
-  //     this.sonido.play(soundConfig);
-  //   } else {
-  //     // wait for 'unlocked' to fire and then play
-  //     this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
-  //       this.sonido.play(soundConfig);
-  //     });
-  //   }
-  //}
+    if (!this.sound.locked) {
+      // already unlocked so play
+      this.sonido.play(soundConfig);
+    } else {
+      // wait for 'unlocked' to fire and then play
+      this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+        this.sonido.play(soundConfig);
+      });
+    }
+  }
 }
 
 export default Play;

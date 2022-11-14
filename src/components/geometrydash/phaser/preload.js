@@ -41,9 +41,9 @@ class Preload extends Phaser.Scene {
     this.load.image("portalVelocidad", "/assets/images/geometrydash/portals/portalVelocity.png");
 
     //BGM y SFX
-    /* this.load.audio("musica", "/assets/sounds/geometrydash/nivel1.wav");
+    this.load.audio("musica", "/assets/sounds/geometrydash/nivel1.wav");
     this.load.audio("musica2", "/assets/sounds/geometrydash/nivel2.wav");
-    this.load.audio("musica3", "/assets/sounds/geometrydash/nivel3.wav"); */
+    this.load.audio("musica3", "/assets/sounds/geometrydash/nivel3.wav");
   }
 
   create() {
