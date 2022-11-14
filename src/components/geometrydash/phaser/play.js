@@ -12,7 +12,6 @@ import listaObstaculosLadoNivel3 from "../../../json/geometryDash/obstaculosLado
 import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 import listaPortalesNivel2 from "../../../json/geometryDash/portalesNivel2.json";
 import listaPortalesNivel3 from "../../../json/geometryDash/portalesNivel3.json";
-import { convertRoutesToDataRoutes } from "@remix-run/router/dist/utils";
 
 class Play extends Phaser.Scene {
   constructor(config) {

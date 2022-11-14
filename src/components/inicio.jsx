@@ -41,10 +41,23 @@ function Inicio() {
       </section>
       <section className="contenedor">
       <h3 id="inicio-titulo">
-          Geometry Dash
+          Dude Phaser
           </h3>
         <Button
           className="boton-inicio3"
+          variant="primary"
+          size="lg"
+          border="ligth"
+          onClick={()=>sonidoClic.play()}
+          href={"./dude"}
+        />
+      </section>
+      <section className="contenedor">
+      <h3 id="inicio-titulo">
+          Geometry Dash
+          </h3>
+        <Button
+          className="boton-inicio4"
           variant="primary"
           size="lg"
           border="ligth"
@@ -57,7 +70,7 @@ function Inicio() {
           MemoTest
           </h3>
         <Button
-          className="boton-inicio4"
+          className="boton-inicio5"
           variant="primary"
           size="lg"
           border="ligth"
@@ -70,7 +83,7 @@ function Inicio() {
           Piedra, Papel o Tijeras
           </h3>
         <Button
-          className="boton-inicio5"
+          className="boton-inicio6"
           variant="primary"
           size="lg"
           border="ligth"

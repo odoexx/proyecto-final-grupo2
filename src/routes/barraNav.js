@@ -29,6 +29,10 @@ const BarraNav = () => {
                   Arkanoid
                 </Link>
                 <NavDropdown.Divider />
+                <Link className="dropDown" to="/dude">
+                  Dude Phaser
+                </Link>
+                <NavDropdown.Divider />
                 <Link className="dropDown" to="/geometrydash">
                   Geometry Dash
                 </Link>
