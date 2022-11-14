@@ -1,0 +1,47 @@
+[
+  {
+    "seconds": 3,
+    "y": 135,
+    "type": "portalVuelo"
+  },
+  {
+    "seconds": 10,
+    "y": 135,
+    "type": "portalVuelo"
+  },
+  {
+    "seconds": 27,
+    "y": 135,
+    "type": "portalVuelo"
+  },
+  {
+    "seconds": 37,
+    "y": 135,
+    "type": "portalVuelo"
+  },
+  {
+    "seconds": 15,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 25,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 43,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 53,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 65,
+    "y": 135,
+    "type": "portalSalida"
+  }
+]
