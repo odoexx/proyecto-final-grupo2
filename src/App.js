@@ -10,6 +10,7 @@ import Memotest from './components/memotest/memotest';
 import Ahorcadito from "./components/ahorcadito/ahorcadito.jsx";
 import PiedraPapelTijeras from "./components/piedrapapeltijera/ppt.js";
 import GeometryDash from './components/geometrydash/geometrydash';
+import Dude from './components/dude/dude';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path='ppt' element={<PiedraPapelTijeras />} />
             <Route path='ahorcadito' element={<Ahorcadito />} />
             <Route path='arkanoid' element={<Arkanoid />} />
+            <Route path='dude' element={<Dude />} />
             <Route path='memotest' element={<Memotest />} />
             <Route path='geometrydash' element={<GeometryDash/>}/>
             <Route path='integrantes' element={<Integrantes />} />

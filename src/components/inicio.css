@@ -57,12 +57,20 @@ body{
     font-size: 30px;
     width: 90vh;
     height: 50vh;
+    background-image: url("/public/assets/images/Dude\ Phaser.png");
+    background-size: cover;
+}
+
+.boton-inicio4{
+    font-size: 30px;
+    width: 90vh;
+    height: 50vh;
     background-image: url("/public/assets/images/Geometry\ Dash.jpg");
     background-size: cover;
 }
 
 
-.boton-inicio4{
+.boton-inicio5{
     font-size: 30px;
     width: 90vh;
     height: 50vh;
@@ -70,7 +78,7 @@ body{
     background-size: cover;
 }
 
-.boton-inicio5{
+.boton-inicio6{
     font-size: 30px;
     width: 90vh;
     height: 50vh;
@@ -90,10 +98,15 @@ body{
     box-shadow: 20px 30px 40px blue;
 }
 
+
 .boton-inicio4:hover{
     box-shadow: 20px 30px 40px blue;
 }
 
 .boton-inicio5:hover{
+    box-shadow: 20px 30px 40px blue;
+}
+
+.boton-inicio6:hover{
     box-shadow: 20px 30px 40px blue;
 }
