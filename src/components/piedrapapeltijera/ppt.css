@@ -1,3 +1,7 @@
+@font-face{
+    font-family: pokemonTTF;
+    src:url('/public/assets/images/piedrapapeltijeras/Pokemon\ Solid.ttf')}
+
 /* Área superior */
 .gameContent{
     display: flex;
@@ -7,11 +11,12 @@
     background-image: url(/public/assets/images/piedrapapeltijeras/FondoPelea.png);
     background-size: cover;
     background-position-y: -30vh;
+    font-family: pokemonTTF;
     color:blueviolet;
     text-shadow: 6px 2px 2px black;
 }
 .full-gameArea{
-    height: 57.55vh;
+    height: 55vh;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -27,7 +32,7 @@
 }
 .img-jugada-cpu img{
     height: 25vh;
-    width: 20vw;
+    width: auto;
 }
 
 .img-jugador{
@@ -56,7 +61,7 @@
 }
 .img-jugada-jugador img{
     height: 25vh;
-    width: 20vw;
+    width: auto;
 }
 
 .resultado-area{

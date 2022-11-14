@@ -27,9 +27,9 @@ export class LevelButtons {
       this.relatedScene.physics.world.bounds.height / 4,
       "SELECCIÓN DE NIVEL",
       {
-        fontSize: "60px",
-        fill: "#fff",
-        fontFamily: "verdana, arial, sans-serif",
+        fontSize: "70px",
+        fill: "#000",
+        fontFamily: "Pusab",
       }
     );
     this.levelText.setOrigin(0.5);
@@ -38,11 +38,11 @@ export class LevelButtons {
       .setInteractive()
       .setScale(0.3);
     this.level2Button = this.relatedScene.add
-      .sprite(550, 330, "button2")
+      .sprite(500, 330, "button2")
       .setInteractive()
       .setScale(0.3);
     this.level3Button = this.relatedScene.add
-      .sprite(850, 330, "button3")
+      .sprite(750, 330, "button3")
       .setInteractive()
       .setScale(0.3);
 
