@@ -15,17 +15,27 @@
     "type": "portalVuelo"
   },
   {
-    "seconds": 37,
+    "seconds": 39,
     "y": 135,
     "type": "portalVuelo"
   },
   {
-    "seconds": 15,
+    "seconds": 13,
     "y": 135,
     "type": "portalGravedad"
   },
   {
-    "seconds": 25,
+    "seconds": 23,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 30,
+    "y": 135,
+    "type": "portalGravedad"
+  },
+  {
+    "seconds": 35,
     "y": 135,
     "type": "portalGravedad"
   },
