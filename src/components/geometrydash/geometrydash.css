@@ -7,6 +7,13 @@
   flex-direction: column;
 }
 
+@font-face {
+  font-family: Pusab;
+  src: url('/public/assets/images/geometrydash/Pusab.otf');
+  font-weight:400;
+  font-weight:normal;
+}
+
 /* Área superior: pistas, palabra a adivinar e imagen estado*/
 .sup-game-area {
   display: flex;
