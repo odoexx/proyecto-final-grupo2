@@ -3,6 +3,12 @@ import { LiveCounter } from "./liveCounter";
 /* import { LevelCreator } from "./levelCreator"; */
 import listaObtaculosAbajoNivel1 from "../../../json/geometryDash/obstaculosAbajoNivel1.json";
 import listaObstaculosLadoNivel1 from "../../../json/geometryDash/obstaculosLadoNivel1.json";
+import listaObtaculosArribaNivel2 from "../../../json/geometryDash/obstaculosArribaNivel2.json";
+import listaObtaculosAbajoNivel2 from "../../../json/geometryDash/obstaculosAbajoNivel2.json";
+import listaObstaculosLadoNivel2 from "../../../json/geometryDash/obstaculosLadoNivel2.json";
+import listaObtaculosArribaNivel3 from "../../../json/geometryDash/obstaculosArribaNivel3.json";
+import listaObtaculosAbajoNivel3 from "../../../json/geometryDash/obstaculosAbajoNivel3.json";
+import listaObstaculosLadoNivel3 from "../../../json/geometryDash/obstaculosLadoNivel3.json";
 import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 import listaPortalesNivel2 from "../../../json/geometryDash/portalesNivel2.json";
 /* import listaPortalesNivel3 from "../../../json/geometryDash/portalesNivel3.json"; */
@@ -18,10 +24,12 @@ class Play extends Phaser.Scene {
     this.pinchos = null;
     this.portalesFlap = null;
     this.portalesGravity = null;
+    this.portalesVelocity = null;
     this.portalesExit = null;
     this.openingText = null;
     this.liveCounter = new LiveCounter(this, this.config.vidas);
     this.groundBottom = null;
+    this.groundTop = null;
     this.jugador = null;
     this.isModoNave = false;
     this.isGravedadInvertida = false;
@@ -39,51 +47,70 @@ class Play extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.on = ("pointerdown", this.accion, this);
     /* this.input.keyboard.on = ("keydown-SPACE", this.accion, this); */
+    
+    //Creando elementos principales
+    //Elementos de escenario y jugador
     this.crearFondo(nivel); //creando el fondo
     this.crearJugador(); //agregando sprite como player
     this.liveCounter.create(); //agregando contador de vidas
-
     //Creando los obstáculos
     this.pinchos = this.physics.add.group({
       immovable: true,
       allowGravity: false,
-    }); //agregando los obstaculos
-    this.crearObstaculos(nivel, listaObtaculosAbajoNivel1, "pinchoAbajo", 0, 1);
-    this.crearObstaculos(nivel, listaObstaculosLadoNivel1, "pinchoLado", 0, 1);
-    this.pinchos.setVelocityX(-this.config.velocidadX);
-
-    //Creando los portales según el nivel
-    switch (nivel) {
-      case 1:
-        this.listaPortales = listaPortalesNivel1;
-        break;
-      case 2:
-        this.listaPortales = listaPortalesNivel2;
-        break;
-      case 3:
-        /* this.listaPortales= listaPortalesNivel3; */
-        console.log("pasamos al nivel 3");
-        break;
-    }
-    //Portales de vuelo
+    });
+    //Creando portales de vuelo
     this.portalesFlap = this.physics.add.group({
       immovable: true,
       allowGravity: false,
     });
-    this.crearPortalesFlap(this.listaPortales, "portalVuelo");
-    this.portalesFlap.setVelocityX(-this.config.velocidadX);
-    //Portales de gravedad
+    //Creando portales de gravedad
     this.portalesGravity = this.physics.add.group({
       immovable: true,
       allowGravity: false,
     });
-    this.crearPortalesGravity(this.listaPortales, "portalGravedad");
-    this.portalesGravity.setVelocityX(-this.config.velocidadX);
-    //Portales de salida
+    //Creando portales de salida
     this.portalesExit = this.physics.add.group({
       immovable: true,
       allowGravity: false,
     });
+    
+    //Eligiendo elementos ha crear según el nivel
+    switch (this.auxNivel) {
+      case 1:
+        //creando lista de portales del nivel
+        this.listaPortales = listaPortalesNivel1;
+        //agregando los tipos obstáculos
+        this.crearObstaculos(nivel, listaObtaculosAbajoNivel1, "pinchoAbajo", 0, 1);
+        this.crearObstaculos(nivel, listaObstaculosLadoNivel1, "pinchoLado", 0, 1);
+        break;
+      case 2:
+        //creando lista de portales del nivel
+        this.listaPortales = listaPortalesNivel2;
+        //agregando los tipos obstáculos
+        this.crearObstaculos(nivel, listaObtaculosArribaNivel2, "pinchoArriba", 0, 0);
+        this.crearObstaculos(nivel, listaObtaculosAbajoNivel2, "pinchoAbajo", 0, 1);
+        this.crearObstaculos(nivel, listaObstaculosLadoNivel2, "pinchoLado", 0, 1);
+        break;
+      case 3:
+        //creando lista de portales del nivel
+        /* this.listaPortales= listaPortalesNivel3; */
+        //agregando los tipos obstáculos
+        /* this.crearObstaculos(nivel, listaObtaculosAbajoNivel3, "pinchoArriba", 0, 1);
+        this.crearObstaculos(nivel, listaObtaculosAbajoNivel3, "pinchoAbajo", 0, 1);
+        this.crearObstaculos(nivel, listaObstaculosLadoNivel3, "pinchoLado", 0, 1); */
+        console.log("pasamos al nivel 3");
+        break;
+    }
+    
+    //Agregando movimiento a los obstáculos
+    this.pinchos.setVelocityX(-this.config.velocidadX);
+    //Agregando portales de vuelo
+    this.crearPortalesFlap(this.listaPortales, "portalVuelo");
+    this.portalesFlap.setVelocityX(-this.config.velocidadX);
+    //Agregando portales de gravedad
+    this.crearPortalesGravity(this.listaPortales, "portalGravedad");
+    this.portalesGravity.setVelocityX(-this.config.velocidadX);
+    //Agregando portales de salida
     this.crearPortalesExit(this.listaPortales, "portalSalida");
     this.portalesExit.setVelocityX(-this.config.velocidadX);
 
@@ -183,6 +210,14 @@ class Play extends Phaser.Scene {
       null,
       this
     );
+    //Colision con techo
+    this.groundTop = this.physics.add.collider(
+      this.jugador,
+      this.groundTop,
+      this.resetearContadorSaltos,
+      null,
+      this
+    );
     //Colisión con pinchos
     this.pinchos = this.physics.add.collider(
       this.jugador,
@@ -200,15 +235,22 @@ class Play extends Phaser.Scene {
       this
     );
     //Portal gravedad
-    this.physics.add.overlap(
+    this.portalesGravity = this.physics.add.overlap(
       this.jugador,
-      this.portales2,
+      this.portalesGravity,
       this.invertirGravedad,
       null,
       this
     );
 
     //Portal velocidad
+    this.portalesVelocity = this.physics.add.overlap(
+      this.jugador,
+      this.portalesVelocity,
+      null,
+      null,
+      this
+    );
 
     //Portal salida
     this.portalesExit = this.physics.add.overlap(
@@ -242,8 +284,8 @@ class Play extends Phaser.Scene {
           .setImmovable(true);
         this.groundBottom.body.allowGravity = false;
         this.groundTop = this.physics.add
-          .sprite(0, this.physics.world.bounds.height, "terrenoSuperiorNivel2")
-          .setOrigin(0, 1)
+          .sprite(0, 0, "terrenoSuperiorNivel2")
+          .setOrigin(0)
           .setImmovable(true);
         //Establecemos sus propiedades
         this.groundBottom.body.allowGravity = false;
@@ -323,7 +365,41 @@ class Play extends Phaser.Scene {
         }
         break;
       case 2:
-        //Adaptar lo de arriba
+        if (spritePincho != "pinchoLado") {
+          for (const pincho of listaPinchos) {
+            let posicionX = 0;
+            /* creamos la variable cadena y le asignamos un numero aleatorio que representa la cantidad de obstaculos pegados*/
+            let cadena = Math.floor(Math.random() * (pincho.maxSpikes - 4) + 1);
+            /* creamos las diferentes cadenas de obtaculos */
+            for (let index = 0; index < cadena; index++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + posicionX,
+                  pincho.y,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY)
+                .setScale(1.25);
+              posicionX += pinchoAux.width;
+            }
+          }
+        } else {
+          for (const pincho of listaPinchos) {
+            let posicionY = 225;
+            let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
+            for (let i = 0; i < cadena; i++) {
+              let pinchoAux = this.pinchos
+                .create(
+                  pincho.seconds * this.config.velocidadX + pincho.x,
+                  posicionY,
+                  spritePincho
+                )
+                .setOrigin(origenX, origenY)
+                .setScale(0.15);
+              posicionY += pinchoAux.height * 0.15;
+            }
+          }
+        }
         break;
       case 3:
         //Adaptar lo de arriba
@@ -353,7 +429,7 @@ class Play extends Phaser.Scene {
   crearPortalesGravity(listaPortales, spritePortal) {
     listaPortales.map((portal) => {
       if (portal.type == spritePortal) {
-        this.portalesGravedad
+        this.portalesGravity
           .create(
             portal.seconds * this.config.velocidadX,
             portal.y,
@@ -413,7 +489,7 @@ class Play extends Phaser.Scene {
   }
 
   //Efecto portal inversor de gravedad
-  invertirGravedad() {
+  invertirGravedad(portales) {
     this.fuerzaSalto *= -1;
     this.estaInvertido = true;
     portales.disableBody(true, true);
@@ -423,7 +499,6 @@ class Play extends Phaser.Scene {
 
   //Efecto portal de fin de nivel
   portalExit(jugador, portales) {
-    console.log("en portalExit " + this.auxNivel);
     /* condicion if para que nivel no supere el nivel 3 */
     portales.disableBody(true, true);
     switch (this.auxNivel) {
@@ -474,6 +549,26 @@ class Play extends Phaser.Scene {
         // },
         loop: false,
       });
+    }
+  }
+
+  setInitialState() {
+    this.jugador.x = this.config.posicionInicial.x;
+    this.jugador.y = this.config.posicionInicial.y;
+    /* this.openingText.setVisible(true); */
+  }
+
+  endGame(completed) {
+    if (!completed) {
+      this.isModoNave = false;
+      this.estadoNave = false;
+      /* this.fuerzaSalto = -1000; */
+      //this.gameOverSample.play();
+      this.scene.start("gameover");
+      this.score = 0;
+    } else {
+      //this.winSample.play();
+      this.scene.start("congratulations");
     }
   }
 
@@ -547,26 +642,6 @@ class Play extends Phaser.Scene {
   //     portales.disableBody(true,true);
   //   }
   // }
-
-  setInitialState() {
-    this.jugador.x = this.config.posicionInicial.x;
-    this.jugador.y = this.config.posicionInicial.y;
-    /* this.openingText.setVisible(true); */
-  }
-
-  endGame(completed) {
-    if (!completed) {
-      this.isModoNave = false;
-      this.estadoNave = false;
-      /* this.fuerzaSalto = -1000; */
-      //this.gameOverSample.play();
-      this.scene.start("gameover");
-      this.score = 0;
-    } else {
-      //this.winSample.play();
-      this.scene.start("congratulations");
-    }
-  }
 }
 
 export default Play;
