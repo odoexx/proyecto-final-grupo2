@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import { LiveCounter } from "./liveCounter";
-/* import { LevelCreator } from "./levelCreator"; */
 import listaObtaculosAbajoNivel1 from "../../../json/geometryDash/obstaculosAbajoNivel1.json";
 import listaObstaculosLadoNivel1 from "../../../json/geometryDash/obstaculosLadoNivel1.json";
 import listaObtaculosArribaNivel2 from "../../../json/geometryDash/obstaculosArribaNivel2.json";
@@ -12,7 +11,6 @@ import listaObstaculosLadoNivel3 from "../../../json/geometryDash/obstaculosLado
 import listaPortalesNivel1 from "../../../json/geometryDash/portalesNivel1.json";
 import listaPortalesNivel2 from "../../../json/geometryDash/portalesNivel2.json";
 import listaPortalesNivel3 from "../../../json/geometryDash/portalesNivel3.json";
-import { convertRoutesToDataRoutes } from "@remix-run/router/dist/utils";
 
 class Play extends Phaser.Scene {
   constructor(config) {
@@ -37,7 +35,6 @@ class Play extends Phaser.Scene {
     this.contadorSaltos = 0;
     this.fuerzaSalto = -700;
     this.auxNivel = null;
-    /* this.levelCreator= new LevelCreator(this); */
   }
 
   create(nivel) {
@@ -48,7 +45,6 @@ class Play extends Phaser.Scene {
     this.physics.world.setBoundsCollision(true);
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.on = ("pointerdown", this.accion, this);
-    /* this.input.keyboard.on = ("keydown-SPACE", this.accion, this); */
 
     //Creando elementos principales
     //Elementos de escenario y jugador
@@ -149,7 +145,6 @@ class Play extends Phaser.Scene {
           0,
           1
         );
-        console.log("pasamos al nivel 3");
         break;
     }
 
@@ -168,15 +163,6 @@ class Play extends Phaser.Scene {
     //Creamos las colisiones y solapamientos
     this.crearColisiones();
 
-    /* this.crearTextoInicio(); */ //agregando texto
-    /*  this.crearSonido(); */ //agregando sonido
-
-    /* this.scoreText = this.add.text(16, 16, "PUNTOS: 0", {
-      fontSize: "20px",
-      fill: "#fff",
-      fontFamily: "verdana, arial, sans-serif",
-    }); */ //Texto score
-    //this.impactoNaveSample = this.sound.add('impactoNaveSample');
     this.setInitialState();
   }
 
@@ -186,12 +172,11 @@ class Play extends Phaser.Scene {
       (this.cursors.up.isDown || this.input.activePointer.isDown) &&
       this.contadorSaltos < 2
     ) {
-      //&& this.jugador.body.touching.down) {
       this.accion();
     }
     if (!this.isModoNave) {
       //Animaciones del Jugador
-      if (this.jugador.body.touching.down) {
+      if (this.jugador.body.touching.down || this.jugador.body.touching.up) {
         this.jugador.play("jugadorCaminar", true);
       } else {
         this.jugador.play("jugadorSaltar", true);
@@ -247,16 +232,6 @@ class Play extends Phaser.Scene {
       null,
       this
     );
-
-    //Portal velocidad
-    this.portalesVelocity = this.physics.add.overlap(
-      this.jugador,
-      this.portalesVelocity,
-      null, //Agregar el mètodo
-      null,
-      this
-    );
-
     //Portal salida
     this.portalesExit = this.physics.add.overlap(
       this.jugador,
@@ -406,7 +381,7 @@ class Play extends Phaser.Scene {
         }
         if (spritePincho == "pinchoLado2") {
           for (const pincho of listaPinchos) {
-            let posicionY = 225;
+            let posicionY = 300;
             let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
             for (let i = 0; i < cadena; i++) {
               let pinchoAux = this.pinchos
@@ -443,7 +418,7 @@ class Play extends Phaser.Scene {
           }
         } else {
           for (const pincho of listaPinchos) {
-            let posicionY = 225;
+            let posicionY = 290;
             let cadena = Math.floor(Math.random() * pincho.maxSpikes + 1);
             for (let i = 0; i < cadena; i++) {
               let pinchoAux = this.pinchos
@@ -483,7 +458,7 @@ class Play extends Phaser.Scene {
   //Portales de inversión de gravedad
   crearPortalesGravity(listaPortales, spritePortal) {
     listaPortales.map((portal) => {
-      if (portal.type == spritePortal) {
+      if (spritePortal == portal.type) {
         this.portalesGravity
           .create(
             portal.seconds * this.config.velocidadX,
@@ -494,13 +469,6 @@ class Play extends Phaser.Scene {
       }
     });
   }
-
-  //Portales de velocidad
-  /* if (portal.type == "velocity") {
-      this.portales
-      .create(portal.seconds * this.config.velocidadX, portal.y, spritePortalVelocity)
-        .setOrigin(0);
-      } */
 
   //Portales de fin de nivel
   crearPortalesExit(listaPortales, spritePortal) {
@@ -521,6 +489,8 @@ class Play extends Phaser.Scene {
   //Efecto portal volar
   cambiarNave(jugador, portales) {
     if (!this.isModoNave) {
+      this.jugador.flipY=false;
+      this.jugador.flipX=false;
       portales.disableBody(true, true);
       this.jugador.body.gravity.y = this.config.gravedad / 2;
       this.fuerzaSalto += 100;
@@ -547,18 +517,16 @@ class Play extends Phaser.Scene {
   invertirGravedad(jugador, portales) {
     if (this.isGravedadInvertida){
       this.isGravedadInvertida=false;
-      this.jugador.body.gravity=this.config.gravedad;
+      jugador.body.gravity.y=this.config.gravedad;
+      this.jugador.flipY=true;
     }else{
-      this.isGravedadInvertida=true;
-      this.jugador.body.gravity=-this.config.gravedad;
+      this.isGravedadInvertida = true;
+      jugador.body.gravity.y= -this.config.gravedad*3;
     }
-    // this.isGravedadInvertida = true;
-    // this.config.gravedad *= -1;
-    // portales.disableBody(true, true);
-    // this.rotar(180);
+    portales.disableBody(true, true);
+    this.jugador.flipX=true;
+    this.rotar(-180);
   }
-
-  //Efecto portal velocidad
 
   //Efecto portal de fin de nivel
   portalExit(jugador, portales) {
@@ -577,21 +545,7 @@ class Play extends Phaser.Scene {
     }
   }
 
-  /* crearTextoInicio() {
-    this.openingText = this.add.text(
-      this.physics.world.bounds.width / 2,
-      (this.physics.world.bounds.height / 2) * 1.5,
-      'Presione "ARRIBA" para comenzar',
-      {
-        fontFamily: "Monaco, Courier, monospace",
-        fontSize: "20px",
-        fill: "#fff",
-      }
-    );
-
-    this.openingText.setOrigin(0.5);
-  } */
-
+ //Mètodos invocados
   //Para hacer una animación de giro al suceder un efecto como cambiar a modo nave o invertirse la gravedad
   rotar(angulo) {
     if (!this.animarRotacion) {
@@ -606,7 +560,7 @@ class Play extends Phaser.Scene {
     }
   }
 
-  //Mètodos invocados
+ 
   //Lo que hará cuando se presione la tecla arriba o el click izquierdo del mouse
   accion() {
     //Si está en modo nave, la acción será en una gravedad más suave
@@ -624,11 +578,9 @@ class Play extends Phaser.Scene {
     this.contadorSaltos++;
     //Si no está en modo nave y salta, tengo que darle sentido a ese salto según la gravedad esté invertida o no
     if (this.isGravedadInvertida) {
-      this.jugador.body.velocity.y = -this.fuerzaSalto; //this.config.gravedad;
-      rotate(-180);
+      this.jugador.body.velocity.y = -this.fuerzaSalto*1.2;
     } else {
-      this.jugador.body.velocity.y = this.fuerzaSalto; //-this.config.gravedad;
-      this.rotar(180);
+      this.jugador.body.velocity.y = this.fuerzaSalto;
     }
   }
 
@@ -651,10 +603,6 @@ class Play extends Phaser.Scene {
           this.physics.resume();
           //Mostrar texto de chocaste obstaculo
         },
-        // callback: () => {
-        //   this.scene.restart();
-        //   this.isModoNave = false;
-        // },
         loop: false,
       });
     }
@@ -663,49 +611,18 @@ class Play extends Phaser.Scene {
   setInitialState() {
     this.jugador.x = this.config.posicionInicial.x;
     this.jugador.y = this.config.posicionInicial.y;
-    /* this.openingText.setVisible(true); */
   }
 
   endGame(completed) {
     if (!completed) {
       this.isModoNave = false;
       this.estadoNave = false;
-      //this.gameOverSample.play();
       this.scene.start("gameover");
       this.score = 0;
     } else {
-      //this.winSample.play();
       this.scene.start("congratulations");
     }
   }
-
-/* incrementarPuntos(puntos) {
-    this.score += puntos;
-    this.scoreText.setText("PUNTOS: " + this.score);
-  }
-  */
-
-  /* crearSonido() {
-    this.sonido = this.sound.add("musica");
-    this.soundChoqueBarra = this.sound.add("choqueBarra");
-    this.soundChoqueObstaculos = this.sound.add("choqueObstaculos");
-    this.soundPerder = this.sound.add("perder");
-    const soundConfig = {
-      volume: 0.2,
-      loop: true,
-    };
-    this.sonido.play(soundConfig);
-
-    if (!this.sound.locked) {
-      // already unlocked so play
-      this.sonido.play(soundConfig);
-    } else {
-      // wait for 'unlocked' to fire and then play
-      this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
-        this.sonido.play(soundConfig);
-      });
-    }
-  } */
   
 }
 
