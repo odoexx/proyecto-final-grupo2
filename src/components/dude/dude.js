@@ -7,6 +7,7 @@ function Dude(){
 
     useEffect(()=>{
         var config = {
+            parent: "game",
             type: Phaser.AUTO,
             autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
             width: 800,
