@@ -163,6 +163,10 @@ class Play extends Phaser.Scene {
     //Creamos las colisiones y solapamientos
     this.crearColisiones();
 
+    //agregando sonido
+    this.crearSonido(nivel);
+
+    //Estado inicial jugador
     this.setInitialState();
   }
 
@@ -489,8 +493,8 @@ class Play extends Phaser.Scene {
   //Efecto portal volar
   cambiarNave(jugador, portales) {
     if (!this.isModoNave) {
-      this.jugador.flipY=false;
-      this.jugador.flipX=false;
+      this.jugador.flipY = false;
+      this.jugador.flipX = false;
       portales.disableBody(true, true);
       this.jugador.body.gravity.y = this.config.gravedad / 2;
       this.fuerzaSalto += 100;
@@ -515,16 +519,16 @@ class Play extends Phaser.Scene {
 
   //Efecto portal inversor de gravedad
   invertirGravedad(jugador, portales) {
-    if (this.isGravedadInvertida){
-      this.isGravedadInvertida=false;
-      jugador.body.gravity.y=this.config.gravedad;
-      this.jugador.flipY=true;
-    }else{
+    if (this.isGravedadInvertida) {
+      this.isGravedadInvertida = false;
+      jugador.body.gravity.y = this.config.gravedad;
+      this.jugador.flipY = true;
+    } else {
       this.isGravedadInvertida = true;
-      jugador.body.gravity.y= -this.config.gravedad*3;
+      jugador.body.gravity.y = -this.config.gravedad * 3;
     }
     portales.disableBody(true, true);
-    this.jugador.flipX=true;
+    this.jugador.flipX = true;
     this.rotar(-180);
   }
 
@@ -545,7 +549,7 @@ class Play extends Phaser.Scene {
     }
   }
 
- //Mètodos invocados
+  //Mètodos invocados
   //Para hacer una animación de giro al suceder un efecto como cambiar a modo nave o invertirse la gravedad
   rotar(angulo) {
     if (!this.animarRotacion) {
@@ -560,7 +564,6 @@ class Play extends Phaser.Scene {
     }
   }
 
- 
   //Lo que hará cuando se presione la tecla arriba o el click izquierdo del mouse
   accion() {
     //Si está en modo nave, la acción será en una gravedad más suave
@@ -578,7 +581,7 @@ class Play extends Phaser.Scene {
     this.contadorSaltos++;
     //Si no está en modo nave y salta, tengo que darle sentido a ese salto según la gravedad esté invertida o no
     if (this.isGravedadInvertida) {
-      this.jugador.body.velocity.y = -this.fuerzaSalto*1.2;
+      this.jugador.body.velocity.y = -this.fuerzaSalto * 1.2;
     } else {
       this.jugador.body.velocity.y = this.fuerzaSalto;
     }
@@ -614,6 +617,7 @@ class Play extends Phaser.Scene {
   }
 
   endGame(completed) {
+    this.sonido.stop();
     if (!completed) {
       this.isModoNave = false;
       this.estadoNave = false;
@@ -623,7 +627,38 @@ class Play extends Phaser.Scene {
       this.scene.start("congratulations");
     }
   }
-  
+
+  crearSonido(nivel) {
+    switch (nivel) {
+      case 1:
+        this.sonido = this.sound.add("musica");
+        break;
+      case 2:
+        this.sonido = this.sound.add("musica2");
+        break;
+      case 3:
+        this.sonido = this.sound.add("musica3");
+        break;
+      default:
+        break;
+    }
+    /* this.soundPerder = this.sound.add("perder"); */
+    const soundConfig = {
+      volume: 0.2,
+      loop: true,
+    };
+    // this.sonido.play(soundConfig);
+
+    if (!this.sound.locked) {
+      // already unlocked so play
+      this.sonido.play(soundConfig);
+    } else {
+      // wait for 'unlocked' to fire and then play
+      this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+        this.sonido.play(soundConfig);
+      });
+    }
+  }
 }
 
 export default Play;
