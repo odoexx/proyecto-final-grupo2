@@ -7,7 +7,7 @@ class Preload extends Phaser.Scene {
 
   preload() {
     //Imágenes y spritesheets
-    this.load.image("fondo", "/assets/images/Geometry Dash.jpg");
+    this.load.image("fondo", "/assets/images/Geometry-Dash2.png");
     //Nivel 1
     this.load.image("fondoNivel1", "/assets/images/geometrydash/scenes/nivel1/background.png");
     this.load.image("terrenoInferiorNivel1", "/assets/images/geometrydash/scenes/nivel1/groundBottom.png");
